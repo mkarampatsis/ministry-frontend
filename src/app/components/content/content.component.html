@@ -1,7 +1,13 @@
 <div class="govgr-width-container">
-  <div class="govgr-main-wrapper">
-    <div class="govgr-grid-column-two-thirds">
-      <router-outlet></router-outlet>
+    <div class="govgr-main-wrapper">
+        <div class="govgr-grid-column-two-thirds">
+            <router-outlet></router-outlet>
+        </div>
+
+        @if (user()) {
+            <aside class="govgr-grid-column-one-third">
+                <router-outlet name="sidebar"></router-outlet>
+            </aside>
+        }
     </div>
-  </div>
 </div>

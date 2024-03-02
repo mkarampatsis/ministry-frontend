@@ -35,7 +35,7 @@ export class AuthService {
                                     'accessToken',
                                     res.accessToken
                                 );
-                                this.router.navigate(['/indicators']);
+                                this.router.navigate(['/psped']);
                             },
                             error: (err) => {
                                 console.log(err);
