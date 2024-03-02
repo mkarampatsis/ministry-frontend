@@ -1,2 +1,10 @@
 <h1 class="govgr-heading-sm">Φορείς</h1>
-<p class="govgr-body"></p>
+<div class="govgr-body">
+    <ag-grid-angular
+        [rowData]="foreis"
+        [columnDefs]="colDefs"
+        class="ag-theme-balham"
+        style="height: calc(100vh - 270px)"
+    >
+    </ag-grid-angular>
+</div>

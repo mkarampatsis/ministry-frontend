@@ -2,6 +2,6 @@ export interface IOrganization {
     code: string;
     preferredLabel: string;
     subOrganizationOf: string;
-    organizationType: number;
+    organizationType: number | string;
     status: string;
 }
