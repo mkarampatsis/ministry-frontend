@@ -1,14 +1,18 @@
 <div class="govgr-top">
-  <header role="banner" data-module="govgr-header" class="govgr-header">
-    <div class="govgr-header__container">
-      <div class="govgr-header__content">
-        <img
-          class="govgr-header__logo"
-          src="/assets/img/ethnosimow.png"
-          alt="gov.gr logo"
-        />
-        <div class="govgr-header__title">Υπουργείο Εσωτερικών</div>
-      </div>
-    </div>
-  </header>
+    <header role="banner" data-module="govgr-header" class="govgr-header">
+        <div class="govgr-header__container">
+            <div class="govgr-header__content">
+                <img
+                    class="govgr-header__logo"
+                    src="/assets/img/ethnosimow.png"
+                    alt="gov.gr logo"
+                />
+                <div class="govgr-header__title">Υπουργείο Εσωτερικών</div>
+            </div>
+        </div>
+    </header>
+
+    @if (user()) {
+        <app-user-navbar></app-user-navbar>
+    }
 </div>

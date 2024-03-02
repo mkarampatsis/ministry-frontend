@@ -26,14 +26,14 @@ export class AuthService {
                             `${environment.apiUrl}/auth/google-auth`,
                             {
                                 idToken,
-                            }
+                            },
                         )
                         .subscribe({
                             next: (res: IAuthResponse) => {
                                 this.user.set(res.user);
                                 localStorage.setItem(
                                     'accessToken',
-                                    res.accessToken
+                                    res.accessToken,
                                 );
                                 this.router.navigate(['/psped']);
                             },
@@ -53,6 +53,6 @@ export class AuthService {
         this.socialAuthService.signOut();
         this.user.set(null);
         localStorage.removeItem('accessToken');
-        this.router.navigate(['/home']);
+        this.router.navigate(['/login']);
     }
 }
