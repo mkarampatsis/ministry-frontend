@@ -18,7 +18,6 @@ export class AuthService {
     constructor() {
         this.socialAuthService.authState.subscribe({
             next: (user) => {
-                console.log(user);
                 if (user) {
                     const { idToken } = user;
                     this.http
@@ -35,7 +34,14 @@ export class AuthService {
                                     'accessToken',
                                     res.accessToken,
                                 );
-                                this.router.navigate(['/psped']);
+                                this.router.navigate([
+                                    {
+                                        outlets: {
+                                            primary: ['psped'],
+                                            sidebar: ['user-info'],
+                                        },
+                                    },
+                                ]);
                             },
                             error: (err) => {
                                 console.log(err);

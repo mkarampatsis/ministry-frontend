@@ -2,7 +2,9 @@ import { Component, inject } from '@angular/core';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ContentComponent } from './components/content/content.component';
+
 import { AuthService } from './shared/services/auth.service';
+import { ConstService } from './shared/services/const.service';
 
 @Component({
     selector: 'app-root',
@@ -13,4 +15,5 @@ import { AuthService } from './shared/services/auth.service';
 })
 export class AppComponent {
     authService = inject(AuthService);
+    constService = inject(ConstService);
 }

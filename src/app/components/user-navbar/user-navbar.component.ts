@@ -1,18 +1,12 @@
-import { Component, inject } from '@angular/core';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-user-navbar',
     standalone: true,
-    imports: [],
+    imports: [CommonModule, RouterLink],
     templateUrl: './user-navbar.component.html',
     styleUrl: './user-navbar.component.css',
 })
-export class UserNavbarComponent {
-    authservice = inject(AuthService);
-    user = this.authservice.user;
-
-    logout() {
-        this.authservice.signOut();
-    }
-}
+export class UserNavbarComponent {}
