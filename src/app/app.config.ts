@@ -6,6 +6,7 @@ import {
     GoogleLoginProvider,
     SocialAuthServiceConfig,
 } from '@abacritt/angularx-social-login';
+import { GoogleClientId } from './shared/config';
 import {
     HTTP_INTERCEPTORS,
     provideHttpClient,
@@ -23,7 +24,7 @@ export const appConfig: ApplicationConfig = {
                 providers: [
                     {
                         id: GoogleLoginProvider.PROVIDER_ID,
-                        provider: new GoogleLoginProvider('clientId'),
+                        provider: new GoogleLoginProvider(GoogleClientId),
                     },
                 ],
                 onError: (err: any) => {
