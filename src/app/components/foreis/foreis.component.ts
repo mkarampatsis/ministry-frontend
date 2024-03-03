@@ -27,7 +27,6 @@ export class ForeisComponent implements OnInit {
             headerName: 'Κωδικός',
             sortable: true,
             filter: true,
-            width: 80,
         },
         {
             field: 'preferredLabel',
@@ -47,13 +46,6 @@ export class ForeisComponent implements OnInit {
             sortable: true,
             filter: true,
         },
-
-        // {
-        //     field: 'status',
-        //     headerName: 'Κατάσταση',
-        //     sortable: true,
-        //     filter: true,
-        // },
     ];
 
     ngOnInit(): void {

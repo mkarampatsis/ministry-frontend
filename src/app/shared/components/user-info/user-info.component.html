@@ -1,0 +1,7 @@
+<div class="d-flex gap-2 align-items-center">
+    <img class="d-none d-sm-inline" [src]="user().photoUrl" alt="user photo" />
+    <div class="d-flex flex-column">
+        <span class="fw-bold text-truncate">{{ user().name }}</span>
+        <a class="text-sm" (click)="logout()">Έξοδος</a>
+    </div>
+</div>

@@ -1,13 +1,20 @@
 <div class="govgr-top">
     <header role="banner" data-module="govgr-header" class="govgr-header">
-        <div class="govgr-header__container">
+        <div class="govgr-header__container justify-content-between">
             <div class="govgr-header__content">
                 <img
                     class="govgr-header__logo"
                     src="/assets/img/ethnosimow.png"
                     alt="gov.gr logo"
                 />
-                <div class="govgr-header__title">Υπουργείο Εσωτερικών</div>
+                <div class="govgr-header__title d-none d-md-inline">
+                    Υπουργείο Εσωτερικών
+                </div>
+            </div>
+            <div class="text-white">
+                @if (user()) {
+                    <app-user-info></app-user-info>
+                }
             </div>
         </div>
     </header>

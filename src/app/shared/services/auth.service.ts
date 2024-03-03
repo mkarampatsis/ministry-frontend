@@ -34,14 +34,7 @@ export class AuthService {
                                     'accessToken',
                                     res.accessToken,
                                 );
-                                this.router.navigate([
-                                    {
-                                        outlets: {
-                                            primary: ['psped'],
-                                            sidebar: ['user-info'],
-                                        },
-                                    },
-                                ]);
+                                this.router.navigate(['psped']);
                             },
                             error: (err) => {
                                 console.log(err);
