@@ -36,9 +36,10 @@
                         "tsConfig": "tsconfig.app.json",
                         "assets": ["src/favicon.ico", "src/assets"],
                         "styles": [
-                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                            "src/assets/digigov.css",
-                            "src/styles.css"
+                          "@angular/material/prebuilt-themes/indigo-pink.css",
+                          "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                          "src/assets/digigov.css",
+                          "src/styles.css"
                         ],
                         "scripts": []
                     },
@@ -96,7 +97,10 @@
                         "polyfills": ["zone.js", "zone.js/testing"],
                         "tsConfig": "tsconfig.spec.json",
                         "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": ["src/styles.css"],
+                        "styles": [
+                          "@angular/material/prebuilt-themes/indigo-pink.css",
+                          "src/styles.css"
+                        ],
                         "scripts": []
                     }
                 }

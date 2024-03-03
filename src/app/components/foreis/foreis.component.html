@@ -4,6 +4,9 @@
         [rowData]="foreis"
         [columnDefs]="colDefs"
         [pagination]="true"
+        [loadingOverlayComponent]="loadingOverlayComponent"
+        [loadingOverlayComponentParams]="loadingOverlayComponentParams"
+        (gridReady)="onGridReady($event)"
         class="ag-theme-balham"
         style="height: calc(100vh - 270px)"
     >
