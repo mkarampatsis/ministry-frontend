@@ -1,0 +1,65 @@
+<button type="button" class="btn-close" (click)="modalRef.dismiss()"></button>
+<div class="modal-body">
+    <p>{{ organization?.preferredLabel }}</p>
+    <p class="text-muted">{{ organization?.code }}</p>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Details</h5>
+            <p class="card-text">
+                <strong>Alternative Labels:</strong>
+                {{ organization?.alternativeLabels }}<br />
+                <strong>Purpose:</strong>
+                <!-- {{ organization?.purpose[0].description }}<br /> -->
+                <strong>Sub Organization Of:</strong>
+                {{ organization?.subOrganizationOf.description }}<br />
+                <strong>Organization Type:</strong>
+                {{ organization?.organizationType.description }}<br />
+                <strong>Status:</strong> {{ organization?.status }}<br />
+                <strong>Main Data Update Date:</strong>
+                {{ organization?.mainDataUpdateDate }}<br />
+                <strong>Organization Structure Update Date:</strong>
+                {{ organization?.organizationStructureUpdateDate }}
+            </p>
+        </div>
+    </div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Contact</h5>
+            <p class="card-text">
+                <strong>Email:</strong> {{ organization?.contactPoint.email
+                }}<br />
+                <strong>Telephone:</strong>
+                {{ organization?.contactPoint.telephone }}<br />
+                <strong>Website:</strong>
+                <a href="{{ organization?.url }}">{{ organization?.url }}</a>
+            </p>
+        </div>
+    </div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Address</h5>
+            <div class="card-text">
+                <strong>Main Address:</strong>
+                {{ organization?.mainAddress.fullAddress }}<br />
+                <strong>Secondary Addresses:</strong>
+                <ul>
+                    <li
+                        *ngFor="let address of organization?.secondaryAddresses"
+                    >
+                        {{ address.fullAddress }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button
+        ngbAutofocus
+        type="button"
+        class="btn btn-primary"
+        (click)="modalRef.close('Save click')"
+    >
+        Επιστροφή
+    </button>
+</div>

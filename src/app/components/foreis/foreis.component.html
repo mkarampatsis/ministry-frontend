@@ -1,14 +1,15 @@
 <h1 class="govgr-heading-sm">Φορείς Ελληνικού Δημοσίου</h1>
 <div class="govgr-body">
     <ag-grid-angular
+        [domLayout]="'autoHeight'"
         [rowData]="foreis"
         [columnDefs]="colDefs"
         [pagination]="true"
+        [paginationPageSize]="50"
         [loadingOverlayComponent]="loadingOverlayComponent"
         [loadingOverlayComponentParams]="loadingOverlayComponentParams"
         (gridReady)="onGridReady($event)"
         class="ag-theme-balham"
-        style="height: calc(100vh - 270px)"
     >
     </ag-grid-angular>
 </div>

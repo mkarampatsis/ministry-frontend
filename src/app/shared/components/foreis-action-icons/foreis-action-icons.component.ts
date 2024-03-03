@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
+import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
     selector: 'app-foreis-action-icons',
@@ -11,6 +12,7 @@ import { ICellRendererParams } from 'ag-grid-community';
     styleUrl: './foreis-action-icons.component.css',
 })
 export class ForeisActionIconsComponent implements ICellRendererAngularComp {
+    modalService = inject(ModalService);
     params: ICellRendererParams;
 
     agInit(params: ICellRendererParams<any, any, any>): void {
@@ -19,5 +21,9 @@ export class ForeisActionIconsComponent implements ICellRendererAngularComp {
 
     refresh(params: ICellRendererParams<any, any, any>): boolean {
         return false;
+    }
+
+    showOrganizationDetails(): void {
+        this.modalService.showOrganizationDetails(this.params.data.code);
     }
 }

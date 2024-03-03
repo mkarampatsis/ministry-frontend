@@ -3,7 +3,10 @@ import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { IOrganizationCode } from 'src/app/shared/interfaces/dictionary/organization-code.interface';
 import { Observable } from 'rxjs';
-import { IOrganization } from '../interfaces/organization/organization.interface';
+import {
+    IOrganizationList,
+    IOrganization,
+} from 'src/app/shared/interfaces/organization';
 
 const APIPREFIX_APOGRAFI = `${environment.apiUrl}/apografi/organization`;
 const APIPREFIX_PSPED = `${environment.apiUrl}/psped/foreas`;
@@ -19,8 +22,13 @@ export class OrganizationService {
         return this.http.get<IOrganizationCode[]>(url);
     }
 
-    getAllOrganizations(): Observable<IOrganization[]> {
+    getAllOrganizations(): Observable<IOrganizationList[]> {
         const url = `${APIPREFIX_PSPED}/all`;
-        return this.http.get<IOrganization[]>(url);
+        return this.http.get<IOrganizationList[]>(url);
+    }
+
+    getOrganizationDetails(code: string): Observable<IOrganization> {
+        const url = `${APIPREFIX_PSPED}/${code}`;
+        return this.http.get<IOrganization>(url);
     }
 }

@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { map, take } from 'rxjs';
-import { ForeisActionIconsComponent } from 'src/app/shared/foreis-action-icons/foreis-action-icons.component';
-import { IOrganization } from 'src/app/shared/interfaces/organization/organization.interface';
+import { ForeisActionIconsComponent } from 'src/app/shared/components/foreis-action-icons/foreis-action-icons.component';
+import { IOrganizationList } from 'src/app/shared/interfaces/organization/organization-list.interface';
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-overlay/grid-loading-overlay.component';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
@@ -22,8 +22,8 @@ export class ForeisComponent {
 
     organizationService = inject(OrganizationService);
 
-    foreis: IOrganization[] = [];
-    gridApi: GridApi<IOrganization>;
+    foreis: IOrganizationList[] = [];
+    gridApi: GridApi<IOrganizationList>;
     // prettier-ignore
     colDefs: ColDef[] = [
         { field: 'code', headerName: 'Κωδικός', sortable: true, filter: true },
@@ -36,7 +36,7 @@ export class ForeisComponent {
     loadingOverlayComponent = GridLoadingOverlayComponent;
     loadingOverlayComponentParams = { loadingMessage: 'Αναζήτηση φορέων...' };
 
-    onGridReady(params: GridReadyEvent<IOrganization>): void {
+    onGridReady(params: GridReadyEvent<IOrganizationList>): void {
         this.gridApi = params.api;
         this.gridApi.showLoadingOverlay();
         this.organizationService
