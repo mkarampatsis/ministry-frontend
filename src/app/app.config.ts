@@ -1,4 +1,7 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEl from '@angular/common/locales/el';
+
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -15,8 +18,11 @@ import {
 import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
+registerLocaleData(localeEl);
+
 export const appConfig: ApplicationConfig = {
     providers: [
+        { provide: LOCALE_ID, useValue: 'el' },
         provideRouter(routes),
         {
             provide: 'SocialAuthServiceConfig',
@@ -38,6 +44,7 @@ export const appConfig: ApplicationConfig = {
             useClass: AuthInterceptorService,
             multi: true,
         },
-        provideHttpClient(withInterceptorsFromDi()), provideAnimationsAsync(),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideAnimationsAsync(),
     ],
 };

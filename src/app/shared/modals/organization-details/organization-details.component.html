@@ -1,59 +1,95 @@
-<button type="button" class="btn-close" (click)="modalRef.dismiss()"></button>
+<div class="d-flex justify-content-between m-3">
+    <span class="h5">Καρτέλα Φορέα</span>
+    <button
+        type="button"
+        class="btn-close"
+        (click)="modalRef.dismiss()"
+    ></button>
+</div>
 <div class="modal-body">
-    <p>{{ organization?.preferredLabel }}</p>
-    <p class="text-muted">{{ organization?.code }}</p>
     <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Details</h5>
-            <p class="card-text">
-                <strong>Alternative Labels:</strong>
-                {{ organization?.alternativeLabels }}<br />
-                <strong>Purpose:</strong>
-                <!-- {{ organization?.purpose[0].description }}<br /> -->
-                <strong>Sub Organization Of:</strong>
-                {{ organization?.subOrganizationOf.description }}<br />
-                <strong>Organization Type:</strong>
-                {{ organization?.organizationType.description }}<br />
-                <strong>Status:</strong> {{ organization?.status }}<br />
-                <strong>Main Data Update Date:</strong>
-                {{ organization?.mainDataUpdateDate }}<br />
-                <strong>Organization Structure Update Date:</strong>
-                {{ organization?.organizationStructureUpdateDate }}
-            </p>
+        <div class="card-header d-flex justify-content-between">
+            <span class="fw-semibold">{{ organization?.preferredLabel }}</span>
+            <span class="text-muted small">
+                Κωδικός απογραφής: {{ organization?.code }}</span
+            >
         </div>
-    </div>
-    <div class="card mt-3">
         <div class="card-body">
-            <h5 class="card-title">Contact</h5>
-            <p class="card-text">
-                <strong>Email:</strong> {{ organization?.contactPoint.email
-                }}<br />
-                <strong>Telephone:</strong>
-                {{ organization?.contactPoint.telephone }}<br />
-                <strong>Website:</strong>
-                <a href="{{ organization?.url }}">{{ organization?.url }}</a>
-            </p>
-        </div>
-    </div>
-    <div class="card mt-3">
-        <div class="card-body">
-            <h5 class="card-title">Address</h5>
-            <div class="card-text">
-                <strong>Main Address:</strong>
-                {{ organization?.mainAddress.fullAddress }}<br />
-                <strong>Secondary Addresses:</strong>
-                <ul>
-                    <li
-                        *ngFor="let address of organization?.secondaryAddresses"
-                    >
-                        {{ address.fullAddress }}
-                    </li>
-                </ul>
-            </div>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Εναλλακτικές Ονομασίες',
+                    value: organization?.alternativeLabels
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Σκοπός',
+                    value: descriptionMap(organization?.purpose)
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Εποπτεύοντας φορέας',
+                    value: organization?.subOrganizationOf.description
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Τύπος Φορέα',
+                    value: organization?.organizationType.description
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Κατάσταση',
+                    value: organization?.status
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Ημερομηνία Κύριας Ενημέρωσης',
+                    value: organization?.mainDataUpdateDate
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Ημερομηνία Ενημέρωσης Δομής Φορέα',
+                    value: organization?.organizationStructureUpdateDate
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                *ngIf="organization?.contactPoint"
+                [keyValue]="{
+                    key: 'Email Φορέα',
+                    value: organization?.contactPoint.email
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                *ngIf="organization?.contactPoint"
+                [keyValue]="{
+                    key: 'Τηλέφωνο Φορέα',
+                    value: organization?.contactPoint.telephone
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                *ngIf="organization?.mainAddress"
+                [keyValue]="{
+                    key: 'Ταχυδρομική Διεύθυνση',
+                    value: organization?.mainAddress.fullAddress
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                *ngIf="organization?.secondaryAddresses"
+                [keyValue]="{
+                    key: 'Δευτερεύουσες Διευθύνσεις',
+                    value: fullAddressMap(organization?.secondaryAddresses)
+                }"
+            ></app-card-row-right-left>
         </div>
     </div>
 </div>
-<div class="modal-footer">
+
+<div class="d-flex justify-content-end m-3">
     <button
         ngbAutofocus
         type="button"

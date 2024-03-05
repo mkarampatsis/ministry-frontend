@@ -39,7 +39,7 @@ export class ForeisComponent {
     };
     // prettier-ignore
     colDefs: ColDef[] = [
-        { field: 'code', headerName: '#', maxWidth: 100},
+        { field: 'code', headerName: 'Κωδικός', maxWidth: 100},
         { field: 'preferredLabel', headerName: 'Ονομασία', maxWidth: 300},
         { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', maxWidth: 300},
         { field: 'organizationType', headerName: 'Τύπος', maxWidth: 150},
