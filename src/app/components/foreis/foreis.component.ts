@@ -1,6 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
+import {
+    ColDef,
+    GridApi,
+    GridReadyEvent,
+    SizeColumnsToContentStrategy,
+    SizeColumnsToFitGridStrategy,
+    SizeColumnsToFitProvidedWidthStrategy,
+} from 'ag-grid-community';
 import { map, take } from 'rxjs';
 import { ForeisActionIconsComponent } from 'src/app/shared/components/foreis-action-icons/foreis-action-icons.component';
 import { IOrganizationList } from 'src/app/shared/interfaces/organization/organization-list.interface';
@@ -24,14 +31,24 @@ export class ForeisComponent {
 
     foreis: IOrganizationList[] = [];
     gridApi: GridApi<IOrganizationList>;
+    defaultColDef = {
+        resizable: true,
+        filter: true,
+        sortable: true,
+        floatingFilter: true,
+    };
     // prettier-ignore
     colDefs: ColDef[] = [
-        { field: 'code', headerName: 'Κωδικός', sortable: true, filter: true },
-        { field: 'preferredLabel', headerName: 'Ονομασία', sortable: true, filter: true, },
-        { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', sortable: true, filter: true, },
-        { field: 'organizationType', headerName: 'Τύπος', sortable: true, filter: true, },
-        { field: 'actionCell', headerName: 'Ενέργειες', cellRenderer: ForeisActionIconsComponent, sortable: false, editable: false, filter: false, resizable: false, },
+        { field: 'code', headerName: '#', maxWidth: 100},
+        { field: 'preferredLabel', headerName: 'Ονομασία', maxWidth: 300},
+        { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', maxWidth: 300},
+        { field: 'organizationType', headerName: 'Τύπος', maxWidth: 150},
+        { field: 'actionCell', headerName: 'Ενέργειες', cellRenderer: ForeisActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, maxWidth: 124},
     ];
+    autoSizeStrategy:
+        | SizeColumnsToFitGridStrategy
+        | SizeColumnsToFitProvidedWidthStrategy
+        | SizeColumnsToContentStrategy = { type: 'fitCellContents' };
 
     loadingOverlayComponent = GridLoadingOverlayComponent;
     loadingOverlayComponentParams = { loadingMessage: 'Αναζήτηση φορέων...' };

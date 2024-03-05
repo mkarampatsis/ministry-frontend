@@ -3,11 +3,13 @@
     <ag-grid-angular
         [domLayout]="'autoHeight'"
         [rowData]="foreis"
+        [defaultColDef]="defaultColDef"
         [columnDefs]="colDefs"
         [pagination]="true"
         [paginationPageSize]="50"
         [loadingOverlayComponent]="loadingOverlayComponent"
         [loadingOverlayComponentParams]="loadingOverlayComponentParams"
+        [autoSizeStrategy]="autoSizeStrategy"
         (gridReady)="onGridReady($event)"
         class="ag-theme-balham"
     >
