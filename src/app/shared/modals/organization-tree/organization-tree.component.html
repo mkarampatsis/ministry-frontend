@@ -21,7 +21,7 @@
                     *cdkTreeNodeDef="let node"
                     cdkTreeNodePadding
                     [style.display]="shouldRender(node) ? 'flex' : 'none'"
-                    class="align-items-center"
+                    class="tree-node"
                 >
                     <!-- use a disabled button to provide padding for tree leaf -->
                     <button mat-icon-button disabled></button>
@@ -29,11 +29,12 @@
                 </cdk-tree-node>
 
                 <!-- This is the tree node template for expandable nodes -->
+
                 <cdk-tree-node
                     *cdkTreeNodeDef="let node; when: hasChild"
                     cdkTreeNodePadding
                     [style.display]="shouldRender(node) ? 'flex' : 'none'"
-                    class="align-items-center"
+                    class="tree-node"
                 >
                     <button
                         mat-icon-button
@@ -45,6 +46,7 @@
                         [style.visibility]="
                             node.expandable ? 'visible' : 'hidden'
                         "
+                        style="display: flex; align-items: center"
                     >
                         <mat-icon class="mat-icon-rtl-mirror">
                             {{
