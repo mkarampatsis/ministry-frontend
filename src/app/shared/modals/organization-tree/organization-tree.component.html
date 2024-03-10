@@ -1,0 +1,73 @@
+<div class="d-flex justify-content-between m-3">
+    <span class="h5">Οργανόγραμμα Φορέα</span>
+    <button
+        type="button"
+        class="btn-close"
+        (click)="modalRef.dismiss()"
+    ></button>
+</div>
+<div class="modal-body">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between">
+            <span class="fw-semibold">Onoma Forea</span>
+            <span class="text-muted small">
+                Κωδικός απογραφής: kwdikos apografhs</span
+            >
+        </div>
+        <div class="card-body">
+            <cdk-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                <!-- This is the tree node template for leaf nodes -->
+                <cdk-tree-node
+                    *cdkTreeNodeDef="let node"
+                    cdkTreeNodePadding
+                    [style.display]="shouldRender(node) ? 'flex' : 'none'"
+                    class="align-items-center"
+                >
+                    <!-- use a disabled button to provide padding for tree leaf -->
+                    <button mat-icon-button disabled></button>
+                    {{ node.monada.preferredLabel }}
+                </cdk-tree-node>
+
+                <!-- This is the tree node template for expandable nodes -->
+                <cdk-tree-node
+                    *cdkTreeNodeDef="let node; when: hasChild"
+                    cdkTreeNodePadding
+                    [style.display]="shouldRender(node) ? 'flex' : 'none'"
+                    class="align-items-center"
+                >
+                    <button
+                        mat-icon-button
+                        cdkTreeNodeToggle
+                        [attr.aria-label]="
+                            'Toggle ' + node.monada.preferredLabel
+                        "
+                        (click)="node.isExpanded = !node.isExpanded"
+                        [style.visibility]="
+                            node.expandable ? 'visible' : 'hidden'
+                        "
+                    >
+                        <mat-icon class="mat-icon-rtl-mirror">
+                            {{
+                                treeControl.isExpanded(node)
+                                    ? "expand_more"
+                                    : "chevron_right"
+                            }}
+                        </mat-icon>
+                    </button>
+                    {{ node.monada.preferredLabel }}
+                </cdk-tree-node>
+            </cdk-tree>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end m-3">
+    <button
+        ngbAutofocus
+        type="button"
+        class="btn btn-primary"
+        (click)="modalRef.close('Save click')"
+    >
+        Επιστροφή
+    </button>
+</div>

@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { IOrganizationCode } from 'src/app/shared/interfaces/dictionary/organization-code.interface';
-import { Observable } from 'rxjs';
+import { IOrganizationCode } from 'src/app/shared/interfaces/dictionary';
 import {
     IOrganizationList,
     IOrganization,
+    IOrganizationTreeNode,
 } from 'src/app/shared/interfaces/organization';
+import { Observable } from 'rxjs';
 
 const APIPREFIX_APOGRAFI = `${environment.apiUrl}/apografi/organization`;
 const APIPREFIX_PSPED = `${environment.apiUrl}/psped/foreas`;
@@ -30,5 +31,10 @@ export class OrganizationService {
     getOrganizationDetails(code: string): Observable<IOrganization> {
         const url = `${APIPREFIX_PSPED}/${code}`;
         return this.http.get<IOrganization>(url);
+    }
+
+    getOrganizationTree(code: string): Observable<IOrganizationTreeNode[]> {
+        const url = `${APIPREFIX_PSPED}/${code}/tree`;
+        return this.http.get<IOrganizationTreeNode[]>(url);
     }
 }

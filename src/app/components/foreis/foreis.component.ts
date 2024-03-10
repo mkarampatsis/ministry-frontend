@@ -39,11 +39,11 @@ export class ForeisComponent {
     };
     // prettier-ignore
     colDefs: ColDef[] = [
-        { field: 'code', headerName: 'Κωδικός', maxWidth: 100},
-        { field: 'preferredLabel', headerName: 'Ονομασία', maxWidth: 300},
-        { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', maxWidth: 300},
-        { field: 'organizationType', headerName: 'Τύπος', maxWidth: 150},
-        { field: 'actionCell', headerName: 'Ενέργειες', cellRenderer: ForeisActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, maxWidth: 124},
+        { field: 'code', headerName: 'Κωδικός', width: 90, maxWidth: 90, minWidth: 90},
+        { field: 'preferredLabel', headerName: 'Ονομασία', flex: 1 },
+        { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', flex: 1 },
+        { field: 'organizationType', headerName: 'Τύπος', flex: 1 },
+        { field: 'actionCell', headerName: 'Ενέργειες', cellRenderer: ForeisActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, flex: 1, resizable: false},
     ];
     autoSizeStrategy:
         | SizeColumnsToFitGridStrategy

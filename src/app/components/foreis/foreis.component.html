@@ -1,4 +1,5 @@
 <h1 class="govgr-heading-sm">Φορείς Ελληνικού Δημοσίου</h1>
+
 <div class="govgr-body">
     <ag-grid-angular
         [domLayout]="'autoHeight'"
@@ -9,7 +10,6 @@
         [paginationPageSize]="50"
         [loadingOverlayComponent]="loadingOverlayComponent"
         [loadingOverlayComponentParams]="loadingOverlayComponentParams"
-        [autoSizeStrategy]="autoSizeStrategy"
         (gridReady)="onGridReady($event)"
         class="ag-theme-balham"
     >

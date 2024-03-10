@@ -26,4 +26,8 @@ export class ForeisActionIconsComponent implements ICellRendererAngularComp {
     showOrganizationDetails(): void {
         this.modalService.showOrganizationDetails(this.params.data.code);
     }
+
+    showOrganizationTree(): void {
+        this.modalService.showOrganizationTree(this.params.data.code);
+    }
 }
