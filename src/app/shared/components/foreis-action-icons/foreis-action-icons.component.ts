@@ -30,4 +30,8 @@ export class ForeisActionIconsComponent implements ICellRendererAngularComp {
     showOrganizationTree(): void {
         this.modalService.showOrganizationTree(this.params.data.code);
     }
+
+    showUpload(): void {
+        this.modalService.uploadFile();
+    }
 }

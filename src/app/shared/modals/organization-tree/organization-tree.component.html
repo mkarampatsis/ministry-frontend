@@ -15,7 +15,7 @@
             >
         </div>
         <div class="card-body">
-            @if (organizationTree.length === 0) {
+            @if (organizationTree?.length === 0) {
                 <ngb-alert [type]="'info'" [dismissible]="false">
                     Δεν υπάρχουν μονάδες στο φορέα.
                 </ngb-alert>
@@ -74,7 +74,7 @@
         ngbAutofocus
         type="button"
         class="btn btn-primary"
-        (click)="modalRef.close('Save click')"
+        (click)="modalRef.close()"
     >
         Επιστροφή
     </button>
