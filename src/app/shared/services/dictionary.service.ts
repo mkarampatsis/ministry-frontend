@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { IOrganizationType } from 'src/app/shared/interfaces/dictionary/organization-type.interface';
+import { IDictionaryType } from 'src/app/shared/interfaces/dictionary';
 import { Observable } from 'rxjs';
 
 const APIPREFIX = `${environment.apiUrl}/apografi/dictionary`;
@@ -12,8 +12,13 @@ const APIPREFIX = `${environment.apiUrl}/apografi/dictionary`;
 export class DictionaryService {
     http = inject(HttpClient);
 
-    getAllOrganizationTypes(): Observable<IOrganizationType[]> {
+    getAllOrganizationTypes(): Observable<IDictionaryType[]> {
         const url = `${APIPREFIX}/OrganizationTypes`;
-        return this.http.get<IOrganizationType[]>(url);
+        return this.http.get<IDictionaryType[]>(url);
+    }
+
+    getAllOrganizationUnitTypes(): Observable<IDictionaryType[]> {
+        const url = `${APIPREFIX}/UnitTypes`;
+        return this.http.get<IDictionaryType[]>(url);
     }
 }

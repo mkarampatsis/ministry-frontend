@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { UserInfoComponent } from './shared/components/user-info/user-info.component';
 import { AuthGuard } from './shared/services/auth.guard';
 
 export const routes: Routes = [
@@ -28,5 +27,16 @@ export const routes: Routes = [
             import('./components/foreis/foreis.routes').then(
                 (m) => m.ForeisRoutes,
             ),
+    },
+    {
+        path: 'monades',
+        loadChildren: () =>
+            import('./components/monades/monades.routes').then(
+                (m) => m.MonadesRoutes,
+            ),
+    },
+    {
+        path: '**',
+        redirectTo: 'login',
     },
 ];

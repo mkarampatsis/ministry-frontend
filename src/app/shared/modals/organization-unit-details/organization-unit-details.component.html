@@ -1,0 +1,103 @@
+<div class="d-flex justify-content-between m-3">
+    <span class="h5">Καρτέλα Μονάδας</span>
+    <button
+        type="button"
+        class="btn-close"
+        (click)="modalRef.dismiss()"
+    ></button>
+</div>
+<div class="modal-body">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between">
+            <span class="fw-semibold">{{
+                organizationUnit?.preferredLabel
+            }}</span>
+            <span class="text-muted small">
+                Κωδικός απογραφής: {{ organizationUnit?.code }}</span
+            >
+        </div>
+        <div class="card-body">
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Εναλλακτικές Ονομασίες',
+                    value: organizationUnit?.alternativeLabels
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Σκοπός',
+                    value: descriptionMap(organizationUnit?.purpose)
+                }"
+            ></app-card-row-right-left>
+            <!-- <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Εποπτεύοντας φορέας',
+                    value: organizationUnit?.subOrganizationOf.description
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Τύπος Φορέα',
+                    value: organizationUnit?.organizationType.description
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Κατάσταση',
+                    value: organizationUnit?.status
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Ημερομηνία Κύριας Ενημέρωσης',
+                    value: organizationUnit?.mainDataUpdateDate
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Ημερομηνία Ενημέρωσης Δομής Φορέα',
+                    value: organizationUnit?.organizationStructureUpdateDate
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                *ngIf="organizationUnit?.contactPoint"
+                [keyValue]="{
+                    key: 'Email Φορέα',
+                    value: organizationUnit?.contactPoint.email
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                *ngIf="organizationUnit?.contactPoint"
+                [keyValue]="{
+                    key: 'Τηλέφωνο Φορέα',
+                    value: organizationUnit?.contactPoint.telephone
+                }"
+            ></app-card-row-right-left> -->
+            <app-card-row-right-left
+                *ngIf="organizationUnit?.mainAddress"
+                [keyValue]="{
+                    key: 'Ταχυδρομική Διεύθυνση',
+                    value: organizationUnit?.mainAddress.fullAddress
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                *ngIf="organizationUnit?.secondaryAddresses"
+                [keyValue]="{
+                    key: 'Δευτερεύουσες Διευθύνσεις',
+                    value: fullAddressMap(organizationUnit?.secondaryAddresses)
+                }"
+            ></app-card-row-right-left>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end m-3">
+    <button
+        ngbAutofocus
+        type="button"
+        class="btn btn-primary"
+        (click)="modalRef.close()"
+    >
+        Επιστροφή
+    </button>
+</div>

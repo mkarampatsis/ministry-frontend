@@ -1,11 +1,21 @@
 import { Injectable, inject } from '@angular/core';
 import { map, take } from 'rxjs';
 
-import { IOrganizationType } from 'src/app/shared/interfaces/dictionary/organization-type.interface';
-import { IOrganizationCode } from '../interfaces/dictionary/organization-code.interface';
+import {
+    SizeColumnsToContentStrategy,
+    SizeColumnsToFitGridStrategy,
+    SizeColumnsToFitProvidedWidthStrategy,
+} from 'ag-grid-community';
 
-import { DictionaryService } from './dictionary.service';
-import { OrganizationService } from './organization.service';
+import {
+    IDictionaryType,
+    IOrganizationCode,
+    IOrganizationUnitCode,
+} from 'src/app/shared/interfaces/dictionary';
+
+import { DictionaryService } from 'src/app/shared/services/dictionary.service';
+import { OrganizationService } from 'src/app/shared/services/organization.service';
+import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,12 +23,37 @@ import { OrganizationService } from './organization.service';
 export class ConstService {
     dictionaryService = inject(DictionaryService);
     organizationService = inject(OrganizationService);
+    organizationUnitService = inject(OrganizationUnitService);
 
-    ORGANIZATION_TYPES: IOrganizationType[] = [];
+    ORGANIZATION_TYPES: IDictionaryType[] = [];
     ORGANIZATION_TYPES_MAP: Map<number, string> = new Map<number, string>();
+
+    ORGANIZATION_UNIT_TYPES: IDictionaryType[] = [];
+    ORGANIZATION_UNIT_TYPES_MAP: Map<number, string> = new Map<
+        number,
+        string
+    >();
 
     ORGANIZATION_CODES: IOrganizationCode[] = [];
     ORGANIZATION_CODES_MAP: Map<string, string> = new Map<string, string>();
+
+    ORGANIZATION_UNIT_CODES: IOrganizationUnitCode[] = [];
+    ORGANIZATION_UNIT_CODES_MAP: Map<string, string> = new Map<
+        string,
+        string
+    >();
+
+    // AgGrid related constants
+    defaultColDef = {
+        resizable: true,
+        filter: true,
+        sortable: true,
+        floatingFilter: true,
+    };
+    autoSizeStrategy:
+        | SizeColumnsToFitGridStrategy
+        | SizeColumnsToFitProvidedWidthStrategy
+        | SizeColumnsToContentStrategy = { type: 'fitCellContents' };
 
     constructor() {
         this.dictionaryService
@@ -34,6 +69,19 @@ export class ConstService {
                 });
             });
 
+        this.dictionaryService
+            .getAllOrganizationUnitTypes()
+            .pipe(take(1))
+            .subscribe((data) => {
+                this.ORGANIZATION_UNIT_TYPES = data;
+                this.ORGANIZATION_UNIT_TYPES.forEach((x) => {
+                    this.ORGANIZATION_UNIT_TYPES_MAP.set(
+                        x.apografi_id,
+                        x.description,
+                    );
+                });
+            });
+
         this.organizationService
             .getAllOrganizationCodes()
             .pipe(take(1))
@@ -41,6 +89,19 @@ export class ConstService {
                 this.ORGANIZATION_CODES = data;
                 this.ORGANIZATION_CODES.forEach((x) => {
                     this.ORGANIZATION_CODES_MAP.set(x.code, x.preferredLabel);
+                });
+            });
+
+        this.organizationUnitService
+            .getAllOrganizationUnitCodes()
+            .pipe(take(1))
+            .subscribe((data) => {
+                this.ORGANIZATION_UNIT_CODES = data;
+                this.ORGANIZATION_UNIT_CODES.forEach((x) => {
+                    this.ORGANIZATION_UNIT_CODES_MAP.set(
+                        x.code,
+                        x.preferredLabel,
+                    );
                 });
             });
     }

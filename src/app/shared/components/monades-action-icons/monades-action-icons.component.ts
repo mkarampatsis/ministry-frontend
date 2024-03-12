@@ -5,13 +5,13 @@ import { ICellRendererParams } from 'ag-grid-community';
 import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
-    selector: 'app-foreis-action-icons',
+    selector: 'app-monades-action-icons',
     standalone: true,
     imports: [MatIconModule],
-    templateUrl: './foreis-action-icons.component.html',
-    styleUrl: './foreis-action-icons.component.css',
+    templateUrl: './monades-action-icons.component.html',
+    styleUrl: './monades-action-icons.component.css',
 })
-export class ForeisActionIconsComponent implements ICellRendererAngularComp {
+export class MonadesActionIconsComponent implements ICellRendererAngularComp {
     modalService = inject(ModalService);
     params: ICellRendererParams;
 
@@ -23,15 +23,9 @@ export class ForeisActionIconsComponent implements ICellRendererAngularComp {
         return false;
     }
 
-    showOrganizationDetails(): void {
-        this.modalService.showOrganizationDetails(this.params.data.code);
+    showOrganizationUnitDetails(): void {
+        this.modalService.showOrganizationUnitDetails(this.params.data.code);
     }
 
-    showOrganizationTree(): void {
-        this.modalService.showOrganizationTree(this.params.data.code);
-    }
-
-    showUpload(): void {
-        this.modalService.uploadFile();
-    }
+    showOrganizationUnitTree(): void {}
 }

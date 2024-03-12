@@ -1,13 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import {
-    ColDef,
-    GridApi,
-    GridReadyEvent,
-    SizeColumnsToContentStrategy,
-    SizeColumnsToFitGridStrategy,
-    SizeColumnsToFitProvidedWidthStrategy,
-} from 'ag-grid-community';
+import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { map, take } from 'rxjs';
 import { ForeisActionIconsComponent } from 'src/app/shared/components/foreis-action-icons/foreis-action-icons.component';
 import { IOrganizationList } from 'src/app/shared/interfaces/organization/organization-list.interface';
@@ -24,19 +17,13 @@ import { OrganizationService } from 'src/app/shared/services/organization.servic
 })
 export class ForeisComponent {
     constService = inject(ConstService);
+    organizationService = inject(OrganizationService);
+    foreis: IOrganizationList[] = [];
+
     organizationCodesMap = this.constService.ORGANIZATION_CODES_MAP;
     organizationTypesMap = this.constService.ORGANIZATION_TYPES_MAP;
 
-    organizationService = inject(OrganizationService);
-
-    foreis: IOrganizationList[] = [];
-    gridApi: GridApi<IOrganizationList>;
-    defaultColDef = {
-        resizable: true,
-        filter: true,
-        sortable: true,
-        floatingFilter: true,
-    };
+    defaultColDef = this.constService.defaultColDef;
     // prettier-ignore
     colDefs: ColDef[] = [
         { field: 'code', headerName: 'Κωδικός', width: 90, maxWidth: 90, minWidth: 90},
@@ -45,13 +32,12 @@ export class ForeisComponent {
         { field: 'organizationType', headerName: 'Τύπος', flex: 1 },
         { field: 'actionCell', headerName: 'Ενέργειες', cellRenderer: ForeisActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, flex: 1, resizable: false},
     ];
-    autoSizeStrategy:
-        | SizeColumnsToFitGridStrategy
-        | SizeColumnsToFitProvidedWidthStrategy
-        | SizeColumnsToContentStrategy = { type: 'fitCellContents' };
+    autoSizeStrategy = this.constService.autoSizeStrategy;
 
     loadingOverlayComponent = GridLoadingOverlayComponent;
     loadingOverlayComponentParams = { loadingMessage: 'Αναζήτηση φορέων...' };
+
+    gridApi: GridApi<IOrganizationList>;
 
     onGridReady(params: GridReadyEvent<IOrganizationList>): void {
         this.gridApi = params.api;

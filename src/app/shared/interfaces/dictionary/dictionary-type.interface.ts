@@ -1,4 +1,4 @@
-export interface IOrganizationType {
+export interface IDictionaryType {
     apografi_id: number;
     description: string;
 }
