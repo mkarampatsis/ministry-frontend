@@ -5,6 +5,7 @@ import { take } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardRowRightLeftComponent } from 'src/app/shared/components/card-row-right-left/card-row-right-left.component';
+import { ConstService } from 'src/app/shared/services/const.service';
 
 @Component({
     selector: 'app-organization-unit-details',
@@ -15,6 +16,7 @@ import { CardRowRightLeftComponent } from 'src/app/shared/components/card-row-ri
 })
 export class OrganizationUnitDetailsComponent {
     organizationUnitService = inject(OrganizationUnitService);
+    constService = inject(ConstService);
 
     organizationUnitCode: string | null = null;
     organizationUnit: IOrganizationUnit | null = null;
@@ -35,5 +37,13 @@ export class OrganizationUnitDetailsComponent {
 
     fullAddressMap(entry: { fullAddress: string }[] | undefined) {
         if (entry) return entry.map((entry) => entry.fullAddress);
+    }
+
+    organizationPrefferedLabel(code: string) {
+        return this.constService.getOrganizationPrefferedLabelByCode(code);
+    }
+
+    organizationUnitPrefferedLabel(code: string) {
+        return this.constService.getOrganizationUnitPrefferedLabelByCode(code);
     }
 }

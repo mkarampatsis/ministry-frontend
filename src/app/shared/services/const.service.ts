@@ -115,4 +115,9 @@ export class ConstService {
         return this.ORGANIZATION_CODES.find((x) => x.code === code)
             ?.preferredLabel;
     }
+
+    getOrganizationUnitPrefferedLabelByCode(code: string): string | undefined {
+        return this.ORGANIZATION_UNIT_CODES.find((x) => x.code === code)
+            ?.preferredLabel;
+    }
 }

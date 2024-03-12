@@ -19,6 +19,14 @@
         <div class="card-body">
             <app-card-row-right-left
                 [keyValue]="{
+                    key: 'Οργανισμός',
+                    value: organizationPrefferedLabel(
+                        organizationUnit?.organizationCode
+                    )
+                }"
+            ></app-card-row-right-left>
+            <app-card-row-right-left
+                [keyValue]="{
                     key: 'Εναλλακτικές Ονομασίες',
                     value: organizationUnit?.alternativeLabels
                 }"
@@ -29,50 +37,35 @@
                     value: descriptionMap(organizationUnit?.purpose)
                 }"
             ></app-card-row-right-left>
-            <!-- <app-card-row-right-left
+            <app-card-row-right-left
                 [keyValue]="{
-                    key: 'Εποπτεύοντας φορέας',
-                    value: organizationUnit?.subOrganizationOf.description
+                    key: 'Προϊστάμενη μονάδα',
+                    value: organizationUnitPrefferedLabel(
+                        organizationUnit?.supervisorUnitCode
+                    )
                 }"
             ></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Τύπος Φορέα',
-                    value: organizationUnit?.organizationType.description
+                    value: organizationUnit?.description
                 }"
             ></app-card-row-right-left>
+
             <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Κατάσταση',
-                    value: organizationUnit?.status
-                }"
-            ></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Ημερομηνία Κύριας Ενημέρωσης',
-                    value: organizationUnit?.mainDataUpdateDate
-                }"
-            ></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Ημερομηνία Ενημέρωσης Δομής Φορέα',
-                    value: organizationUnit?.organizationStructureUpdateDate
-                }"
-            ></app-card-row-right-left>
-            <app-card-row-right-left
-                *ngIf="organizationUnit?.contactPoint"
+                *ngIf="organizationUnit?.email"
                 [keyValue]="{
                     key: 'Email Φορέα',
-                    value: organizationUnit?.contactPoint.email
+                    value: organizationUnit?.email
                 }"
             ></app-card-row-right-left>
             <app-card-row-right-left
-                *ngIf="organizationUnit?.contactPoint"
+                *ngIf="organizationUnit?.telephone"
                 [keyValue]="{
                     key: 'Τηλέφωνο Φορέα',
-                    value: organizationUnit?.contactPoint.telephone
+                    value: organizationUnit?.telephone
                 }"
-            ></app-card-row-right-left> -->
+            ></app-card-row-right-left>
             <app-card-row-right-left
                 *ngIf="organizationUnit?.mainAddress"
                 [keyValue]="{
