@@ -16,7 +16,7 @@ export class FileUploadComponent implements OnInit {
     currentFile: File;
     progress = 0;
     message = '';
-    fileInfos: Observable<any>;
+    fileInfos: Observable<any> | undefined = undefined;
     modalRef: any;
 
     ngOnInit(): void {

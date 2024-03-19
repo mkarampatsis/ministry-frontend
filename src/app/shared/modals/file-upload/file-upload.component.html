@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between m-3">
-    <span class="h5">Μεταφόρτωση αρχείων</span>
+    <span class="h5">Μεταφόρτωση αρχείου</span>
     <button
         type="button"
         class="btn-close"
@@ -10,7 +10,7 @@
 <div class="modal-body">
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <span class="fw-semibold">Επιλέξτε αρχεία</span>
+            <span class="fw-semibold">Επιλέξτε αρχείo</span>
             <span class="text-muted small">
                 Μέγιστο μέγεθος 16ΜΒ, επιτρεπτά είδη: .pdf .jpg</span
             >
@@ -59,16 +59,18 @@
                 </div>
             }
 
-            <div class="card mt-3">
-                <div class="card-header">List of Files</div>
-                <ul class="list-group list-group-flush">
-                    @for (file of fileInfos | async; track file.name) {
-                        <li class="list-group-item">
-                            <a href="{{ file.url }}">{{ file.name }}</a>
-                        </li>
-                    }
-                </ul>
-            </div>
+            @if (fileInfos) {
+                <div class="card mt-3">
+                    <div class="card-header">Αρχεία που έχετε μεταφορτώσει</div>
+                    <ul class="list-group list-group-flush">
+                        @for (file of fileInfos | async; track file.name) {
+                            <li class="list-group-item">
+                                <a href="{{ file.url }}">{{ file.name }}</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
         </div>
     </div>
 </div>
