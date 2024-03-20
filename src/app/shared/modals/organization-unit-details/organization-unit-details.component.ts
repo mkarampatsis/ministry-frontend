@@ -24,7 +24,7 @@ export class OrganizationUnitDetailsComponent {
 
     ngOnInit() {
         this.organizationUnitService
-            .getOrganizationUnitDetails(this.organizationUnitCode)
+            .getOrganizationalUnitDetails(this.organizationUnitCode)
             .pipe(take(1))
             .subscribe((data) => {
                 this.organizationUnit = data;

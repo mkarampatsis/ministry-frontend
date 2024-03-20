@@ -24,12 +24,12 @@ export class OrganizationService {
     }
 
     getAllOrganizations(): Observable<IOrganizationList[]> {
-        const url = `${APIPREFIX_PSPED}/all`;
+        const url = `${APIPREFIX_APOGRAFI}/all`;
         return this.http.get<IOrganizationList[]>(url);
     }
 
     getOrganizationDetails(code: string): Observable<IOrganization> {
-        const url = `${APIPREFIX_PSPED}/${code}`;
+        const url = `${APIPREFIX_APOGRAFI}/${code}`;
         return this.http.get<IOrganization>(url);
     }
 

@@ -25,6 +25,14 @@ export class ConstService {
     organizationService = inject(OrganizationService);
     organizationUnitService = inject(OrganizationUnitService);
 
+    readonly ORGANIZATION_LEVELS = [
+        'ΚΕΝΤΡΙΚΟ',
+        'ΑΠΟΚΕΝΤΡΩΜΕΝΟ',
+        'ΠΕΡΙΦΕΡΕΙΑΚΟ',
+        'ΤΟΠΙΚΟ',
+        'ΜΗ ΟΡΙΣΜΕΝΟ',
+    ];
+
     ORGANIZATION_TYPES: IDictionaryType[] = [];
     ORGANIZATION_TYPES_MAP: Map<number, string> = new Map<number, string>();
 
@@ -93,7 +101,7 @@ export class ConstService {
             });
 
         this.organizationUnitService
-            .getAllOrganizationUnitCodes()
+            .getAllOrganizationalUnitCodes()
             .pipe(take(1))
             .subscribe((data) => {
                 this.ORGANIZATION_UNIT_CODES = data;

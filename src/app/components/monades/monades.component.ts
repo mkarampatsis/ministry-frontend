@@ -43,7 +43,7 @@ export class MonadesComponent {
         this.gridApi = params.api;
         this.gridApi.showLoadingOverlay();
         this.organizationUnitService
-            .getAllOrganizationUnits()
+            .getAllOrganizationalUnits()
             .pipe(
                 take(1),
                 map((data) => {

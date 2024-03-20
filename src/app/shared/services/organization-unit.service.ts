@@ -8,8 +8,8 @@ import {
     IOrganizationUnitList,
 } from 'src/app/shared/interfaces/organization-unit';
 
-const APIPREFIX_APOGRAFI = `${environment.apiUrl}/apografi`;
-const APIPREFIX_PSPED = `${environment.apiUrl}/psped/monada`;
+const APIPREFIX_APOGRAFI = `${environment.apiUrl}/apografi/organizationalUnit`;
+// const APIPREFIX_PSPED = `${environment.apiUrl}/psped/monada`;
 
 @Injectable({
     providedIn: 'root',
@@ -17,18 +17,18 @@ const APIPREFIX_PSPED = `${environment.apiUrl}/psped/monada`;
 export class OrganizationUnitService {
     http = inject(HttpClient);
 
-    getAllOrganizationUnitCodes(): Observable<IOrganizationUnitCode[]> {
-        const url = `${APIPREFIX_APOGRAFI}/organizationUnit`;
+    getAllOrganizationalUnitCodes(): Observable<IOrganizationUnitCode[]> {
+        const url = `${APIPREFIX_APOGRAFI}`;
         return this.http.get<IOrganizationUnitCode[]>(url);
     }
 
-    getAllOrganizationUnits(): Observable<IOrganizationUnitList[]> {
-        const url = `${APIPREFIX_PSPED}/all`;
+    getAllOrganizationalUnits(): Observable<IOrganizationUnitList[]> {
+        const url = `${APIPREFIX_APOGRAFI}/all`;
         return this.http.get<IOrganizationUnitList[]>(url);
     }
 
-    getOrganizationUnitDetails(code: string): Observable<IOrganizationUnit> {
-        const url = `${APIPREFIX_PSPED}/${code}`;
+    getOrganizationalUnitDetails(code: string): Observable<IOrganizationUnit> {
+        const url = `${APIPREFIX_APOGRAFI}/${code}`;
         return this.http.get<IOrganizationUnit>(url);
     }
 }

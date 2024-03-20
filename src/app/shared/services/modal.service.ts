@@ -1,9 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { OrganizationDetailsComponent } from 'src/app/shared/modals/organization-details/organization-details.component';
-import { OrganizationTreeComponent } from 'src/app/shared/modals/organization-tree/organization-tree.component';
-import { FileUploadComponent } from 'src/app/shared/modals/file-upload/file-upload.component';
-import { OrganizationUnitDetailsComponent } from '../modals/organization-unit-details/organization-unit-details.component';
+import {
+    FileUploadComponent,
+    ForeasEditComponent,
+    OrganizationDetailsComponent,
+    OrganizationTreeComponent,
+    OrganizationUnitDetailsComponent,
+} from 'src/app/shared/modals';
 
 @Injectable({
     providedIn: 'root',
@@ -46,6 +49,15 @@ export class ModalService {
             size: 'xl',
             centered: true,
         });
+        modalRef.componentInstance.modalRef = modalRef;
+    }
+
+    foreasEdit(foreas_id: string) {
+        const modalRef = this.modalService.open(ForeasEditComponent, {
+            size: 'xl',
+            centered: true,
+        });
+        modalRef.componentInstance.foreas_id = foreas_id;
         modalRef.componentInstance.modalRef = modalRef;
     }
 }

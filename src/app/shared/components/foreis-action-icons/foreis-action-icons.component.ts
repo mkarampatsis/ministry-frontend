@@ -34,4 +34,8 @@ export class ForeisActionIconsComponent implements ICellRendererAngularComp {
     showUpload(): void {
         this.modalService.uploadFile();
     }
+
+    editForeas(): void {
+        this.modalService.foreasEdit(this.params.data.code);
+    }
 }
