@@ -33,6 +33,8 @@ export class ConstService {
         'ΜΗ ΟΡΙΣΜΕΝΟ',
     ];
 
+    readonly USER_ROLES = ['EDITOR', 'READER', 'ADMIN', 'ROOT'];
+
     ORGANIZATION_TYPES: IDictionaryType[] = [];
     ORGANIZATION_TYPES_MAP: Map<number, string> = new Map<number, string>();
 

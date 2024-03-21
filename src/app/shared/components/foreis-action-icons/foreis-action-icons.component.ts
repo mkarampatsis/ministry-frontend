@@ -1,17 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 import { ModalService } from 'src/app/shared/services/modal.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
     selector: 'app-foreis-action-icons',
     standalone: true,
-    imports: [MatIconModule],
+    imports: [CommonModule, MatIconModule],
     templateUrl: './foreis-action-icons.component.html',
     styleUrl: './foreis-action-icons.component.css',
 })
 export class ForeisActionIconsComponent implements ICellRendererAngularComp {
+    authService = inject(AuthService);
     modalService = inject(ModalService);
     params: ICellRendererParams;
 
@@ -37,5 +40,9 @@ export class ForeisActionIconsComponent implements ICellRendererAngularComp {
 
     editForeas(): void {
         this.modalService.foreasEdit(this.params.data.code);
+    }
+
+    canEdit(code: string): boolean {
+        return this.authService.canEdit(code);
     }
 }

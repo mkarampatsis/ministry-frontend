@@ -54,4 +54,22 @@ export class AuthService {
         localStorage.removeItem('accessToken');
         this.router.navigate(['/login']);
     }
+
+    canEdit(code: string) {
+        // Flatten the users roles array with respect to foreis and monades
+        const roles = this.user()
+            .roles.filter((type) => {
+                return (
+                    type.role === 'EDITOR' ||
+                    type.role === 'ADMIN' ||
+                    type.role === 'ROOT'
+                );
+            })
+            .filter((role) => {
+                return (
+                    role.foreas.includes(code) || role.monades.includes(code)
+                );
+            });
+        return roles.length > 0;
+    }
 }

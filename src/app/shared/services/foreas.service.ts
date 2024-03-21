@@ -16,4 +16,9 @@ export class ForeasService {
         const url = `${APIPREFIX_PSPED}/${code}`;
         return this.http.get<IForeas>(url);
     }
+
+    updatePoluepipedhForeas(data: IForeas): Observable<IForeas> {
+        const url = `${APIPREFIX_PSPED}/${data.code}`;
+        return this.http.put<IForeas>(url, data);
+    }
 }

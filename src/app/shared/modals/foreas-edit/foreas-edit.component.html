@@ -15,11 +15,14 @@
             >
         </div>
         <div class="card-body">
-            {{ foreas?.level }}
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <label for="level"> Επίπεδο Φορέα </label>
-                    <select class="form-select" id="level">
+                    <select
+                        class="form-select"
+                        id="level"
+                        formControlName="level"
+                    >
                         <option
                             *ngFor="let level of organizationLevels"
                             [value]="level"
@@ -39,8 +42,8 @@
         ngbAutofocus
         type="button"
         class="btn btn-primary"
-        (click)="modalRef.close()"
+        (click)="onSubmit()"
     >
-        Επιστροφή
+        Υποβολή
     </button>
 </div>
