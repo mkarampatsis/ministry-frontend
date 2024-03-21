@@ -36,6 +36,34 @@ export const routes: Routes = [
             ),
     },
     {
+        path: 'search',
+        loadChildren: () =>
+            import('./components/search/search.routes').then(
+                (m) => m.SearchRoutes,
+            ),
+    },
+    {
+        path: 'nomikes-praxeis',
+        loadChildren: () =>
+            import('./components/nomikes-praxeis/nomikes-praxeis.routes').then(
+                (m) => m.NomikesPraxeisRoutes,
+            ),
+    },
+    {
+        path: 'diataxeis',
+        loadChildren: () =>
+            import('./components/diataxeis/diataxeis.routes').then(
+                (m) => m.DiataxeisRoutes,
+            ),
+    },
+    {
+        path: 'armodiothtes',
+        loadChildren: () =>
+            import('./components/armodiothtes/armodiothtes.routes').then(
+                (m) => m.ArmodiothtesRoutes,
+            ),
+    },
+    {
         path: '**',
         redirectTo: 'login',
     },
