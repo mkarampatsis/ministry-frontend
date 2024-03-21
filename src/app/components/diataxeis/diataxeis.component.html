@@ -1,1 +1,30 @@
-<p>diataxeis works!</p>
+<div class="m-5">
+  <h1 class="govgr-heading-sm">Φόρμα Διατάξεων</h1>
+
+  <form [formGroup]="diatajeisForm" (ngSubmit)="onSubmit()">
+
+    <div class="mb-3">
+      <label for="legalActCode" class="form-label">Κωδικός Πράξης:</label>
+      <input type="text" class="form-control" id="legalActCode" formControlName="legalActCode" placeholder="Εισάγετε κωδικό πράξης">
+    </div>
+
+    <div class="mb-3">
+      <label for="legalProvisionNumber" class="form-label">Αριθμός Διάταξης:</label>
+      <input type="text" class="form-control" id="legalProvisionNumber" formControlName="legalProvisionNumber" placeholder="Εισάγετε αριθμό διάταξης">
+    </div>
+
+    <div class="mb-3">
+      <label for="legalProvisionText" class="form-label">Κείμενο Διάταξης:</label>
+      <input type="text" class="form-control" id="legalProvisionText" formControlName="legalProvisionText" placeholder="Εισάγετε κείμενο διάταξης">
+    </div>
+
+    <div class="mb-3">
+      <label for="abolishingLegalProvisionCode" class="form-label">Αριθμός νέας Διάταξης:</label>
+      <input type="text" class="form-control" id="abolishingLegalProvisionCode" formControlName="abolishingLegalProvisionCode" placeholder="Εισάγετε αριθμό νέας διάταξης">
+    </div>
+
+    <p>Συμπληρώστε τη φόρμα για να ενεργοποιηθεί το κουμπί της υποβολής</p>
+    <button type="button" class="btn btn-primary" type="submit" [disabled]="!diatajeisForm.valid">Υποβολή</button>
+  </form>
+</div>
+

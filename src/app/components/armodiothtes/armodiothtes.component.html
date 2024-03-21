@@ -1,1 +1,30 @@
-<p>armodiothtes works!</p>
+<div class="m-5">
+  <h1 class="govgr-heading-sm">Φόρμα Αρμοδιοτήτων</h1>
+
+  <form [formGroup]="armodiotitesForm" (ngSubmit)="onSubmit()">
+
+    <div class="mb-3 form-floating">
+      <textarea class="form-control" id="remitText" formControlName="remitText"></textarea>
+      <label for="remitText">Κείμενο αρμοδιότητας:</label>
+    </div>
+
+    <div class="mb-3">
+      <label for="remitType" class="form-label">Τύπος Αρμοδιότητας:</label>
+      <select class="form-select" aria-label="Default select example" id="remitType" formControlName="remitTypes">
+        <option value="" disabled selected>Επιλέξτε Τύπο Αρμοδιότητας</option>
+        @for (remitType of remitTypes; track $index) {
+          <option [ngValue]="remitType">{{remitType}}</option>
+        }
+      </select>
+    </div>
+
+    <!-- <div class="mb-3">
+      <label for="legalProvisionNumber" class="form-label">Αριθμός Διάταξης:</label>
+      <input type="text" class="form-control" id="legalProvisionNumber" formControlName="legalProvisionNumber" placeholder="Εισάγετε αριθμό διάταξης">
+    </div> -->
+
+    <p>Συμπληρώστε τη φόρμα για να ενεργοποιηθεί το κουμπί της υποβολής</p>
+    <button type="button" class="btn btn-primary" type="submit" [disabled]="!armodiotitesForm.valid">Υποβολή</button>
+  </form>
+</div>
+

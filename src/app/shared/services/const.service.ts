@@ -35,6 +35,22 @@ export class ConstService {
 
     readonly USER_ROLES = ['EDITOR', 'READER', 'ADMIN', 'ROOT'];
 
+    readonly ACT_TYPES= [
+      'Νόμος', 
+      'Προεδρικό Διάταγμα', 
+      'Κανονιστική Διοικητική Πράξη', 
+      'Απόφαση του οργάνου διοίκησης', 
+      'Άλλο'
+    ]
+
+    readonly REMIT_TYPES = [
+      "Επιτελική", 
+      "Εκτελεστική",
+      "Υποστηρικτική",
+      "Ελεγκτική",
+      "Παρακολούθησης αποτελεσματικής πολιτικής και αξιολόγησης αποτελεσμάτων"
+    ]
+
     ORGANIZATION_TYPES: IDictionaryType[] = [];
     ORGANIZATION_TYPES_MAP: Map<number, string> = new Map<number, string>();
 
