@@ -1,4 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    TemplateRef,
+    ViewChild,
+    inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
     FormControl,
@@ -12,6 +18,7 @@ import { ConstService } from 'src/app/shared/services/const.service';
 import { take } from 'rxjs';
 import { IForeas } from 'src/app/shared/interfaces/foreas/foreas.interface';
 import { ForeasService } from 'src/app/shared/services/foreas.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
     selector: 'app-foreas-edit',
@@ -24,8 +31,12 @@ export class ForeasEditComponent implements OnInit {
     ognanizationService = inject(OrganizationService);
     foreasService = inject(ForeasService);
     constService = inject(ConstService);
+    toastService = inject(ToastService);
+
+    @ViewChild('successTpl') successTpl: TemplateRef<any>;
 
     foreas_id: string;
+    level: string;
 
     organization: IOrganization;
     modalRef: any;
@@ -56,16 +67,28 @@ export class ForeasEditComponent implements OnInit {
     }
 
     onSubmit() {
+        console.log(this.form.value);
         if (this.form.valid) {
+            this.level = this.form.value.level;
             const data: IForeas = {
                 ...this.form.value,
                 code: this.foreas.code,
             };
             this.foreasService
                 .updatePoluepipedhForeas(data)
-                .subscribe((data) => {
+                .pipe(take(1))
+                .subscribe(() => {
                     this.modalRef.dismiss();
+                    this.showSuccess(this.successTpl);
                 });
         }
+    }
+
+    showSuccess(template: TemplateRef<any>) {
+        this.toastService.show({
+            template,
+            classname: 'bg-success text-light',
+            // delay: 10000,
+        });
     }
 }
