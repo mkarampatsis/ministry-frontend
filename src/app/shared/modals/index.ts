@@ -4,3 +4,4 @@ export * from './grid-loading-overlay/grid-loading-overlay.component';
 export * from './organization-details/organization-details.component';
 export * from './organization-tree/organization-tree.component';
 export * from './organization-unit-details/organization-unit-details.component';
+export * from './backend-error/backend-error.component';

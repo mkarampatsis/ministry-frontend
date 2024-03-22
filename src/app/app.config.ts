@@ -16,6 +16,7 @@ import {
     withInterceptorsFromDi,
 } from '@angular/common/http';
 import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
+import { ErrorInterceptor } from './shared/services/error-interceptor.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 registerLocaleData(localeEl);
@@ -44,6 +45,7 @@ export const appConfig: ApplicationConfig = {
             useClass: AuthInterceptorService,
             multi: true,
         },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         provideHttpClient(withInterceptorsFromDi()),
         provideAnimationsAsync(),
     ],

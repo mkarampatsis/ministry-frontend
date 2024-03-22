@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
+    BackendErrorComponent,
     FileUploadComponent,
     ForeasEditComponent,
     OrganizationDetailsComponent,
@@ -58,6 +59,15 @@ export class ModalService {
             centered: true,
         });
         modalRef.componentInstance.foreas_id = foreas_id;
+        modalRef.componentInstance.modalRef = modalRef;
+    }
+
+    showBackendError(message: string) {
+        const modalRef = this.modalService.open(BackendErrorComponent, {
+            size: 'md',
+            centered: true,
+        });
+        modalRef.componentInstance.message = message;
         modalRef.componentInstance.modalRef = modalRef;
     }
 }

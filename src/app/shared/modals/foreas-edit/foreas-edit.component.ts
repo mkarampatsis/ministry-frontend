@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
     FormControl,
@@ -25,7 +25,8 @@ export class ForeasEditComponent implements OnInit {
     foreasService = inject(ForeasService);
     constService = inject(ConstService);
 
-    @Input() foreas_id: string;
+    foreas_id: string;
+
     organization: IOrganization;
     modalRef: any;
 
