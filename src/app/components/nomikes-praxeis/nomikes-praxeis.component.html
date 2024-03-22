@@ -1,1 +1,55 @@
-<p>nomikes-praxeis works!</p>
+<div class="m-5">
+  <h1 class="govgr-heading-sm">Φόρμα Νομικών Πράξεων</h1>
+
+  <form [formGroup]="nomikesPrajeisForm" (ngSubmit)="onSubmit()">
+
+    <div class="mb-3">
+      <label for="legalActType" class="form-label">Τύπος Πράξης:</label>
+      <select class="form-select" aria-label="Default select example" id="legalActType" formControlName="legalActType">
+        <option value="" disabled selected>Επιλέξτε Τύπο Πράξης</option>
+        @for (actType of actTypes; track $index) {
+          <option [ngValue]="actType">{{actType}}</option>
+        }
+      </select>
+    </div>
+    
+    <div class="mb-3">
+      <label for="legalActNumber" class="form-label">Αριθμός Πράξης:</label>
+      <input type="text" class="form-control" id="legalActNumber" formControlName="legalActNumber" placeholder="Εισάγετε αριθμό πράξης">
+    </div>
+
+    <div class="mb-3">
+      <label for="legalActDate" class="form-label">Ημερομηνία έκδοσης πράξης:</label>
+      <input type="date" class="form-control" id="legalActDate" formControlName="legalActDate" placeholder="Εισάγετε ημερομηνία έκδοσης πράξης">
+    </div>
+
+  
+    <div formGroupName="FEKref">
+
+      <div class="mb-3">
+        <label for="fekNumber" class="form-label">Αριθμός ΦΕΚ:</label>
+        <input type="text" class="form-control" id="fekNumber" formControlName="FEKnumber" placeholder="Εισάγετε αριθμό ΦΕΚ">
+      </div>
+
+      <div class="mb-3">
+        <label for="fekIssue" class="form-label">Τεύχος ΦΕΚ:</label>
+        <input type="text" class="form-control" id="fekIssue" formControlName="FEKissue" placeholder="Εισάγετε τεύχος ΦΕΚ">
+      </div>
+
+      <div class="mb-3">
+        <label for="fekDate" class="form-label">Ημερομηνία ΦΕΚ:</label>
+        <input type="date" class="form-control" id="fekDate" formControlName="FEKdate" placeholder="Εισάγετε ημερομηνία ΦΕΚ">
+      </div>
+
+    </div>
+
+    
+    <div class="mb-3">
+      <label for="diavgeiaNumber" class="form-label">Ημερομηνία ΦΕΚ:</label>
+      <input type="text" class="form-control" id="diavgeiaNumber" formControlName="DiavgeiaNumber" placeholder="Εισάγετε ΑΔΑ">
+    </div>
+
+    <p>Συμπληρώστε τη φόρμα για να ενεργοποιηθεί το κουμπί της υποβολής</p>
+    <button type="button" class="btn btn-primary" type="submit" [disabled]="!nomikesPrajeisForm.valid">Υποβολή</button>
+  </form>
+</div>
