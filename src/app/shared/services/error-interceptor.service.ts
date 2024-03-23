@@ -39,6 +39,18 @@ export class ErrorInterceptor implements HttpInterceptor {
                     };
                     this.toastService.show(toast);
                 }
+                if (response.status === 413) {
+                    const toast: Toast = {
+                        component: ToastMessageComponent,
+                        inputs: {
+                            message:
+                                'Το αρχείο είναι πολύ μεγάλο για αποστολή (μέγιστο μέγεθος 16ΜΒ).',
+                        },
+                        classname: 'bg-danger text-light',
+                        delay: 5000,
+                    };
+                    this.toastService.show(toast);
+                }
                 return throwError(() => new Error(response.error.error));
             }),
         );
