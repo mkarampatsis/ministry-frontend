@@ -18,7 +18,8 @@ import { ConstService } from 'src/app/shared/services/const.service';
 import { take } from 'rxjs';
 import { IForeas } from 'src/app/shared/interfaces/foreas/foreas.interface';
 import { ForeasService } from 'src/app/shared/services/foreas.service';
-import { ToastService } from 'src/app/shared/services/toast.service';
+import { Toast, ToastService } from 'src/app/shared/services/toast.service';
+import { ToastMessageComponent } from '../../components/toast-message/toast-message.component';
 
 @Component({
     selector: 'app-foreas-edit',
@@ -85,10 +86,13 @@ export class ForeasEditComponent implements OnInit {
     }
 
     showSuccess(template: TemplateRef<any>) {
-        this.toastService.show({
-            template,
+        const toast: Toast = {
+            component: ToastMessageComponent,
+            inputs: {
+                message: `Το επίπεδο του φορέα ενημερώθηκε σε <strong>${this.level}</strong>.`,
+            },
             classname: 'bg-success text-light',
-            // delay: 10000,
-        });
+        };
+        this.toastService.show(toast);
     }
 }

@@ -1,7 +1,14 @@
-import { Injectable, TemplateRef } from '@angular/core';
+import { Injectable, TemplateRef, Type } from '@angular/core';
+
+// export interface Toast {
+//     template: TemplateRef<any>;
+//     classname?: string;
+//     delay?: number;
+// }
 
 export interface Toast {
-    template: TemplateRef<any>;
+    component: Type<any>;
+    inputs?: { [key: string]: any };
     classname?: string;
     delay?: number;
 }
