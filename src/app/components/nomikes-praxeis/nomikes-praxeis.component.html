@@ -1,5 +1,5 @@
 <div class="m-5">
-    <h1 class="govgr-heading-sm">Φόρμα Νομικών Πράξεων</h1>
+    <h1 class="govgr-heading-sm">Νέα Νομική Πράξη</h1>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="mb-3">
@@ -141,9 +141,9 @@
                 (change)="selectFile($event)"
             />
             @if (progress) {
-                <div class="progress">
+                <div class="progress mt-2">
                     <div
-                        class="mt-1 progress-bar progress-bar-info"
+                        class="progress-bar progress-bar-info"
                         role="progressbar"
                         attr.aria-valuenow="{{ progress }}"
                         aria-valuemin="0"
