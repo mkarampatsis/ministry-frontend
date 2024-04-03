@@ -1,5 +1,5 @@
 export interface IFek {
     number: string;
-    issue: string;
-    date: Date;
+    issue?: string;
+    date?: Date | string;
 }

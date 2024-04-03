@@ -8,6 +8,7 @@ import {
     OrganizationTreeComponent,
     OrganizationUnitDetailsComponent,
 } from 'src/app/shared/modals';
+import { NewLegalActComponent } from '../modals/new-legal-act/new-legal-act.component';
 
 @Injectable({
     providedIn: 'root',
@@ -25,13 +26,10 @@ export class ModalService {
     }
 
     showOrganizationUnitDetails(organizationUnitCode: string) {
-        const modalRef = this.modalService.open(
-            OrganizationUnitDetailsComponent,
-            {
-                size: 'xl',
-                centered: true,
-            },
-        );
+        const modalRef = this.modalService.open(OrganizationUnitDetailsComponent, {
+            size: 'xl',
+            centered: true,
+        });
         modalRef.componentInstance.organizationUnitCode = organizationUnitCode;
         modalRef.componentInstance.modalRef = modalRef;
     }
@@ -68,6 +66,15 @@ export class ModalService {
             centered: true,
         });
         modalRef.componentInstance.message = message;
+        modalRef.componentInstance.modalRef = modalRef;
+    }
+
+    newLegalAct(monada_id: string) {
+        const modalRef = this.modalService.open(NewLegalActComponent, {
+            size: 'xl',
+            centered: true,
+        });
+        modalRef.componentInstance.monada_id = monada_id;
         modalRef.componentInstance.modalRef = modalRef;
     }
 }

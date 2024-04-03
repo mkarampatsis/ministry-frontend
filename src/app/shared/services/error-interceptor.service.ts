@@ -19,14 +19,11 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     toastService = inject(ToastService);
 
-    intercept(
-        request: HttpRequest<any>,
-        next: HttpHandler,
-    ): Observable<HttpEvent<any>> {
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
             tap((event) => {
                 if (event instanceof HttpResponse) {
-                    console.log(event.body);
+                    // console.log(event.body);
                 }
             }),
             catchError((response: HttpErrorResponse): Observable<any> => {
@@ -43,8 +40,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                     const toast: Toast = {
                         component: ToastMessageComponent,
                         inputs: {
-                            message:
-                                'Το αρχείο είναι πολύ μεγάλο για αποστολή (μέγιστο μέγεθος 16ΜΒ).',
+                            message: 'Το αρχείο είναι πολύ μεγάλο για αποστολή (μέγιστο μέγεθος 16ΜΒ).',
                         },
                         classname: 'bg-danger text-light',
                         delay: 5000,

@@ -1,16 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
-import {
-    FormGroup,
-    FormControl,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, take } from 'rxjs';
 import { IFek } from 'src/app/shared/interfaces/nomiki-praji/fek.interface';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { FileUploadService } from 'src/app/shared/services/file-upload.service';
+import { CommonModule } from '@angular/common';
+import { IOrganizationUnit } from 'src/app/shared/interfaces/organization-unit';
+import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
+import { ILegalAct } from 'src/app/shared/interfaces/nomiki-praji/legal-act.interface';
 
 function dateDifference(date1: Date, date2: Date): number {
     const diffTime = Math.abs(date1.getTime() - date2.getTime());
@@ -19,13 +18,22 @@ function dateDifference(date1: Date, date2: Date): number {
 @Component({
     selector: 'app-new-legal-act',
     standalone: true,
-    imports: [ReactiveFormsModule, NgbAlertModule],
+    imports: [CommonModule, ReactiveFormsModule, NgbAlertModule],
     templateUrl: './new-legal-act.component.html',
     styleUrl: './new-legal-act.component.css',
 })
-export class NewLegalActComponent {
+export class NewLegalActComponent implements OnInit {
+    @Output() newLegalAct = new EventEmitter<ILegalAct>();
+
     constService = inject(ConstService);
     uploadService = inject(FileUploadService);
+    organizationUnitService = inject(OrganizationUnitService);
+
+    modalRef: any;
+
+    monada_id: string;
+    organizationalUnit: IOrganizationUnit;
+    organizationPrefferedLabel: string;
 
     progress = 0;
     currentFile: File;
@@ -55,13 +63,20 @@ export class NewLegalActComponent {
     showOtherLegalActType = false;
 
     ngOnInit(): void {
+        this.organizationUnitService
+            .getOrganizationalUnitDetails(this.monada_id)
+            .pipe(take(1))
+            .subscribe((data) => {
+                this.organizationalUnit = data;
+                this.organizationPrefferedLabel = this.getOrganizationPrefferedLabelByCode(data.organizationCode);
+                // console.log(this.organizationalUnit);
+            });
+
         this.formSubscriptions.push(
             this.form.controls.legalActType.valueChanges.subscribe((value) => {
                 if (value === 'ΑΛΛΟ') {
                     this.showOtherLegalActType = true;
-                    this.form.controls.legalActTypeOther.setValidators(
-                        Validators.required,
-                    );
+                    this.form.controls.legalActTypeOther.setValidators(Validators.required);
                     this.form.controls.legalActTypeOther.updateValueAndValidity();
                 } else {
                     this.form.controls.legalActTypeOther.setValue('');
@@ -71,6 +86,7 @@ export class NewLegalActComponent {
                 }
             }),
         );
+
         this.formSubscriptions.push(
             this.form.controls.legalActDate.valueChanges.subscribe((value) => {
                 if (value) {
@@ -82,6 +98,7 @@ export class NewLegalActComponent {
                 }
             }),
         );
+
         this.formSubscriptions.push(
             this.form.controls.fek.valueChanges.subscribe((value) => {
                 if (value) {
@@ -107,21 +124,21 @@ export class NewLegalActComponent {
     }
 
     onSubmit() {
-        const ada = this.form.get('ada').value
-            ? this.form.get('ada').value
-            : 'ΜΗ ΑΝΑΡΤΗΤΕΑ ΠΡΑΞΗ';
+        const ada = this.form.get('ada').value ? this.form.get('ada').value : 'ΜΗ ΑΝΑΡΤΗΤΕΑ ΠΡΑΞΗ';
         const fek =
             this.form.get('fek.number').value === '' ||
             this.form.get('fek.issue').value === '' ||
             this.form.get('fek.date').value === ''
                 ? { number: 'ΜΗ ΔΗΜΟΣΙΕΥΤEΑ ΠΡΑΞΗ', issue: '', date: '' }
                 : this.form.get('fek').value;
+        const legalActDate = new Date(this.form.get('legalActDate').value);
         const data = {
             ...this.form.value,
+            legalActDate,
             ada,
             fek,
-        };
-        console.log(data);
+        } as ILegalAct;
+        this.newLegalAct.emit(data);
     }
 
     selectFile(event: any): void {
@@ -133,11 +150,9 @@ export class NewLegalActComponent {
         this.uploadService.upload(this.currentFile).subscribe({
             next: (event: any) => {
                 if (event.type === HttpEventType.UploadProgress) {
-                    this.progress = Math.round(
-                        (100 * event.loaded) / event.total,
-                    );
+                    this.progress = Math.round((100 * event.loaded) / event.total);
                 } else if (event instanceof HttpResponse) {
-                    console.log(event.body.file_id);
+                    // console.log(event.body.file_id);
                     this.uploadUUID = event.body.file_id;
                     this.form.controls.fileUpload.setValue(this.uploadUUID);
                 }
@@ -146,7 +161,7 @@ export class NewLegalActComponent {
                 console.log(err);
             },
             complete: () => {
-                console.log('Upload completed!');
+                // console.log('Upload completed!');
             },
         });
     }
@@ -161,5 +176,9 @@ export class NewLegalActComponent {
             this.form.get('fek.issue').value === '' ||
             this.form.get('fek.date').value === ''
         );
+    }
+
+    getOrganizationPrefferedLabelByCode(code: string): string | undefined {
+        return this.constService.ORGANIZATION_CODES.find((x) => x.code === code)?.preferredLabel;
     }
 }

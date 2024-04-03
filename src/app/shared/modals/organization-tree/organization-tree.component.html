@@ -26,7 +26,9 @@
                             <button mat-icon-button disabled></button>
                             {{ node.monada.code }} {{ node.monada.preferredLabel }}
                             @if (canEdit(node.monada.code)) {
-                                <mat-icon role="button" class="icon-link-hover">engineering</mat-icon>
+                                <mat-icon role="button" class="icon-link-hover" (click)="newLegalAct(node.monada.code)"
+                                    >engineering</mat-icon
+                                >
                             }
                         </div>
                     </cdk-tree-node>

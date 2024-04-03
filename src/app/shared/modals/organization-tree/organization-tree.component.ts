@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { ModalService } from '../../services/modal.service';
 
 interface FlatNode extends IOrganizationTreeNode {
     isExpanded?: boolean;
@@ -23,6 +24,7 @@ interface FlatNode extends IOrganizationTreeNode {
 export class OrganizationTreeComponent implements OnInit {
     organizationService = inject(OrganizationService);
     authService = inject(AuthService);
+    modalService = inject(ModalService);
 
     modalRef: any;
 
@@ -79,5 +81,9 @@ export class OrganizationTreeComponent implements OnInit {
 
     canEdit(code: string): boolean {
         return this.authService.canEdit(code);
+    }
+
+    newLegalAct(code: string) {
+        this.modalService.newLegalAct(code);
     }
 }
