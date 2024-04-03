@@ -2,14 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ArrayDataSource } from '@angular/cdk/collections';
 import { CdkTreeModule, FlatTreeControl } from '@angular/cdk/tree';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
-import {
-    IOrganization,
-    IOrganizationTreeNode,
-} from 'src/app/shared/interfaces/organization';
+import { IOrganization, IOrganizationTreeNode } from 'src/app/shared/interfaces/organization';
 import { take } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 interface FlatNode extends IOrganizationTreeNode {
     isExpanded?: boolean;
@@ -24,6 +22,8 @@ interface FlatNode extends IOrganizationTreeNode {
 })
 export class OrganizationTreeComponent implements OnInit {
     organizationService = inject(OrganizationService);
+    authService = inject(AuthService);
+
     modalRef: any;
 
     organizationCode: string | null = null;
@@ -75,5 +75,9 @@ export class OrganizationTreeComponent implements OnInit {
             parent = this.getParentNode(parent);
         }
         return true;
+    }
+
+    canEdit(code: string): boolean {
+        return this.authService.canEdit(code);
     }
 }

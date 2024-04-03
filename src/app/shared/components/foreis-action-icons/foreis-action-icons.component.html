@@ -1,9 +1,7 @@
 <div class="d-flex gap-1 align-items-center">
-    <mat-icon (click)="showOrganizationDetails()">info</mat-icon>
-    <mat-icon (click)="showOrganizationTree()">account_tree</mat-icon>
-    <mat-icon (click)="showUpload()">home</mat-icon>
-    <mat-icon *ngIf="canEdit(params.data.code)" (click)="editForeas()"
-        >edit</mat-icon
-    >
-    <!-- <mat-icon (click)="editForeas()">edit</mat-icon> -->
+    <mat-icon role="button" (click)="showOrganizationDetails()">info</mat-icon>
+    <mat-icon role="button" (click)="showOrganizationTree()">account_tree</mat-icon>
+    <mat-icon role="button" (click)="showUpload()">home</mat-icon>
+    <mat-icon role="button" *ngIf="canEdit(params.data.code)" (click)="editForeas()">edit</mat-icon>
+    <!-- <mat-icon role="button" (click)="editForeas()">edit</mat-icon> -->
 </div>
