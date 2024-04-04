@@ -11,7 +11,6 @@ import {
     NewRemitComponent,
     NewLegalProvisionComponent,
 } from 'src/app/shared/modals';
-import { IOrganizationUnit } from '../interfaces/organization-unit';
 
 @Injectable({
     providedIn: 'root',
@@ -72,24 +71,6 @@ export class ModalService {
         modalRef.componentInstance.modalRef = modalRef;
     }
 
-    newLegalAct(monada_id: string) {
-        const modalRef = this.modalService.open(NewLegalActComponent, {
-            size: 'xl',
-            centered: true,
-        });
-        modalRef.componentInstance.monada_id = monada_id;
-        modalRef.componentInstance.modalRef = modalRef;
-    }
-
-    // newRemit(monada_id: string) {
-    //     const modalRef = this.modalService.open(NewRemitComponent, {
-    //         size: 'xl',
-    //         centered: true,
-    //     });
-    //     modalRef.componentInstance.monada_id = monada_id;
-    //     modalRef.componentInstance.modalRef = modalRef;
-    // }
-
     newRemit(organizationUnit: { preferredLabel: string; code: string }) {
         const modalRef = this.modalService.open(NewRemitComponent, {
             size: 'xl',
@@ -109,6 +90,22 @@ export class ModalService {
             centered: true,
         });
         modalRef.componentInstance.modalRef = modalRef;
+        modalRef.componentInstance.organization = organization;
+        modalRef.componentInstance.organizationUnit = organizationUnit;
+        modalRef.componentInstance.remit = remit;
+    }
+
+    newLegalAct(
+        organization: { preferredLabel: string; code: string },
+        organizationUnit: { preferredLabel: string; code: string },
+        remit: { remitType: string; cofog1: string; cofog2: string; cofog3: string },
+    ) {
+        const modalRef = this.modalService.open(NewLegalActComponent, {
+            size: 'xl',
+            centered: true,
+        });
+        modalRef.componentInstance.modalRef = modalRef;
+        // modalRef.componentInstance.monada_id = monada_id;
         modalRef.componentInstance.organization = organization;
         modalRef.componentInstance.organizationUnit = organizationUnit;
         modalRef.componentInstance.remit = remit;

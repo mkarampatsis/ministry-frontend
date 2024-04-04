@@ -1,14 +1,31 @@
 <div class="d-flex justify-content-between m-3">
-    <span class="h5">Νέα Νομική Πράξη</span>
+    <span class="h5">Εισαγωγή Νέας Νομικής Πράξης</span>
     <button type="button" class="btn-close" (click)="modalRef.dismiss()"></button>
 </div>
 
 <div class="modal-body">
     <div class="card">
-        <div class="card-header d-flex justify-content-between">
-            <span class="fw-semibold">{{ organizationPrefferedLabel }}</span>
-            <span class="fw-semibold">{{ organizationalUnit?.preferredLabel }}</span>
-            <span class="text-muted small"> Κωδικός απογραφής: {{ organizationalUnit?.code }}</span>
+        <div class="card-header d-flex flex-column justify-content-between">
+            <table class="small">
+                <tr>
+                    <td class="fw-semibold">Φορέας:</td>
+                    <td>({{ organization.code }}) {{ organization.preferredLabel }}</td>
+                    <td class="fw-semibold">Μονάδα:</td>
+                    <td>({{ organizationUnit.code }}) {{ organizationUnit.preferredLabel }}</td>
+                </tr>
+                <tr>
+                    <td class="fw-semibold">Τύπος Αρμοδιότητας:</td>
+                    <td>{{ remit.remitType }}</td>
+                    <td class="fw-semibold">Λειτουργική Περιοχή COFOG:</td>
+                    <td>{{ cofog1 }}</td>
+                </tr>
+                <tr>
+                    <td class="fw-semibold">Λειτουργικός Τομέας COFOG:</td>
+                    <td>{{ cofog2 }}</td>
+                    <td class="fw-semibold">Θεματική Περιοχή COFOG:</td>
+                    <td>{{ cofog3 }}</td>
+                </tr>
+            </table>
         </div>
         <div class="card-body">
             <h1 class="govgr-heading-sm">Νέα Νομική Πράξη</h1>

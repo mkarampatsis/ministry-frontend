@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
@@ -6,7 +7,6 @@ import { Subscription, take } from 'rxjs';
 import { IFek } from 'src/app/shared/interfaces/nomiki-praji/fek.interface';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { FileUploadService } from 'src/app/shared/services/file-upload.service';
-import { CommonModule } from '@angular/common';
 import { IOrganizationUnit } from 'src/app/shared/interfaces/organization-unit';
 import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
 import { ILegalAct } from 'src/app/shared/interfaces/nomiki-praji/legal-act.interface';
@@ -23,17 +23,20 @@ function dateDifference(date1: Date, date2: Date): number {
     styleUrl: './new-legal-act.component.css',
 })
 export class NewLegalActComponent implements OnInit {
-    @Output() newLegalAct = new EventEmitter<ILegalAct>();
-
+    // The following three are injected by the modal service
+    organization: { preferredLabel: string; code: string };
+    organizationUnit: { preferredLabel: string; code: string };
+    remit: { remitType: string; cofog1: string; cofog2: string; cofog3: string };
+    // Some useful services
     constService = inject(ConstService);
     uploadService = inject(FileUploadService);
     organizationUnitService = inject(OrganizationUnitService);
+    // Cofog Names will populate onInit
+    cofog1: string = '';
+    cofog2: string = '';
+    cofog3: string = '';
 
     modalRef: any;
-
-    monada_id: string;
-    organizationalUnit: IOrganizationUnit;
-    organizationPrefferedLabel: string;
 
     progress = 0;
     currentFile: File;
@@ -63,14 +66,11 @@ export class NewLegalActComponent implements OnInit {
     showOtherLegalActType = false;
 
     ngOnInit(): void {
-        this.organizationUnitService
-            .getOrganizationalUnitDetails(this.monada_id)
-            .pipe(take(1))
-            .subscribe((data) => {
-                this.organizationalUnit = data;
-                this.organizationPrefferedLabel = this.getOrganizationPrefferedLabelByCode(data.organizationCode);
-                // console.log(this.organizationalUnit);
-            });
+        [this.cofog1, this.cofog2, this.cofog3] = this.constService.getCofogNames(
+            this.remit.cofog1,
+            this.remit.cofog2,
+            this.remit.cofog3,
+        );
 
         this.formSubscriptions.push(
             this.form.controls.legalActType.valueChanges.subscribe((value) => {
@@ -138,7 +138,6 @@ export class NewLegalActComponent implements OnInit {
             ada,
             fek,
         } as ILegalAct;
-        this.newLegalAct.emit(data);
     }
 
     selectFile(event: any): void {

@@ -42,6 +42,6 @@ export class NewLegalProvisionComponent implements OnInit {
     }
 
     addLegalAct() {
-        this.modalService.newLegalAct(this.organizationUnit.code);
+        this.modalService.newLegalAct(this.organization, this.organizationUnit, this.remit);
     }
 }
