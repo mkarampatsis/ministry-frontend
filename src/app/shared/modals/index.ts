@@ -7,3 +7,4 @@ export * from './organization-unit-details/organization-unit-details.component';
 export * from './backend-error/backend-error.component';
 export * from './new-legal-act/new-legal-act.component';
 export * from './new-remit/new-remit.component';
+export * from './new-legal-provision/new-legal-provision.component';

@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
+import { IOrganizationUnit } from '../../interfaces/organization-unit';
 
 interface FlatNode extends IOrganizationTreeNode {
     isExpanded?: boolean;
@@ -84,8 +85,12 @@ export class OrganizationTreeComponent implements OnInit {
         return this.authService.canEdit(code);
     }
 
-    newRemit(code: string) {
-        this.modalService.newRemit(code);
-        // this.modalService.newLegalAct(code);
+    // newRemit(code: string) {
+    //     this.modalService.newRemit(code);
+    //     // this.modalService.newLegalAct(code);
+    // }
+
+    newRemit(organizationUnit: { preferredLabel: string; code: string }) {
+        this.modalService.newRemit(organizationUnit);
     }
 }

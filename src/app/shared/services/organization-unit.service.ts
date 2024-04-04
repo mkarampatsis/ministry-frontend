@@ -3,13 +3,9 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IOrganizationUnitCode } from 'src/app/shared/interfaces/dictionary';
-import {
-    IOrganizationUnit,
-    IOrganizationUnitList,
-} from 'src/app/shared/interfaces/organization-unit';
+import { IOrganizationUnit, IOrganizationUnitList } from 'src/app/shared/interfaces/organization-unit';
 
 const APIPREFIX_APOGRAFI = `${environment.apiUrl}/apografi/organizationalUnit`;
-// const APIPREFIX_PSPED = `${environment.apiUrl}/psped/monada`;
 
 @Injectable({
     providedIn: 'root',
@@ -30,5 +26,10 @@ export class OrganizationUnitService {
     getOrganizationalUnitDetails(code: string): Observable<IOrganizationUnit> {
         const url = `${APIPREFIX_APOGRAFI}/${code}`;
         return this.http.get<IOrganizationUnit>(url);
+    }
+
+    getOrganizationalUnitOrganizationCode(code: string): Observable<string> {
+        const url = `${APIPREFIX_APOGRAFI}/${code}/organizationCode`;
+        return this.http.get<string>(url);
     }
 }

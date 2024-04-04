@@ -130,4 +130,17 @@ export class ConstService {
     getOrganizationUnitPrefferedLabelByCode(code: string): string | undefined {
         return this.ORGANIZATION_UNIT_CODES.find((x) => x.code === code)?.preferredLabel;
     }
+
+    getCofogNames(cofog1Code: string, cofog2Code: string, cofog3Code: string): string[] | null {
+        const cofog1 = this.COFOG.find((cofog) => cofog.code === cofog1Code);
+        if (!cofog1) return null;
+
+        const cofog2 = cofog1.cofog2.find((cofog) => cofog.code === cofog2Code);
+        if (!cofog2) return null;
+
+        const cofog3 = cofog2.cofog3.find((cofog) => cofog.code === cofog3Code);
+        if (!cofog3) return null;
+
+        return [cofog1.name, cofog2.name, cofog3.name];
+    }
 }

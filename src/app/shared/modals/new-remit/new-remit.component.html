@@ -9,20 +9,17 @@
             <table>
                 <tr>
                     <td class="fw-semibold">Φορέας:</td>
-                    <td>{{ organizationPrefferedLabel }}</td>
+                    <td>{{ organization?.preferredLabel }}</td>
                     <td class="text-muted">Κωδικός Απογραφής Φορέα:</td>
-                    <td class="text-muted text-end">{{ organizationCode }}</td>
+                    <td class="text-muted text-end">{{ organization?.code }}</td>
                 </tr>
                 <tr>
                     <td class="fw-semibold">Μονάδα:</td>
-                    <td>{{ organizationalUnit?.preferredLabel }}</td>
+                    <td>{{ organizationUnit.preferredLabel }}</td>
                     <td class="text-muted">Κωδικός Απογραφής Μονάδας:</td>
-                    <td class="text-muted text-end">{{ organizationalUnit?.code }}</td>
+                    <td class="text-muted text-end">{{ organizationUnit.code }}</td>
                 </tr>
             </table>
-            <!-- <span class="fw-semibold">{{ organizationPrefferedLabel }}</span>
-            <span class="fw-semibold">{{ organizationalUnit?.preferredLabel }}</span>
-            <span class="text-muted small"> Κωδικός απογραφής: {{ organizationalUnit?.code }}</span> -->
         </div>
         <div class="card-body">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -44,17 +41,17 @@
                     <label for="remitType" class="form-label">Τύπος Αρμοδιότητας:</label>
                     <select
                         class="form-select"
-                        [class.is-invalid]="form.controls.remitTypes.touched && form.controls.remitTypes.invalid"
+                        [class.is-invalid]="form.controls.remitType.touched && form.controls.remitType.invalid"
                         aria-label="Default select example"
                         id="remitType"
-                        formControlName="remitTypes"
+                        formControlName="remitType"
                     >
                         <option value="" disabled selected>Επιλέξτε Τύπο Αρμοδιότητας</option>
                         @for (remitType of remitTypes; track $index) {
                             <option [ngValue]="remitType">{{ remitType }}</option>
                         }
                     </select>
-                    @if (form.controls.remitTypes.touched && form.controls.remitTypes.invalid) {
+                    @if (form.controls.remitType.touched && form.controls.remitType.invalid) {
                         <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
                     }
                 </div>
@@ -120,11 +117,19 @@
                     </div>
                 }
 
-                <div class="mb-3">
+                <div class="mb-3 d-flex gap-2">
                     <button type="button" class="btn btn-primary">Επιλογή Διατάξεων</button>
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        [disabled]="!canAddLegalProvision"
+                        (click)="addLegalProvision()"
+                    >
+                        Νέα Διάταξη
+                    </button>
                 </div>
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="legalProvisionNumber" class="form-label">Αριθμός Διάταξης:</label>
                     <input
                         type="text"
@@ -133,7 +138,7 @@
                         formControlName="legalProvisionsCodes"
                         placeholder="Εισάγετε αριθμό διάταξης"
                     />
-                </div>
+                </div> -->
 
                 <button type="button" class="btn btn-primary" type="submit" [disabled]="!form.valid">Υποβολή</button>
             </form>
