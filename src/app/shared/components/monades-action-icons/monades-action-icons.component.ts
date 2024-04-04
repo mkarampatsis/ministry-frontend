@@ -3,6 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 import { ModalService } from 'src/app/shared/services/modal.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
     selector: 'app-monades-action-icons',
@@ -13,6 +14,8 @@ import { ModalService } from 'src/app/shared/services/modal.service';
 })
 export class MonadesActionIconsComponent implements ICellRendererAngularComp {
     modalService = inject(ModalService);
+    authService = inject(AuthService);
+
     params: ICellRendererParams;
 
     agInit(params: ICellRendererParams<any, any, any>): void {
@@ -27,5 +30,14 @@ export class MonadesActionIconsComponent implements ICellRendererAngularComp {
         this.modalService.showOrganizationUnitDetails(this.params.data.code);
     }
 
-    showOrganizationUnitTree(): void {}
+    canEdit(code: string): boolean {
+        return this.authService.canEdit(code);
+    }
+
+    newRemit(organizationUnit: any) {
+        // This is a whole organization unit object that is passed to the modal
+        // The new remit input interface is respected
+        // TODO: Come back later to this
+        this.modalService.newRemit(organizationUnit);
+    }
 }
