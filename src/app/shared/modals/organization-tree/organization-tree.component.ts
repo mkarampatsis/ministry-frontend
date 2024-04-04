@@ -6,9 +6,9 @@ import { IOrganization, IOrganizationTreeNode } from 'src/app/shared/interfaces/
 import { take } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { ModalService } from '../../services/modal.service';
+import { ModalService } from 'src/app/shared/services/modal.service';
 
 interface FlatNode extends IOrganizationTreeNode {
     isExpanded?: boolean;
@@ -17,9 +17,10 @@ interface FlatNode extends IOrganizationTreeNode {
 @Component({
     selector: 'app-organization-tree',
     standalone: true,
-    imports: [CdkTreeModule, MatIconModule, MatButtonModule, NgbAlertModule],
+    imports: [CdkTreeModule, MatIconModule, MatButtonModule, NgbAlertModule, NgbTooltipModule],
     templateUrl: './organization-tree.component.html',
     styleUrl: './organization-tree.component.css',
+    host: { class: 'd-block' },
 })
 export class OrganizationTreeComponent implements OnInit {
     organizationService = inject(OrganizationService);
@@ -83,7 +84,8 @@ export class OrganizationTreeComponent implements OnInit {
         return this.authService.canEdit(code);
     }
 
-    newLegalAct(code: string) {
-        this.modalService.newLegalAct(code);
+    newRemit(code: string) {
+        this.modalService.newRemit(code);
+        // this.modalService.newLegalAct(code);
     }
 }

@@ -5,13 +5,15 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-foreis-action-icons',
     standalone: true,
-    imports: [CommonModule, MatIconModule],
+    imports: [CommonModule, MatIconModule, NgbTooltipModule],
     templateUrl: './foreis-action-icons.component.html',
     styleUrl: './foreis-action-icons.component.css',
+    host: { class: 'd-block z-3' },
 })
 export class ForeisActionIconsComponent implements ICellRendererAngularComp {
     authService = inject(AuthService);

@@ -7,8 +7,9 @@ import {
     OrganizationDetailsComponent,
     OrganizationTreeComponent,
     OrganizationUnitDetailsComponent,
+    NewLegalActComponent,
+    NewRemitComponent,
 } from 'src/app/shared/modals';
-import { NewLegalActComponent } from '../modals/new-legal-act/new-legal-act.component';
 
 @Injectable({
     providedIn: 'root',
@@ -71,6 +72,15 @@ export class ModalService {
 
     newLegalAct(monada_id: string) {
         const modalRef = this.modalService.open(NewLegalActComponent, {
+            size: 'xl',
+            centered: true,
+        });
+        modalRef.componentInstance.monada_id = monada_id;
+        modalRef.componentInstance.modalRef = modalRef;
+    }
+
+    newRemit(monada_id: string) {
+        const modalRef = this.modalService.open(NewRemitComponent, {
             size: 'xl',
             centered: true,
         });

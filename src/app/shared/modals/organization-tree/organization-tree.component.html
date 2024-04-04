@@ -26,7 +26,11 @@
                             <button mat-icon-button disabled></button>
                             {{ node.monada.code }} {{ node.monada.preferredLabel }}
                             @if (canEdit(node.monada.code)) {
-                                <mat-icon role="button" class="icon-link-hover" (click)="newLegalAct(node.monada.code)"
+                                <mat-icon
+                                    role="button"
+                                    (click)="newRemit(node.monada.code)"
+                                    placement="top"
+                                    ngbTooltip="Νέα Αρμοδιότητα"
                                     >engineering</mat-icon
                                 >
                             }
