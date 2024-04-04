@@ -1,30 +1,112 @@
 <div class="m-5">
-  <h1 class="govgr-heading-sm">Φόρμα Αρμοδιοτήτων</h1>
+    <h1 class="govgr-heading-sm">Φόρμα Αρμοδιοτήτων</h1>
 
-  <form [formGroup]="armodiotitesForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label for="remitText" class="form-label">Κείμενο αρμοδιότητας:</label>
+            <textarea
+                class="form-control"
+                [class.is-invalid]="form.controls.remitText.touched && form.controls.remitText.invalid"
+                id="remitText"
+                formControlName="remitText"
+            ></textarea>
+            @if (form.controls.remitText.touched && form.controls.remitText.invalid) {
+                <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
+            }
+        </div>
 
-    <div class="mb-3 form-floating">
-      <textarea class="form-control" id="remitText" formControlName="remitText"></textarea>
-      <label for="remitText">Κείμενο αρμοδιότητας:</label>
-    </div>
+        <div class="mb-3">
+            <label for="remitType" class="form-label">Τύπος Αρμοδιότητας:</label>
+            <select
+                class="form-select"
+                [class.is-invalid]="form.controls.remitTypes.touched && form.controls.remitTypes.invalid"
+                aria-label="Default select example"
+                id="remitType"
+                formControlName="remitTypes"
+            >
+                <option value="" disabled selected>Επιλέξτε Τύπο Αρμοδιότητας</option>
+                @for (remitType of remitTypes; track $index) {
+                    <option [ngValue]="remitType">{{ remitType }}</option>
+                }
+            </select>
+            @if (form.controls.remitTypes.touched && form.controls.remitTypes.invalid) {
+                <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
+            }
+        </div>
 
-    <div class="mb-3">
-      <label for="remitType" class="form-label">Τύπος Αρμοδιότητας:</label>
-      <select class="form-select" aria-label="Default select example" id="remitType" formControlName="remitTypes">
-        <option value="" disabled selected>Επιλέξτε Τύπο Αρμοδιότητας</option>
-        @for (remitType of remitTypes; track $index) {
-          <option [ngValue]="remitType">{{remitType}}</option>
+        <div class="mb-3">
+            <label for="cofog1" class="form-label">Λειτουργική Περιοχή COFOG:</label>
+            <select
+                class="form-select"
+                [class.is-invalid]="form.controls.cofog1.touched && form.controls.cofog1.invalid"
+                aria-label="Default select example"
+                id="cofog1"
+                formControlName="cofog1"
+            >
+                <option value="" disabled selected>Επιλέξτε Λειτουργική Περιοχή COFOG</option>
+                @for (cofog of cofog1; track $index) {
+                    <option [ngValue]="cofog.code">{{ cofog.name }}</option>
+                }
+            </select>
+            @if (form.controls.cofog1.touched && form.controls.cofog1.invalid) {
+                <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
+            }
+        </div>
+
+        @if (cofog1_selected) {
+            <div class="mb-3">
+                <label for="cofog2" class="form-label">Λειτουργικός Τομέας COFOG:</label>
+                <select
+                    class="form-select"
+                    [class.is-invalid]="form.controls.cofog2.touched && form.controls.cofog2.invalid"
+                    aria-label="Default select example"
+                    id="cofog2"
+                    formControlName="cofog2"
+                >
+                    <option value="" disabled selected>Επιλέξτε Λειτουργικό Τομέα COFOG</option>
+                    @for (cofog of cofog2; track $index) {
+                        <option [ngValue]="cofog.code">{{ cofog.name }}</option>
+                    }
+                </select>
+                @if (form.controls.cofog2.touched && form.controls.cofog2.invalid) {
+                    <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
+                }
+            </div>
         }
-      </select>
-    </div>
 
-    <!-- <div class="mb-3">
-      <label for="legalProvisionNumber" class="form-label">Αριθμός Διάταξης:</label>
-      <input type="text" class="form-control" id="legalProvisionNumber" formControlName="legalProvisionNumber" placeholder="Εισάγετε αριθμό διάταξης">
-    </div> -->
+        @if (cofog2_selected) {
+            <div class="mb-3">
+                <label for="cofog3" class="form-label">Θεματική Περιοχή COFOG:</label>
+                <select
+                    class="form-select"
+                    [class.is-invalid]="form.controls.cofog3.touched && form.controls.cofog3.invalid"
+                    aria-label="Default select example"
+                    id="cofog3"
+                    formControlName="cofog3"
+                >
+                    <option value="" disabled selected>Επιλέξτε Θεματική Περιοχή COFOG</option>
+                    @for (cofog of cofog3; track $index) {
+                        <option [ngValue]="cofog.code">{{ cofog.name }}</option>
+                    }
+                </select>
+                @if (form.controls.cofog3.touched && form.controls.cofog3.invalid) {
+                    <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
+                }
+            </div>
+        }
 
-    <p>Συμπληρώστε τη φόρμα για να ενεργοποιηθεί το κουμπί της υποβολής</p>
-    <button type="button" class="btn btn-primary" type="submit" [disabled]="!armodiotitesForm.valid">Υποβολή</button>
-  </form>
+        <div class="mb-3">
+            <label for="legalProvisionNumber" class="form-label">Αριθμός Διάταξης:</label>
+            <input
+                type="text"
+                class="form-control"
+                id="legalProvisionNumber"
+                formControlName="legalProvisionsCodes"
+                placeholder="Εισάγετε αριθμό διάταξης"
+            />
+        </div>
+
+        <p>Συμπληρώστε τη φόρμα για να ενεργοποιηθεί το κουμπί της υποβολής</p>
+        <button type="button" class="btn btn-primary" type="submit" [disabled]="!form.valid">Υποβολή</button>
+    </form>
 </div>
-

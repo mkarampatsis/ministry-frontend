@@ -4,18 +4,14 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="mb-3">
             <label for="legalActType" class="form-label">Τύπος Πράξης:</label>
-            <div
-                class="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center"
-            >
+            <div class="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center">
                 <select
                     class="form-select"
                     aria-label="Default select example"
                     id="legalActType"
                     formControlName="legalActType"
                 >
-                    <option value="" disabled selected>
-                        Επιλέξτε Τύπο Πράξης
-                    </option>
+                    <option value="" disabled selected>Επιλέξτε Τύπο Πράξης</option>
                     @for (actType of actTypes; track $index) {
                         <option [ngValue]="actType">{{ actType }}</option>
                     }
@@ -34,28 +30,20 @@
         </div>
 
         <div class="mb-3">
-            <div
-                class="d-flex flex-column flex-md-row gap-2 align-items-center"
-            >
+            <div class="d-flex flex-column flex-md-row gap-2 align-items-center">
                 <div class="flex-md-grow-1 w-100">
-                    <label for="legalActNumber" class="form-label"
-                        >Αριθμός Πράξης:</label
-                    >
+                    <label for="legalActNumber" class="form-label">Αριθμός Πράξης:</label>
                     <input
                         type="text"
                         class="form-control"
-                        [class.is-invalid]="
-                            form.controls.legalActNumber.invalid
-                        "
+                        [class.is-invalid]="form.controls.legalActNumber.invalid"
                         id="legalActNumber"
                         formControlName="legalActNumber"
                         placeholder="Εισάγετε αριθμό πράξης"
                     />
                 </div>
                 <div class="flex-md-grow-1 w-100">
-                    <label for="legalActDate" class="form-label"
-                        >Ημερομηνία έκδοσης πράξης:</label
-                    >
+                    <label for="legalActDate" class="form-label">Ημερομηνία έκδοσης πράξης:</label>
                     <input
                         type="date"
                         class="form-control"
@@ -66,49 +54,21 @@
                     />
                 </div>
             </div>
-            <ngb-alert
-                *ngIf="moreThan30"
-                type="info"
-                [dismissible]="false"
-                class="mt-2"
-            >
-                Προσοχή: Οι ημερομηνίες έκδοσης της πράξης και του ΦΕΚ διαφέρουν
-                περισσότερο από 30 ημέρες.
+            <ngb-alert *ngIf="moreThan30" type="info" [dismissible]="false" class="mt-2">
+                Προσοχή: Οι ημερομηνίες έκδοσης της πράξης και του ΦΕΚ διαφέρουν περισσότερο από 30 ημέρες.
             </ngb-alert>
         </div>
 
         <div class="mb-3" formGroupName="fek">
             <label class="form-label">ΦΕΚ:</label>
-            <div
-                class="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center"
-            >
-                <input
-                    type="text"
-                    class="form-control"
-                    formControlName="number"
-                    placeholder="Αριθμός"
-                />
-                <input
-                    type="text"
-                    class="form-control"
-                    formControlName="issue"
-                    placeholder="Τεύχος"
-                />
-                <input
-                    type="date"
-                    class="form-control"
-                    formControlName="date"
-                    placeholder="Ημερομηνία"
-                />
+            <div class="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-center">
+                <input type="text" class="form-control" formControlName="number" placeholder="Αριθμός" />
+                <input type="text" class="form-control" formControlName="issue" placeholder="Τεύχος" />
+                <input type="date" class="form-control" formControlName="date" placeholder="Ημερομηνία" />
             </div>
-            <ngb-alert
-                *ngIf="checkFEK()"
-                type="info"
-                [dismissible]="false"
-                class="mt-2"
-            >
-                Αν δεν συμπληρωθούν και τα τρία πεδία του ΦΕΚ, θα καταχωρηθεί
-                στον αριθμό η ένδειξη "Μη δημοσιευτέα πράξη"
+            <ngb-alert *ngIf="checkFEK()" type="info" [dismissible]="false" class="mt-2">
+                Αν δεν συμπληρωθούν και τα τρία πεδία του ΦΕΚ, θα καταχωρηθεί στον αριθμό η ένδειξη "Μη δημοσιευτέα
+                πράξη"
             </ngb-alert>
         </div>
 
@@ -121,14 +81,8 @@
                 formControlName="ada"
                 placeholder="Εισάγετε ΑΔΑ"
             />
-            <ngb-alert
-                *ngIf="checkADA()"
-                type="info"
-                [dismissible]="false"
-                class="mt-2"
-            >
-                Αν δεν συμπληρώσετε το ΑΔΑ, θα καταχωρηθεί η ένδειξη "Μη
-                αναρτητέα πράξη"
+            <ngb-alert *ngIf="checkADA()" type="info" [dismissible]="false" class="mt-2">
+                Αν δεν συμπληρώσετε το ΑΔΑ, θα καταχωρηθεί η ένδειξη "Μη αναρτητέα πράξη"
             </ngb-alert>
         </div>
 
@@ -136,7 +90,7 @@
             <label class="form-label">Αρχείο PDF (16MB maximum):</label>
             <input
                 class="form-control"
-                [class.is-invalid]="form.controls.fileUpload.invalid"
+                [class.is-invalid]="form.controls.fileUpload.touched && form.controls.fileUpload.invalid"
                 type="file"
                 (change)="selectFile($event)"
             />
@@ -156,13 +110,6 @@
             }
         </div>
 
-        <button
-            type="button"
-            class="btn btn-primary"
-            type="submit"
-            [disabled]="form.invalid"
-        >
-            Υποβολή
-        </button>
+        <button type="button" class="btn btn-primary" type="submit" [disabled]="form.invalid">Υποβολή</button>
     </form>
 </div>

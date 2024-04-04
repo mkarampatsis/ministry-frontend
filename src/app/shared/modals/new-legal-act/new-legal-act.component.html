@@ -103,7 +103,7 @@
                     <label class="form-label">Αρχείο PDF (16MB maximum):</label>
                     <input
                         class="form-control"
-                        [class.is-invalid]="form.controls.fileUpload.invalid"
+                        [class.is-invalid]="form.controls.fileUpload.touched && form.controls.fileUpload.invalid"
                         type="file"
                         (change)="selectFile($event)"
                     />
