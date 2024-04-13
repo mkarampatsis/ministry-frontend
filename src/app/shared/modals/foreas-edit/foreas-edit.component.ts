@@ -1,17 +1,6 @@
-import {
-    Component,
-    OnInit,
-    TemplateRef,
-    ViewChild,
-    inject,
-} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-    FormControl,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 import { IOrganization } from 'src/app/shared/interfaces/organization';
 import { ConstService } from 'src/app/shared/services/const.service';
