@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { ICofog } from '../interfaces/cofog/cofog.interface';
+import { ICofog } from 'src/app/shared/interfaces/cofog/cofog.interface';
 
 const APIPREFIX = `${environment.apiUrl}/cofog`;
 

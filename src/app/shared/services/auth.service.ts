@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { IUser, IAuthResponse } from 'src/app/shared/interfaces/auth';
+import { take } from 'rxjs';
+
+const APIPREFIX = `${environment.apiUrl}/log`;
 
 @Injectable({
     providedIn: 'root',
@@ -21,19 +24,13 @@ export class AuthService {
                 if (user) {
                     const { idToken } = user;
                     this.http
-                        .post<IAuthResponse>(
-                            `${environment.apiUrl}/auth/google-auth`,
-                            {
-                                idToken,
-                            },
-                        )
+                        .post<IAuthResponse>(`${environment.apiUrl}/auth/google-auth`, {
+                            idToken,
+                        })
                         .subscribe({
                             next: (res: IAuthResponse) => {
                                 this.user.set(res.user);
-                                localStorage.setItem(
-                                    'accessToken',
-                                    res.accessToken,
-                                );
+                                localStorage.setItem('accessToken', res.accessToken);
                                 this.router.navigate(['psped']);
                             },
                             error: (err) => {
@@ -50,6 +47,7 @@ export class AuthService {
 
     signOut() {
         this.socialAuthService.signOut();
+        this.http.post(`${APIPREFIX}/logout`, this.userInfo()).pipe(take(1)).subscribe();
         this.user.set(null);
         localStorage.removeItem('accessToken');
         this.router.navigate(['/login']);
@@ -59,17 +57,19 @@ export class AuthService {
         // Flatten the users roles array with respect to foreis and monades
         const roles = this.user()
             .roles.filter((type) => {
-                return (
-                    type.role === 'EDITOR' ||
-                    type.role === 'ADMIN' ||
-                    type.role === 'ROOT'
-                );
+                return type.role === 'EDITOR' || type.role === 'ADMIN' || type.role === 'ROOT';
             })
             .filter((role) => {
-                return (
-                    role.foreas.includes(code) || role.monades.includes(code)
-                );
+                return role.foreas.includes(code) || role.monades.includes(code);
             });
         return roles.length > 0;
+    }
+
+    userInfo() {
+        const email = this.user().email;
+        return {
+            user_id: email,
+            email,
+        };
     }
 }
