@@ -40,6 +40,9 @@
                             aria-label="Default select example"
                             id="legalActType"
                             formControlName="legalActType"
+                            [class.is-invalid]="
+                                form.controls.legalActType.touched && form.controls.legalActType.invalid
+                            "
                         >
                             <option value="" disabled selected>Επιλέξτε Τύπο Πράξης</option>
                             @for (actType of actTypes; track $index) {

@@ -12,7 +12,7 @@ import { Subscription, take } from 'rxjs';
 @Component({
     selector: 'app-new-remit',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [ReactiveFormsModule],
     templateUrl: './new-remit.component.html',
     styleUrl: './new-remit.component.css',
 })
