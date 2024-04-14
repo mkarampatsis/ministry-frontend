@@ -15,4 +15,8 @@ export class LegalActService {
     newLegalAct(data: ILegalAct): Observable<ILegalAct> {
         return this.http.post<ILegalAct>(APIPREFIX, data);
     }
+
+    getAllLegalActs(): Observable<ILegalAct[]> {
+        return this.http.get<ILegalAct[]>(APIPREFIX);
+    }
 }

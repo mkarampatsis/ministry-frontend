@@ -10,7 +10,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'app-foreis-action-icons',
     standalone: true,
-    imports: [CommonModule, MatIconModule, NgbTooltipModule],
+    imports: [MatIconModule, NgbTooltipModule],
     templateUrl: './foreis-action-icons.component.html',
     styleUrl: './foreis-action-icons.component.css',
     host: { class: 'd-block z-3' },

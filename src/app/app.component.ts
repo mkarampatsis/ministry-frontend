@@ -21,7 +21,7 @@ export class AppComponent {
     @HostListener('window:beforeunload', ['$event'])
     beforeUnloadHander(event: any) {
         if (this.authService.user()) {
-            event.preventDefault();
+            // event.preventDefault();
             this.authService.signOut();
         }
         return true;

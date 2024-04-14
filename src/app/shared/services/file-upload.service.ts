@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -28,7 +28,12 @@ export class FileUploadService {
         return this.http.get(`${APIPREFIX}/upload/getfiles`);
     }
 
-    renameFileName(uuid: string, file_name: string): Observable<any> {
-        return this.http.patch(`${APIPREFIX}/${uuid}`, { file_name });
+    // renameFileName(uuid: string, file_name: string): Observable<any> {
+    //     return this.http.patch(`${APIPREFIX}/${uuid}`, { file_name });
+    // }
+
+    getUploadByID(id: string): Observable<Blob> {
+        const headers = new HttpHeaders().set('Accept', 'application/pdf');
+        return this.http.get(`${APIPREFIX}/upload/${id}`, { headers, responseType: 'blob' });
     }
 }

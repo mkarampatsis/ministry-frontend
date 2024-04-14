@@ -11,6 +11,9 @@ import {
     NewRemitComponent,
     NewLegalProvisionComponent,
 } from 'src/app/shared/modals';
+import { SelectLegalActionComponent } from '../components/select-legal-action/select-legal-action.component';
+import { SelectLegalActionModalComponent } from '../modals/select-legal-action-modal/select-legal-action-modal.component';
+import { Observable, take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -109,5 +112,14 @@ export class ModalService {
         modalRef.componentInstance.organization = organization;
         modalRef.componentInstance.organizationUnit = organizationUnit;
         modalRef.componentInstance.remit = remit;
+    }
+
+    selectLegalAct() {
+        const modalRef = this.modalService.open(SelectLegalActionModalComponent, {
+            size: 'xl',
+            centered: true,
+        });
+        modalRef.componentInstance.modalRef = modalRef;
+        return modalRef.dismissed.pipe(take(1)) as Observable<string>;
     }
 }

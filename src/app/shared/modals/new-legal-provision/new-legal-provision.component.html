@@ -1,6 +1,9 @@
 <div class="d-flex justify-content-between m-3">
     <span class="h5">Εισαγωγή Νέας Διάταξης</span>
-    <button type="button" class="btn-close" (click)="modalRef.dismiss()"></button>
+    <button
+        type="button"
+        class="btn-close"
+        (click)="modalRef.dismiss()"></button>
 </div>
 
 <div class="modal-body">
@@ -54,8 +57,17 @@
                     ></textarea>
                 </div> -->
                 <div class="mb-3 d-flex gap-2">
-                    <button type="button" class="btn btn-primary">Επιλογή Νομικής Πράξης</button>
-                    <button type="button" class="btn btn-primary" [disabled]="!canAddLegalAct" (click)="addLegalAct()">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="selectLegalAct()">
+                        Επιλογή Νομικής Πράξης
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        [disabled]="!canAddLegalAct"
+                        (click)="addLegalAct()">
                         Νέα Νομική Πράξη
                     </button>
                 </div>

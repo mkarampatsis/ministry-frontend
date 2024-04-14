@@ -8,7 +8,7 @@ import { take } from 'rxjs';
 import { IForeas } from 'src/app/shared/interfaces/foreas/foreas.interface';
 import { ForeasService } from 'src/app/shared/services/foreas.service';
 import { Toast, ToastService } from 'src/app/shared/services/toast.service';
-import { ToastMessageComponent } from '../../components/toast-message/toast-message.component';
+import { ToastMessageComponent } from 'src/app/shared/components/toast-message/toast-message.component';
 
 @Component({
     selector: 'app-foreas-edit',

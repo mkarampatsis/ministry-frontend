@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { map, take } from 'rxjs';
@@ -11,18 +11,20 @@ import { ConstService } from 'src/app/shared/services/const.service';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
 
 @Component({
-    selector: 'app-nomikes-praxeis',
+    selector: 'app-select-legal-action',
     standalone: true,
     imports: [AgGridAngular, GridLoadingOverlayComponent],
-    templateUrl: './nomikes-praxeis.component.html',
-    styleUrl: './nomikes-praxeis.component.css',
+    templateUrl: './select-legal-action.component.html',
+    styleUrl: './select-legal-action.component.css',
 })
-export class NomikesPraxeisComponent {
+export class SelectLegalActionComponent {
+    @Output() selectedLegalAct = new EventEmitter<string>();
     constService = inject(ConstService);
     legalActService = inject(LegalActService);
     legalActs: ILegalAct[] = [];
 
     defaultColDef = this.constService.defaultColDef;
+    rowSelection: 'single' | 'multiple' = 'single';
 
     colDefs: ColDef[] = [
         { field: 'legalActType', headerName: 'Τύπος', flex: 1 },
@@ -42,6 +44,8 @@ export class NomikesPraxeisComponent {
             resizable: false,
         },
     ];
+
+    currentLegalAct: ILegalAct;
 
     autoSizeStrategy = this.constService.autoSizeStrategy;
 
@@ -70,5 +74,15 @@ export class NomikesPraxeisComponent {
                 this.legalActs = data;
                 this.gridApi.hideOverlay();
             });
+    }
+
+    onSelectionChanged(): void {
+        const selectedRows = this.gridApi.getSelectedRows();
+        this.currentLegalAct = selectedRows[0];
+        console.log(selectedRows);
+    }
+
+    onSelectedLegalAct(): void {
+        this.selectedLegalAct.emit(this.currentLegalAct.legalActKey);
     }
 }

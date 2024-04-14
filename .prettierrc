@@ -6,5 +6,8 @@
                 "parser": "angular"
             }
         }
-    ]
+    ],
+    "bracketSameLine": true,
+    "htmlWhitespaceSensitivity": "ignore",
+    "singleAttributePerLine": true
 }
