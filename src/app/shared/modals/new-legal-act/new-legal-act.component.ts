@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,6 +11,8 @@ import { IOrganizationUnit } from 'src/app/shared/interfaces/organization-unit';
 import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
 import { ILegalAct } from 'src/app/shared/interfaces/nomiki-praji/legal-act.interface';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
+import { Toast, ToastService } from 'src/app/shared/services/toast.service';
+import { ToastMessageComponent } from 'src/app/shared/components/toast-message/toast-message.component';
 
 function dateDifference(date1: Date, date2: Date): number {
     const diffTime = Math.abs(date1.getTime() - date2.getTime());
@@ -30,9 +32,13 @@ export class NewLegalActComponent implements OnInit {
     remit: { remitType: string; cofog1: string; cofog2: string; cofog3: string };
     // Some useful services
     constService = inject(ConstService);
+    toastService = inject(ToastService);
     uploadService = inject(FileUploadService);
     organizationUnitService = inject(OrganizationUnitService);
     legalActService = inject(LegalActService);
+
+    @ViewChild('successTpl') successTpl: TemplateRef<any>;
+    nomikiPraxiString = '';
 
     modalRef: any;
 
@@ -124,22 +130,26 @@ export class NewLegalActComponent implements OnInit {
 
     onSubmit() {
         const ada = this.form.get('ada').value ? this.form.get('ada').value : 'ΜΗ ΑΝΑΡΤΗΤΕΑ ΠΡΑΞΗ';
-        console.log('ADA', ada);
+
         const fek =
             this.form.get('fek.number').value === '' ||
             this.form.get('fek.issue').value === '' ||
             this.form.get('fek.date').value === ''
                 ? { number: 'ΜΗ ΔΗΜΟΣΙΕΥΤΕΑ ΠΡΑΞΗ', issue: '', date: '' }
                 : this.form.get('fek').value;
-        console.log('FEK', fek);
+
         const data = {
             ...this.form.value,
             ada,
             fek,
         } as ILegalAct;
-        console.log('DATA', data);
+
+        this.nomikiPraxiString = `${this.form.get('legalActType').value === 'ΑΛΛΟ' ? this.form.get('legalActTypeOther').value : this.form.get('legalActType').value}`;
+
         this.legalActService.newLegalAct(data).subscribe((data) => {
             console.log('Data', data);
+            this.modalRef.dismiss();
+            this.showSuccess(this.successTpl);
         });
     }
 
@@ -183,5 +193,16 @@ export class NewLegalActComponent implements OnInit {
 
     getOrganizationPrefferedLabelByCode(code: string): string | undefined {
         return this.constService.ORGANIZATION_CODES.find((x) => x.code === code)?.preferredLabel;
+    }
+
+    showSuccess(template: TemplateRef<any>) {
+        const toast: Toast = {
+            component: ToastMessageComponent,
+            inputs: {
+                message: `Επιτυχής εισαγωγή νέας Νομικής Πράξης <strong>${this.nomikiPraxiString}</strong>.`,
+            },
+            classname: 'bg-success text-light',
+        };
+        this.toastService.show(toast);
     }
 }
