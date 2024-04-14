@@ -118,27 +118,10 @@
                 }
 
                 <div class="mb-3 d-flex gap-2">
-                    <button type="button" class="btn btn-primary">Επιλογή Διατάξεων</button>
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        [disabled]="!canAddLegalProvision"
-                        (click)="addLegalProvision()"
-                    >
-                        Νέα Διάταξη
+                    <button type="button" class="btn btn-primary" (click)="addLegalProvision()">
+                        Εισαγωγή Διάταξης
                     </button>
                 </div>
-
-                <!-- <div class="mb-3">
-                    <label for="legalProvisionNumber" class="form-label">Αριθμός Διάταξης:</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="legalProvisionNumber"
-                        formControlName="legalProvisionsCodes"
-                        placeholder="Εισάγετε αριθμό διάταξης"
-                    />
-                </div> -->
 
                 <button type="button" class="btn btn-primary" type="submit" [disabled]="!form.valid">Υποβολή</button>
             </form>

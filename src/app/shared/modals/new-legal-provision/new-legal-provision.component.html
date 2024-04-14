@@ -29,7 +29,7 @@
         </div>
         <div class="card-body">
             <form [formGroup]="form">
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="legalProvisionNumber" class="form-label">Αριθμός Διάταξης:</label>
                     <input
                         ngbAutoFocus
@@ -52,7 +52,7 @@
                         id="legalProvisionText"
                         formControlName="legalProvisionText"
                     ></textarea>
-                </div>
+                </div> -->
                 <div class="mb-3 d-flex gap-2">
                     <button type="button" class="btn btn-primary">Επιλογή Νομικής Πράξης</button>
                     <button type="button" class="btn btn-primary" [disabled]="!canAddLegalAct" (click)="addLegalAct()">

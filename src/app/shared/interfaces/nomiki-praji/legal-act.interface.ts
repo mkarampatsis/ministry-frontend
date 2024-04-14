@@ -3,9 +3,9 @@ import { IFek } from './fek.interface';
 export interface ILegalAct {
     ada: string;
     fek: IFek;
-    fileUpload: string;
-    legalActDate: Date;
+    legalActFile: string;
     legalActNumber: string;
-    legalActTypeOther: string;
     legalActType: string;
+    legalActTypeOther: string;
+    legalActYear: string;
 }

@@ -27,4 +27,8 @@ export class FileUploadService {
     getFiles(): Observable<any> {
         return this.http.get(`${APIPREFIX}/upload/getfiles`);
     }
+
+    renameFileName(uuid: string, file_name: string): Observable<any> {
+        return this.http.patch(`${APIPREFIX}/${uuid}`, { file_name });
+    }
 }

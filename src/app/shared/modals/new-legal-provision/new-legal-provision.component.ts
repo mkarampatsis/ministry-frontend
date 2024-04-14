@@ -29,8 +29,14 @@ export class NewLegalProvisionComponent implements OnInit {
     canAddLegalAct = true;
 
     form = new FormGroup({
-        legalProvisionNumber: new FormControl('', Validators.required),
-        legalProvisionText: new FormControl('', Validators.required),
+        legalProvisionCode: new FormGroup({
+            meros: new FormControl('', Validators.required),
+            arthro: new FormControl('', Validators.required),
+            paragrafos: new FormControl('', Validators.required),
+            edafio: new FormControl('', Validators.required),
+            pararthma: new FormControl('', Validators.required),
+        }),
+        legalAct: new FormControl('', Validators.required),
     });
 
     ngOnInit(): void {
