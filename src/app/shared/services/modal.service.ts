@@ -98,20 +98,13 @@ export class ModalService {
         modalRef.componentInstance.remit = remit;
     }
 
-    newLegalAct(
-        organization: { preferredLabel: string; code: string },
-        organizationUnit: { preferredLabel: string; code: string },
-        remit: { remitType: string; cofog1: string; cofog2: string; cofog3: string },
-    ) {
+    newLegalAct() {
         const modalRef = this.modalService.open(NewLegalActComponent, {
             size: 'xl',
             centered: true,
         });
         modalRef.componentInstance.modalRef = modalRef;
-        // modalRef.componentInstance.monada_id = monada_id;
-        modalRef.componentInstance.organization = organization;
-        modalRef.componentInstance.organizationUnit = organizationUnit;
-        modalRef.componentInstance.remit = remit;
+        return modalRef.dismissed.pipe(take(1)) as Observable<boolean>;
     }
 
     selectLegalAct() {

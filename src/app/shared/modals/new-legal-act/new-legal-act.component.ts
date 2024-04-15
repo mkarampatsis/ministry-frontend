@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, inject
 import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription, take } from 'rxjs';
 import { IFek } from 'src/app/shared/interfaces/nomiki-praji/fek.interface';
 import { ConstService } from 'src/app/shared/services/const.service';
@@ -21,15 +21,11 @@ function dateDifference(date1: Date, date2: Date): number {
 @Component({
     selector: 'app-new-legal-act',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, NgbAlertModule],
+    imports: [CommonModule, ReactiveFormsModule, NgbAlertModule, NgbTooltipModule],
     templateUrl: './new-legal-act.component.html',
     styleUrl: './new-legal-act.component.css',
 })
 export class NewLegalActComponent implements OnInit {
-    // The following three are injected by the modal service
-    organization: { preferredLabel: string; code: string };
-    organizationUnit: { preferredLabel: string; code: string };
-    remit: { remitType: string; cofog1: string; cofog2: string; cofog3: string };
     // Some useful services
     constService = inject(ConstService);
     toastService = inject(ToastService);
@@ -148,7 +144,7 @@ export class NewLegalActComponent implements OnInit {
 
         this.legalActService.newLegalAct(data).subscribe((data) => {
             console.log('Data', data);
-            this.modalRef.dismiss();
+            this.modalRef.dismiss(true);
             this.showSuccess(this.successTpl);
         });
     }

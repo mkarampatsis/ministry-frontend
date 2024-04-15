@@ -9,6 +9,7 @@ import { ILegalAct } from 'src/app/shared/interfaces/nomiki-praji/legal-act.inte
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
+import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
     selector: 'app-nomikes-praxeis',
@@ -19,6 +20,7 @@ import { LegalActService } from 'src/app/shared/services/legal-act.service';
 })
 export class NomikesPraxeisComponent {
     constService = inject(ConstService);
+    modalService = inject(ModalService);
     legalActService = inject(LegalActService);
     legalActs: ILegalAct[] = [];
 
@@ -70,5 +72,30 @@ export class NomikesPraxeisComponent {
                 this.legalActs = data;
                 this.gridApi.hideOverlay();
             });
+    }
+
+    newLegalAct(): void {
+        this.modalService.newLegalAct().subscribe((data) => {
+            if (data) {
+                this.gridApi.showLoadingOverlay();
+                this.legalActService
+                    .getAllLegalActs()
+                    .pipe(
+                        take(1),
+                        map((data) => {
+                            return data.map((legalAct) => {
+                                return {
+                                    ...legalAct,
+                                };
+                            });
+                        }),
+                    )
+                    .subscribe((data) => {
+                        console.log(data);
+                        this.legalActs = data;
+                        this.gridApi.hideOverlay();
+                    });
+            }
+        });
     }
 }
