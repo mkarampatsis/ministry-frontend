@@ -1,14 +1,5 @@
-@if (currentLegalAct) {
-    <div class="d-flex gap-2 align-items-center mb-2">
-        <button
-            class="btn btn-primary btn-sm"
-            (click)="onSelectedLegalAct()">
-            Επιλογή
-        </button>
-        <span class="small">{{ currentLegalAct?.legalActKey }}</span>
-    </div>
-}
 <div class="govgr-body">
+    <span class="small mb-2">Επιλέξτε με κλίκ κάποια νομική πράξη</span>
     <ag-grid-angular
         [domLayout]="'autoHeight'"
         [rowData]="legalActs"
@@ -22,4 +13,14 @@
         (gridReady)="onGridReady($event)"
         (selectionChanged)="onSelectionChanged()"
         class="ag-theme-balham"></ag-grid-angular>
+    @if (currentLegalAct) {
+        <div class="d-flex gap-2 align-items-center justify-content-end small mt-2">
+            <span class="small">{{ currentLegalAct?.legalActKey }}</span>
+            <button
+                class="btn btn-primary"
+                (click)="onSelectedLegalAct()">
+                Επιλογή
+            </button>
+        </div>
+    }
 </div>

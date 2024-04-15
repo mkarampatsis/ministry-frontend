@@ -27,7 +27,18 @@ export class SelectLegalActionComponent {
     rowSelection: 'single' | 'multiple' = 'single';
 
     colDefs: ColDef[] = [
-        { field: 'legalActType', headerName: 'Τύπος', flex: 1 },
+        {
+            valueGetter: function (params) {
+                if (params.data.legalActType === 'ΑΛΛΟ') {
+                    return params.data.legalActTypeOther;
+                } else {
+                    return params.data.legalActType;
+                }
+            },
+            field: 'legalActType',
+            headerName: 'Τύπος',
+            flex: 1,
+        },
         { field: 'legalActNumber', headerName: 'Αριθμός', flex: 1 },
         { field: 'fek.number', headerName: 'ΦΕΚ (Αριθμός)', flex: 1 },
         { field: 'fek.issue', headerName: 'ΦΕΚ (Τεύχος)', flex: 1 },
