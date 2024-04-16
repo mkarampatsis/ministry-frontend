@@ -31,46 +31,111 @@
             </table>
         </div>
         <div class="card-body">
-            <form [formGroup]="form">
-                <!-- <div class="mb-3">
-                    <label for="legalProvisionNumber" class="form-label">Αριθμός Διάταξης:</label>
-                    <input
-                        ngbAutoFocus
-                        type="text"
-                        class="form-control"
-                        [class.is-invalid]="
-                            form.controls.legalProvisionNumber.touched && form.controls.legalProvisionNumber.invalid
-                        "
-                        id="legalProvisionNumber"
-                        formControlName="legalProvisionNumber"
-                    />
-                </div>
-                <div class="mb-3">
-                    <label for="legalProvisionText" class="form-label">Κείμενο Διάταξης:</label>
-                    <textarea
-                        class="form-control"
-                        [class.is-invalid]="
-                            form.controls.legalProvisionText.touched && form.controls.legalProvisionText.invalid
-                        "
-                        id="legalProvisionText"
-                        formControlName="legalProvisionText"
-                    ></textarea>
-                </div> -->
-                <div class="mb-3 d-flex gap-2">
+            <form
+                [formGroup]="form"
+                class="d-flex flex-column gap-2">
+                @if (selectedLegalAct) {
+                    <div class="mb-3">
+                        <label
+                            for="legalActKey"
+                            class="form-label">
+                            Κωδικός Νομικής Πράξης:
+                        </label>
+                        <div class="d-flex gap-2 align-items-center">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="legalActKey"
+                                formControlName="legalAct"
+                                [value]="selectedLegalAct"
+                                readonly />
+
+                            <button
+                                class="btn btn-primary btn-small"
+                                (click)="selectLegalAct()">
+                                Αλλαγή
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="mb-3 d-flex gap-2 justify-content-between"
+                        formGroupName="legalProvision">
+                        <div>
+                            <label
+                                for="meros"
+                                class="form-label">
+                                Μέρος:
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="meros"
+                                formControlName="meros" />
+                        </div>
+                        <div>
+                            <label
+                                for="arthro"
+                                class="form-label">
+                                Άρθρο:
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="arthro"
+                                formControlName="arthro" />
+                        </div>
+                        <div>
+                            <label
+                                for="paragrafos"
+                                class="form-label">
+                                Παράγραφος:
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="paragrafos"
+                                formControlName="paragrafos" />
+                        </div>
+                        <div>
+                            <label
+                                for="edafio"
+                                class="form-label">
+                                Εδάφιο:
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="edafio"
+                                formControlName="edafio" />
+                        </div>
+                        <div>
+                            <label
+                                for="pararthma"
+                                class="form-label">
+                                Παράρτημα:
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="pararthma"
+                                formControlName="pararthma" />
+                        </div>
+                    </div>
+                } @else {
                     <button
                         type="button"
                         class="btn btn-primary"
                         (click)="selectLegalAct()">
                         Επιλογή Νομικής Πράξης
                     </button>
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        [disabled]="!canAddLegalAct"
-                        (click)="addLegalAct()">
-                        Νέα Νομική Πράξη
-                    </button>
-                </div>
+                }
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    type="submit"
+                    [disabled]="!form.valid">
+                    Υποβολή
+                </button>
             </form>
         </div>
     </div>

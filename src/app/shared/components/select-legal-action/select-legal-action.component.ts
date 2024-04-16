@@ -9,6 +9,7 @@ import { ILegalAct } from 'src/app/shared/interfaces/nomiki-praji/legal-act.inte
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
+import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
     selector: 'app-select-legal-action',
@@ -21,6 +22,7 @@ export class SelectLegalActionComponent {
     @Output() selectedLegalAct = new EventEmitter<string>();
     constService = inject(ConstService);
     legalActService = inject(LegalActService);
+    modalService = inject(ModalService);
     legalActs: ILegalAct[] = [];
 
     defaultColDef = this.constService.defaultColDef;
@@ -95,5 +97,30 @@ export class SelectLegalActionComponent {
 
     onSelectedLegalAct(): void {
         this.selectedLegalAct.emit(this.currentLegalAct.legalActKey);
+    }
+
+    newLegalAct(): void {
+        this.modalService.newLegalAct().subscribe((data) => {
+            if (data) {
+                this.gridApi.showLoadingOverlay();
+                this.legalActService
+                    .getAllLegalActs()
+                    .pipe(
+                        take(1),
+                        map((data) => {
+                            return data.map((legalAct) => {
+                                return {
+                                    ...legalAct,
+                                };
+                            });
+                        }),
+                    )
+                    .subscribe((data) => {
+                        console.log(data);
+                        this.legalActs = data;
+                        this.gridApi.hideOverlay();
+                    });
+            }
+        });
     }
 }
