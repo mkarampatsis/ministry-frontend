@@ -16,7 +16,7 @@
             Έξοδος
         </a>
     </div> -->
-<ul class="navbar-nav">
+<ul class="navbar-nav small">
     <li
         ngbDropdown
         class="nav-item">
@@ -40,16 +40,34 @@
             <a
                 ngbDropdownItem
                 [disabled]="true">
-                {{ user().name }}
+                <div class="d-flex align-items-center gap-3">
+                    <mat-icon class="fw-lighter">person</mat-icon>
+                    {{ user().name }}
+                </div>
             </a>
-            <a ngbDropdownItem>Οι φορείς μου</a>
-            <a ngbDropdownItem>Οι μονάδες μου</a>
-            <a ngbDropdownItem>Οι νομικές μου πράξεις</a>
+            <a ngbDropdownItem>
+                <div class="d-flex align-items-center gap-3">
+                    <mat-icon class="fw-lighter">apartment</mat-icon>
+                    Οι φορείς μου
+                </div>
+            </a>
+            <a ngbDropdownItem>
+                <div class="d-flex align-items-center gap-3">
+                    <mat-icon class="fw-lighter">domain</mat-icon>
+                    Οι μονάδες μου
+                </div>
+            </a>
+            <a ngbDropdownItem>
+                <div class="d-flex align-items-center gap-3">
+                    <mat-icon class="fw-lighter">gavel</mat-icon>
+                    Οι νομικές μου πράξεις
+                </div>
+            </a>
             <a
                 ngbDropdownItem
                 (click)="logout()">
-                <div class="d-flex align-items-center gap-3">
-                    <mat-icon>logout</mat-icon>
+                <div class="d-flex align-items-center gap-3 text-danger">
+                    <mat-icon class="fw-lighter">logout</mat-icon>
                     <span>Έξοδος</span>
                 </div>
             </a>
