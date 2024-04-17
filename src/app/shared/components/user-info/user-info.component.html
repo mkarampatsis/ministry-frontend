@@ -1,16 +1,59 @@
-<div class="d-flex gap-2 align-items-center">
+<!-- <div class="d-flex gap-2 align-items-center">
     @if (!imgSrcError) {
         <img
             class="d-none d-sm-inline"
             [src]="user().photoUrl"
             alt="user photo"
-            (error)="imgSrcError = true"
-        />
+            (error)="imgSrcError = true" />
     } @else {
         <mat-icon>user</mat-icon>
     }
     <div class="d-flex flex-column">
         <span class="fw-bold text-truncate">{{ user().name }}</span>
-        <a class="text-sm" (click)="logout()">Έξοδος</a>
-    </div>
-</div>
+        <a
+            class="text-sm"
+            (click)="logout()">
+            Έξοδος
+        </a>
+    </div> -->
+<ul class="navbar-nav">
+    <li
+        ngbDropdown
+        class="nav-item">
+        <a
+            id="userContextMenu"
+            ngbDropdownToggle>
+            @if (!imgSrcError) {
+                <img
+                    class="d-none d-sm-inline rounded-circle me-2"
+                    [src]="user().photoUrl"
+                    alt="user photo"
+                    (error)="imgSrcError = true" />
+            } @else {
+                <mat-icon>user</mat-icon>
+            }
+        </a>
+        <div
+            ngbDropdownMenu
+            class="dropdown-menu"
+            aria-labelledby="userContextMenu">
+            <a
+                ngbDropdownItem
+                [disabled]="true">
+                {{ user().name }}
+            </a>
+            <a ngbDropdownItem>Οι φορείς μου</a>
+            <a ngbDropdownItem>Οι μονάδες μου</a>
+            <a ngbDropdownItem>Οι νομικές μου πράξεις</a>
+            <a
+                ngbDropdownItem
+                (click)="logout()">
+                <div class="d-flex align-items-center gap-3">
+                    <mat-icon>logout</mat-icon>
+                    <span>Έξοδος</span>
+                </div>
+            </a>
+        </div>
+    </li>
+</ul>
+<!-- </div> -->
