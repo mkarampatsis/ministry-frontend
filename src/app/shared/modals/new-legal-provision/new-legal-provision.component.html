@@ -33,6 +33,7 @@
         <div class="card-body">
             <form
                 [formGroup]="form"
+                (ngSubmit)="onSubmit()"
                 class="d-flex flex-column gap-2">
                 @if (selectedLegalAct) {
                     <div class="mb-3">

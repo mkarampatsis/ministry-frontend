@@ -1,4 +1,4 @@
-export interface ILegalActCode {
+export interface ILegalProvision {
     meros: string;
     arthro: string;
     paragrafos: string;

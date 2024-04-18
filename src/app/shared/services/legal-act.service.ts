@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { ILegalAct } from 'src/app/shared/interfaces/nomiki-praji/legal-act.interface';
 
-const APIPREFIX = `${environment.apiUrl}/legalact`;
+const APIPREFIX = `${environment.apiUrl}/legal_act`;
 
 @Injectable({
     providedIn: 'root',

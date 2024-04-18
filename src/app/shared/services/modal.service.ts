@@ -96,6 +96,7 @@ export class ModalService {
         modalRef.componentInstance.organization = organization;
         modalRef.componentInstance.organizationUnit = organizationUnit;
         modalRef.componentInstance.remit = remit;
+        return modalRef.closed.pipe(take(1)) as Observable<boolean>;
     }
 
     newLegalAct() {

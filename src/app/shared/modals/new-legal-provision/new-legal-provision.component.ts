@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ModalService } from '../../services/modal.service';
-import { ConstService } from '../../services/const.service';
+import { ModalService } from 'src/app/shared/services/modal.service';
+import { ConstService } from 'src/app/shared/services/const.service';
+import { LegalProvisionService } from 'src/app/shared/services/legal-provision.service';
+import { IDiataxi } from '../../interfaces/legal-provision/diataxi.interface';
+import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
 
 @Component({
     selector: 'app-new-legal-provision',
@@ -19,6 +22,7 @@ export class NewLegalProvisionComponent implements OnInit {
     // Some useful services
     modalService = inject(ModalService);
     constService = inject(ConstService);
+    legalProvisionService = inject(LegalProvisionService);
     // Cofog Names will populate onInit
     cofog1: string = '';
     cofog2: string = '';
@@ -64,15 +68,27 @@ export class NewLegalProvisionComponent implements OnInit {
         );
     }
 
-    addLegalAct() {
-        this.modalService.newLegalAct();
-    }
-
     selectLegalAct() {
         this.modalService.selectLegalAct().subscribe((data) => {
             console.log(data);
             this.selectedLegalAct = data;
             this.form.get('legalAct').setValue(data);
+        });
+    }
+
+    onSubmit() {
+        console.log(this.form.value);
+        const legalProvision = this.form.get('legalProvision').value as ILegalProvision;
+        const regulatedObject = {
+            foreas: this.organization.code,
+            monada: this.organizationUnit.code,
+        };
+        const legalAct = this.form.get('legalAct').value;
+        const diataxi = { legalProvision, legalAct, regulatedObject } as IDiataxi;
+        this.legalProvisionService.newLegalProvision(diataxi).subscribe((data) => {
+            const { msg, index } = data;
+            console.log(msg);
+            this.modalRef.close(index);
         });
     }
 }

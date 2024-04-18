@@ -98,11 +98,15 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     }
 
     addLegalProvision() {
-        this.modalService.newLegalProvision(this.organization, this.organizationUnit, {
-            remitType: this.form.get('remitType').value,
-            cofog1: this.form.get('cofog1').value,
-            cofog2: this.form.get('cofog2').value,
-            cofog3: this.form.get('cofog3').value,
-        });
+        this.modalService
+            .newLegalProvision(this.organization, this.organizationUnit, {
+                remitType: this.form.get('remitType').value,
+                cofog1: this.form.get('cofog1').value,
+                cofog2: this.form.get('cofog2').value,
+                cofog3: this.form.get('cofog3').value,
+            })
+            .subscribe((data) => {
+                console.log('RRRRRRRRRRRREMIT', data);
+            });
     }
 }
