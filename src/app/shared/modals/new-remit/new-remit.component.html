@@ -45,127 +45,229 @@
                     }
                 </div>
 
-                <div class="mb-3">
-                    <label
-                        for="remitType"
-                        class="form-label">
-                        Τύπος Αρμοδιότητας:
-                    </label>
-                    <select
-                        class="form-select"
-                        [class.is-invalid]="form.controls.remitType.touched && form.controls.remitType.invalid"
-                        aria-label="Default select example"
-                        id="remitType"
-                        formControlName="remitType">
-                        <option
-                            value=""
-                            disabled
-                            selected>
-                            Επιλέξτε Τύπο Αρμοδιότητας
-                        </option>
-                        @for (remitType of remitTypes; track $index) {
-                            <option [ngValue]="remitType">{{ remitType }}</option>
+                <div class="mb-3 d-flex gap-3">
+                    <div class="w-50">
+                        <label
+                            for="remitType"
+                            class="form-label">
+                            Τύπος Αρμοδιότητας:
+                        </label>
+                        <select
+                            class="form-select"
+                            [class.is-invalid]="form.controls.remitType.touched && form.controls.remitType.invalid"
+                            aria-label="Default select example"
+                            id="remitType"
+                            formControlName="remitType">
+                            <option
+                                value=""
+                                disabled
+                                selected>
+                                Επιλέξτε Τύπο Αρμοδιότητας
+                            </option>
+                            @for (remitType of remitTypes; track $index) {
+                                <option [ngValue]="remitType">{{ remitType }}</option>
+                            }
+                        </select>
+                        @if (form.controls.remitType.touched && form.controls.remitType.invalid) {
+                            <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
                         }
-                    </select>
-                    @if (form.controls.remitType.touched && form.controls.remitType.invalid) {
-                        <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
-                    }
-                </div>
-
-                <div class="mb-3">
-                    <label
-                        for="cofog1"
-                        class="form-label">
-                        Λειτουργική Περιοχή COFOG:
-                    </label>
-                    <select
-                        class="form-select"
-                        [class.is-invalid]="form.controls.cofog1.touched && form.controls.cofog1.invalid"
-                        aria-label="Default select example"
-                        id="cofog1"
-                        formControlName="cofog1">
-                        <option
-                            value=""
-                            disabled
-                            selected>
-                            Επιλέξτε Λειτουργική Περιοχή COFOG
-                        </option>
-                        @for (cofog of cofog1; track $index) {
-                            <option [ngValue]="cofog.code">{{ cofog.name }}</option>
+                    </div>
+                    <div class="w-50">
+                        <label
+                            for="cofog1"
+                            class="form-label">
+                            Λειτουργική Περιοχή COFOG:
+                        </label>
+                        <select
+                            class="form-select"
+                            [class.is-invalid]="form.controls.cofog1.touched && form.controls.cofog1.invalid"
+                            aria-label="Default select example"
+                            id="cofog1"
+                            formControlName="cofog1">
+                            <option
+                                value=""
+                                disabled
+                                selected>
+                                Επιλέξτε Λειτουργική Περιοχή COFOG
+                            </option>
+                            @for (cofog of cofog1; track $index) {
+                                <option [ngValue]="cofog.code">{{ cofog.name }}</option>
+                            }
+                        </select>
+                        @if (form.controls.cofog1.touched && form.controls.cofog1.invalid) {
+                            <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
                         }
-                    </select>
-                    @if (form.controls.cofog1.touched && form.controls.cofog1.invalid) {
-                        <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
-                    }
+                    </div>
                 </div>
 
                 @if (cofog1_selected) {
-                    <div class="mb-3">
-                        <label
-                            for="cofog2"
-                            class="form-label">
-                            Λειτουργικός Τομέας COFOG:
-                        </label>
-                        <select
-                            class="form-select"
-                            [class.is-invalid]="form.controls.cofog2.touched && form.controls.cofog2.invalid"
-                            aria-label="Default select example"
-                            id="cofog2"
-                            formControlName="cofog2">
-                            <option
-                                value=""
-                                disabled
-                                selected>
-                                Επιλέξτε Λειτουργικό Τομέα COFOG
-                            </option>
-                            @for (cofog of cofog2; track $index) {
-                                <option [ngValue]="cofog.code">{{ cofog.name }}</option>
+                    <div class="mb-3 d-flex gap-3">
+                        <div class="w-50">
+                            <label
+                                for="cofog2"
+                                class="form-label">
+                                Λειτουργικός Τομέας COFOG:
+                            </label>
+                            <select
+                                class="form-select"
+                                [class.is-invalid]="form.controls.cofog2.touched && form.controls.cofog2.invalid"
+                                aria-label="Default select example"
+                                id="cofog2"
+                                formControlName="cofog2">
+                                <option
+                                    value=""
+                                    disabled
+                                    selected>
+                                    Επιλέξτε Λειτουργικό Τομέα COFOG
+                                </option>
+                                @for (cofog of cofog2; track $index) {
+                                    <option [ngValue]="cofog.code">{{ cofog.name }}</option>
+                                }
+                            </select>
+                            @if (form.controls.cofog2.touched && form.controls.cofog2.invalid) {
+                                <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
                             }
-                        </select>
-                        @if (form.controls.cofog2.touched && form.controls.cofog2.invalid) {
-                            <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
+                        </div>
+                        @if (cofog2_selected) {
+                            <div class="w-50">
+                                <label
+                                    for="cofog3"
+                                    class="form-label">
+                                    Θεματική Περιοχή COFOG:
+                                </label>
+                                <select
+                                    class="form-select"
+                                    [class.is-invalid]="form.controls.cofog3.touched && form.controls.cofog3.invalid"
+                                    aria-label="Default select example"
+                                    id="cofog3"
+                                    formControlName="cofog3">
+                                    <option
+                                        value=""
+                                        disabled
+                                        selected>
+                                        Επιλέξτε Θεματική Περιοχή COFOG
+                                    </option>
+                                    @for (cofog of cofog3; track $index) {
+                                        <option [ngValue]="cofog.code">{{ cofog.name }}</option>
+                                    }
+                                </select>
+                                @if (form.controls.cofog3.touched && form.controls.cofog3.invalid) {
+                                    <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
+                                }
+                            </div>
                         }
                     </div>
                 }
 
-                @if (cofog2_selected) {
-                    <div class="mb-3">
-                        <label
-                            for="cofog3"
-                            class="form-label">
-                            Θεματική Περιοχή COFOG:
-                        </label>
-                        <select
-                            class="form-select"
-                            [class.is-invalid]="form.controls.cofog3.touched && form.controls.cofog3.invalid"
-                            aria-label="Default select example"
-                            id="cofog3"
-                            formControlName="cofog3">
-                            <option
-                                value=""
-                                disabled
-                                selected>
-                                Επιλέξτε Θεματική Περιοχή COFOG
-                            </option>
-                            @for (cofog of cofog3; track $index) {
-                                <option [ngValue]="cofog.code">{{ cofog.name }}</option>
-                            }
-                        </select>
-                        @if (form.controls.cofog3.touched && form.controls.cofog3.invalid) {
-                            <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
-                        }
+                @if (!legalProvision || !legalAct) {
+                    <div class="mb-3 d-flex gap-2">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            (click)="addLegalProvision()"
+                            [disabled]="!canAddLegalProvision">
+                            Εισαγωγή Διάταξης
+                        </button>
+                    </div>
+                } @else {
+                    <div class="d-flex gap-3">
+                        <div class="mb-3 d-flex flex-column flex-grow-1 gap-2">
+                            <div>
+                                <label
+                                    for="legalAct"
+                                    class="form-label">
+                                    Νομική Πράξη:
+                                </label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="legalAct"
+                                    [value]="legalAct"
+                                    formControlName="legalAct"
+                                    readonly />
+                            </div>
+                            <div
+                                class="d-flex gap-2 justify-content-between"
+                                formGroupName="legalProvision">
+                                <div>
+                                    <label
+                                        for="meros"
+                                        class="form-label">
+                                        Μέρος:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="meros"
+                                        formControlName="meros"
+                                        [value]="legalProvision.meros"
+                                        readonly />
+                                </div>
+                                <div>
+                                    <label
+                                        for="arthro"
+                                        class="form-label">
+                                        Άρθρο:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="arthro"
+                                        formControlName="arthro"
+                                        [value]="legalProvision.arthro"
+                                        readonly />
+                                </div>
+                                <div>
+                                    <label
+                                        for="paragrafos"
+                                        class="form-label">
+                                        Παράγραφος:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="paragrafos"
+                                        formControlName="paragrafos"
+                                        [value]="legalProvision.paragrafos"
+                                        readonly />
+                                </div>
+                                <div>
+                                    <label
+                                        for="edafio"
+                                        class="form-label">
+                                        Εδάφιο:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="edafio"
+                                        formControlName="edafio"
+                                        [value]="legalProvision.edafio"
+                                        readonly />
+                                </div>
+                                <div>
+                                    <label
+                                        for="pararthma"
+                                        class="form-label">
+                                        Παράρτημα:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="pararthma"
+                                        formControlName="pararthma"
+                                        [value]="legalProvision.pararthma"
+                                        readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="btn btn-primary btn-small"
+                            (click)="addLegalProvision()">
+                            Αλλαγή
+                        </button>
                     </div>
                 }
-
-                <div class="mb-3 d-flex gap-2">
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        (click)="addLegalProvision()"
-                        [disabled]="!canAddLegalProvision">
-                        Εισαγωγή Διάταξης
-                    </button>
-                </div>
 
                 <button
                     type="button"

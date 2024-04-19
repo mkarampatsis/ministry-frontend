@@ -123,20 +123,24 @@
                         </div>
                     </div>
                 } @else {
+                    <div class="d-flex">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            (click)="selectLegalAct()">
+                            Επιλογή Νομικής Πράξης
+                        </button>
+                    </div>
+                }
+                <div class="d-flex">
                     <button
                         type="button"
                         class="btn btn-primary"
-                        (click)="selectLegalAct()">
-                        Επιλογή Νομικής Πράξης
+                        type="submit"
+                        [disabled]="!form.valid">
+                        Υποβολή
                     </button>
-                }
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    type="submit"
-                    [disabled]="!form.valid">
-                    Υποβολή
-                </button>
+                </div>
             </form>
         </div>
     </div>

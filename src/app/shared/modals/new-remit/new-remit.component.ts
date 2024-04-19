@@ -8,6 +8,8 @@ import { ModalService } from 'src/app/shared/services/modal.service';
 import { ICofog2 } from 'src/app/shared/interfaces/cofog/cofog2.interface';
 import { ICofog3 } from 'src/app/shared/interfaces/cofog/cofog3.interface';
 import { Subscription, take } from 'rxjs';
+import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
+import { ILegalAct } from '../../interfaces/nomiki-praji/legal-act.interface';
 
 @Component({
     selector: 'app-new-remit',
@@ -26,6 +28,9 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     modalService = inject(ModalService);
     // Populate organization OnInit
     organization: { preferredLabel: string; code: string };
+
+    legalProvision: ILegalProvision;
+    legalAct: string;
 
     remitTypes = this.constService.REMIT_TYPES;
     cofog1 = this.constService.COFOG;
@@ -49,8 +54,15 @@ export class NewRemitComponent implements OnInit, OnDestroy {
         cofog1: new FormControl('', Validators.required),
         cofog2: new FormControl('', Validators.required),
         cofog3: new FormControl('', Validators.required),
-        status: new FormControl('', Validators.required),
-        legalProvisionsCodes: new FormControl('', Validators.required),
+
+        legalAct: new FormControl({ value: '', disabled: true }, Validators.required),
+        legalProvision: new FormGroup({
+            meros: new FormControl({ value: '', disabled: true }),
+            arthro: new FormControl({ value: '', disabled: true }),
+            paragrafos: new FormControl({ value: '', disabled: true }),
+            edafio: new FormControl({ value: '', disabled: true }),
+            pararthma: new FormControl({ value: '', disabled: true }),
+        }),
     });
     formSubscriptions: Subscription[] = [];
 
@@ -94,6 +106,8 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
+        this.form.get('legalProvision').enable();
+        this.form.get('legalAct').enable();
         console.log(this.form.value);
     }
 
@@ -106,7 +120,11 @@ export class NewRemitComponent implements OnInit, OnDestroy {
                 cofog3: this.form.get('cofog3').value,
             })
             .subscribe((data) => {
-                console.log('RRRRRRRRRRRREMIT', data);
+                this.legalProvision = data.legalProvision;
+                this.legalAct = data.legalAct;
+                this.form.get('legalAct').setValue(this.legalAct);
+                this.form.get('legalProvision').setValue(this.legalProvision);
+                console.log(data);
             });
     }
 }

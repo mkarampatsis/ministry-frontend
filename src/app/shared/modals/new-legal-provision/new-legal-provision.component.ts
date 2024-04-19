@@ -41,7 +41,7 @@ export class NewLegalProvisionComponent implements OnInit {
                 edafio: new FormControl(''),
                 pararthma: new FormControl(''),
             }),
-            legalAct: new FormControl('', Validators.required),
+            legalAct: new FormControl({ value: '', disabled: true }, Validators.required),
         },
         this.checkLegalProvision,
     );

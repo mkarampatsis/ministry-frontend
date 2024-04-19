@@ -14,6 +14,7 @@ import {
 import { SelectLegalActionComponent } from '../components/select-legal-action/select-legal-action.component';
 import { SelectLegalActionModalComponent } from '../modals/select-legal-action-modal/select-legal-action-modal.component';
 import { Observable, take } from 'rxjs';
+import { ILegalProvision } from '../interfaces/legal-provision/legal-provision.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -96,7 +97,11 @@ export class ModalService {
         modalRef.componentInstance.organization = organization;
         modalRef.componentInstance.organizationUnit = organizationUnit;
         modalRef.componentInstance.remit = remit;
-        return modalRef.closed.pipe(take(1)) as Observable<boolean>;
+        return modalRef.closed.pipe(take(1)) as Observable<{
+            legalAct: string;
+            legalProvision: ILegalProvision;
+            regulatedObject: { foreas: string; monada: string };
+        }>;
     }
 
     newLegalAct() {
