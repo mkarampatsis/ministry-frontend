@@ -14,7 +14,7 @@ import {
 import { SelectLegalActionComponent } from '../components/select-legal-action/select-legal-action.component';
 import { SelectLegalActionModalComponent } from '../modals/select-legal-action-modal/select-legal-action-modal.component';
 import { Observable, take } from 'rxjs';
-import { ILegalProvision } from '../interfaces/legal-provision/legal-provision.interface';
+import { ILegalProvisionSpecs } from '../interfaces/legal-provision/legal-provision-specs.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -98,8 +98,8 @@ export class ModalService {
         modalRef.componentInstance.organizationUnit = organizationUnit;
         modalRef.componentInstance.remit = remit;
         return modalRef.closed.pipe(take(1)) as Observable<{
-            legalAct: string;
-            legalProvision: ILegalProvision;
+            legalActKey: string;
+            legalProvisionSpecs: ILegalProvisionSpecs;
             regulatedObject: { foreas: string; monada: string };
         }>;
     }

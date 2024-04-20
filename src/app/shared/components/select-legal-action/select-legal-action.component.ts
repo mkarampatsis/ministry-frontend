@@ -83,7 +83,6 @@ export class SelectLegalActionComponent {
                 }),
             )
             .subscribe((data) => {
-                console.log(data);
                 this.legalActs = data;
                 this.gridApi.hideOverlay();
             });
@@ -92,7 +91,6 @@ export class SelectLegalActionComponent {
     onSelectionChanged(): void {
         const selectedRows = this.gridApi.getSelectedRows();
         this.currentLegalAct = selectedRows[0];
-        console.log(selectedRows);
     }
 
     onSelectedLegalAct(): void {

@@ -1,7 +1,8 @@
+import { ILegalProvisionSpecs } from './legal-provision-specs.interface';
+import { IReguLatedObject } from './regulated-object.interface';
+
 export interface ILegalProvision {
-    meros: string;
-    arthro: string;
-    paragrafos: string;
-    edafio: string;
-    pararthma: string;
+    legalProvisionSpecs: ILegalProvisionSpecs;
+    legalActKey: string;
+    regulatedObject: IReguLatedObject;
 }

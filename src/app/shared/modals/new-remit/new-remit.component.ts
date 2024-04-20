@@ -1,15 +1,12 @@
 import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConstService } from 'src/app/shared/services/const.service';
-import { IOrganizationUnit } from 'src/app/shared/interfaces/organization-unit';
 import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { ICofog2 } from 'src/app/shared/interfaces/cofog/cofog2.interface';
 import { ICofog3 } from 'src/app/shared/interfaces/cofog/cofog3.interface';
 import { Subscription, take } from 'rxjs';
-import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
-import { ILegalAct } from '../../interfaces/nomiki-praji/legal-act.interface';
+import { ILegalProvisionSpecs } from '../../interfaces/legal-provision/legal-provision-specs.interface';
 
 @Component({
     selector: 'app-new-remit',
@@ -29,8 +26,8 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     // Populate organization OnInit
     organization: { preferredLabel: string; code: string };
 
-    legalProvision: ILegalProvision;
-    legalAct: string;
+    legalProvisionSpecs: ILegalProvisionSpecs;
+    legalActKey: string;
 
     remitTypes = this.constService.REMIT_TYPES;
     cofog1 = this.constService.COFOG;
@@ -55,8 +52,8 @@ export class NewRemitComponent implements OnInit, OnDestroy {
         cofog2: new FormControl('', Validators.required),
         cofog3: new FormControl('', Validators.required),
 
-        legalAct: new FormControl({ value: '', disabled: true }, Validators.required),
-        legalProvision: new FormGroup({
+        legalActKey: new FormControl({ value: '', disabled: true }, Validators.required),
+        legalProvisionSpecs: new FormGroup({
             meros: new FormControl({ value: '', disabled: true }),
             arthro: new FormControl({ value: '', disabled: true }),
             paragrafos: new FormControl({ value: '', disabled: true }),
@@ -120,10 +117,10 @@ export class NewRemitComponent implements OnInit, OnDestroy {
                 cofog3: this.form.get('cofog3').value,
             })
             .subscribe((data) => {
-                this.legalProvision = data.legalProvision;
-                this.legalAct = data.legalAct;
-                this.form.get('legalAct').setValue(this.legalAct);
-                this.form.get('legalProvision').setValue(this.legalProvision);
+                this.legalProvisionSpecs = data.legalProvisionSpecs;
+                this.legalActKey = data.legalActKey;
+                this.form.get('legalActKey').setValue(this.legalActKey);
+                this.form.get('legalProvisionSpecs').setValue(this.legalProvisionSpecs);
                 console.log(data);
             });
     }

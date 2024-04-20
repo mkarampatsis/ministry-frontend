@@ -25,9 +25,7 @@
             </table>
         </div>
         <div class="card-body">
-            <form
-                [formGroup]="form"
-                (ngSubmit)="onSubmit()">
+            <form [formGroup]="form">
                 <div class="mb-3">
                     <label
                         for="remitText"
@@ -159,7 +157,7 @@
                     </div>
                 }
 
-                @if (!legalProvision || !legalAct) {
+                @if (!legalProvisionSpecs || !legalActKey) {
                     <div class="mb-3 d-flex gap-2">
                         <button
                             type="button"
@@ -182,13 +180,13 @@
                                     type="text"
                                     class="form-control"
                                     id="legalAct"
-                                    [value]="legalAct"
-                                    formControlName="legalAct"
+                                    [value]="legalActKey"
+                                    formControlName="legalActKey"
                                     readonly />
                             </div>
                             <div
                                 class="d-flex gap-2 justify-content-between"
-                                formGroupName="legalProvision">
+                                formGroupName="legalProvisionSpecs">
                                 <div>
                                     <label
                                         for="meros"
@@ -200,7 +198,7 @@
                                         class="form-control"
                                         id="meros"
                                         formControlName="meros"
-                                        [value]="legalProvision.meros"
+                                        [value]="legalProvisionSpecs.meros"
                                         readonly />
                                 </div>
                                 <div>
@@ -214,7 +212,7 @@
                                         class="form-control"
                                         id="arthro"
                                         formControlName="arthro"
-                                        [value]="legalProvision.arthro"
+                                        [value]="legalProvisionSpecs.arthro"
                                         readonly />
                                 </div>
                                 <div>
@@ -228,7 +226,7 @@
                                         class="form-control"
                                         id="paragrafos"
                                         formControlName="paragrafos"
-                                        [value]="legalProvision.paragrafos"
+                                        [value]="legalProvisionSpecs.paragrafos"
                                         readonly />
                                 </div>
                                 <div>
@@ -242,7 +240,7 @@
                                         class="form-control"
                                         id="edafio"
                                         formControlName="edafio"
-                                        [value]="legalProvision.edafio"
+                                        [value]="legalProvisionSpecs.edafio"
                                         readonly />
                                 </div>
                                 <div>
@@ -256,7 +254,7 @@
                                         class="form-control"
                                         id="pararthma"
                                         formControlName="pararthma"
-                                        [value]="legalProvision.pararthma"
+                                        [value]="legalProvisionSpecs.pararthma"
                                         readonly />
                                 </div>
                             </div>
@@ -272,7 +270,7 @@
                 <button
                     type="button"
                     class="btn btn-primary"
-                    type="submit"
+                    (click)="onSubmit()"
                     [disabled]="!form.valid">
                     Υποβολή
                 </button>

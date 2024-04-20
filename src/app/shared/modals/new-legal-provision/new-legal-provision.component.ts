@@ -4,8 +4,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { LegalProvisionService } from 'src/app/shared/services/legal-provision.service';
-import { IDiataxi } from '../../interfaces/legal-provision/diataxi.interface';
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
+import { ILegalProvisionSpecs } from '../../interfaces/legal-provision/legal-provision-specs.interface';
 
 @Component({
     selector: 'app-new-legal-provision',
@@ -30,29 +30,29 @@ export class NewLegalProvisionComponent implements OnInit {
 
     modalRef: any;
 
-    selectedLegalAct = '';
+    selectedLegalActKey = '';
 
     form = new FormGroup(
         {
-            legalProvision: new FormGroup({
+            legalProvisionSpecs: new FormGroup({
                 meros: new FormControl(''),
                 arthro: new FormControl(''),
                 paragrafos: new FormControl(''),
                 edafio: new FormControl(''),
                 pararthma: new FormControl(''),
             }),
-            legalAct: new FormControl({ value: '', disabled: true }, Validators.required),
+            legalActKey: new FormControl({ value: '', disabled: true }, Validators.required),
         },
         this.checkLegalProvision,
     );
 
     checkLegalProvision(form: FormGroup): { [key: string]: boolean } | null {
         if (
-            form.get('legalProvision').get('meros').value.trim() !== '' ||
-            form.get('legalProvision').get('arthro').value.trim() !== '' ||
-            form.get('legalProvision').get('paragrafos').value.trim() !== '' ||
-            form.get('legalProvision').get('edafio').value.trim() !== '' ||
-            form.get('legalProvision').get('pararthma').value.trim() !== ''
+            form.get('legalProvisionSpecs').get('meros').value.trim() !== '' ||
+            form.get('legalProvisionSpecs').get('arthro').value.trim() !== '' ||
+            form.get('legalProvisionSpecs').get('paragrafos').value.trim() !== '' ||
+            form.get('legalProvisionSpecs').get('edafio').value.trim() !== '' ||
+            form.get('legalProvisionSpecs').get('pararthma').value.trim() !== ''
         ) {
             return null;
         } else {
@@ -71,20 +71,20 @@ export class NewLegalProvisionComponent implements OnInit {
     selectLegalAct() {
         this.modalService.selectLegalAct().subscribe((data) => {
             console.log(data);
-            this.selectedLegalAct = data;
-            this.form.get('legalAct').setValue(data);
+            this.selectedLegalActKey = data;
+            this.form.get('legalActKey').setValue(data);
         });
     }
 
     onSubmit() {
         console.log(this.form.value);
-        const legalProvision = this.form.get('legalProvision').value as ILegalProvision;
+        const legalProvisionSpecs = this.form.get('legalProvisionSpecs').value as ILegalProvisionSpecs;
         const regulatedObject = {
             foreas: this.organization.code,
             monada: this.organizationUnit.code,
         };
-        const legalAct = this.form.get('legalAct').value;
-        const diataxi = { legalProvision, legalAct, regulatedObject } as IDiataxi;
+        const legalActKey = this.form.get('legalActKey').value;
+        const diataxi = { legalProvisionSpecs, legalActKey, regulatedObject } as ILegalProvision;
         this.legalProvisionService.newLegalProvision(diataxi).subscribe((data) => {
             const { msg, index } = data;
             console.log(msg);

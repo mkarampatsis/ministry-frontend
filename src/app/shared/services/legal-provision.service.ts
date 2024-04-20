@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { IDiataxi } from 'src/app/shared/interfaces/legal-provision/diataxi.interface';
+import { ILegalProvision } from 'src/app/shared/interfaces/legal-provision/legal-provision.interface';
 
 const APIPREFIX = `${environment.apiUrl}/legal_provision`;
 
@@ -12,8 +12,8 @@ const APIPREFIX = `${environment.apiUrl}/legal_provision`;
 export class LegalProvisionService {
     http = inject(HttpClient);
 
-    newLegalProvision(data: IDiataxi): Observable<{ msg: string; index: IDiataxi }> {
-        return this.http.post<{ msg: string; index: IDiataxi }>(APIPREFIX, data);
+    newLegalProvision(data: ILegalProvision): Observable<{ msg: string; index: ILegalProvision }> {
+        return this.http.post<{ msg: string; index: ILegalProvision }>(APIPREFIX, data);
     }
 
     getAllLegalProvisions(): Observable<any[]> {

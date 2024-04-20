@@ -33,9 +33,8 @@
         <div class="card-body">
             <form
                 [formGroup]="form"
-                (ngSubmit)="onSubmit()"
                 class="d-flex flex-column gap-2">
-                @if (selectedLegalAct) {
+                @if (selectedLegalActKey) {
                     <div class="mb-3">
                         <label
                             for="legalActKey"
@@ -47,8 +46,8 @@
                                 type="text"
                                 class="form-control"
                                 id="legalActKey"
-                                formControlName="legalAct"
-                                [value]="selectedLegalAct"
+                                formControlName="legalActKey"
+                                [value]="selectedLegalActKey"
                                 readonly />
 
                             <button
@@ -60,7 +59,7 @@
                     </div>
                     <div
                         class="mb-3 d-flex gap-2 justify-content-between"
-                        formGroupName="legalProvision">
+                        formGroupName="legalProvisionSpecs">
                         <div>
                             <label
                                 for="meros"
@@ -136,7 +135,7 @@
                     <button
                         type="button"
                         class="btn btn-primary"
-                        type="submit"
+                        (click)="onSubmit()"
                         [disabled]="!form.valid">
                         Υποβολή
                     </button>
