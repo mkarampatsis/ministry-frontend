@@ -1,77 +1,68 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
+
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { map, take } from 'rxjs';
 import { LegalActsActionsComponent } from 'src/app/shared/components/legal-acts-actions/legal-acts-actions.component';
 
-import { ILegalAct } from 'src/app/shared/interfaces/nomiki-praji/legal-act.interface';
+import { ILegalProvision } from 'src/app/shared/interfaces/legal-provision/legal-provision.interface';
 
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
+import { LegalProvisionService } from 'src/app/shared/services/legal-provision.service';
 
 @Component({
-    selector: 'app-select-legal-action',
+    selector: 'app-select-legal-provision',
     standalone: true,
     imports: [AgGridAngular, GridLoadingOverlayComponent],
-    templateUrl: './select-legal-action.component.html',
-    styleUrl: './select-legal-action.component.css',
+    templateUrl: './select-legal-provision.component.html',
+    styleUrl: './select-legal-provision.component.css',
 })
-export class SelectLegalActionComponent {
-    @Output() selectedLegalAct = new EventEmitter<string>();
+export class SelectLegalProvisionComponent {
+    @Output() selectedLegalProvisions = new EventEmitter<ILegalProvision[]>();
     constService = inject(ConstService);
-    legalActService = inject(LegalActService);
+    legalProvisionsService = inject(LegalProvisionService);
     modalService = inject(ModalService);
-    legalActs: ILegalAct[] = [];
+    legalProvisions: ILegalProvision[] = [];
 
     defaultColDef = this.constService.defaultColDef;
-    rowSelection: 'single' | 'multiple' = 'single';
+    rowSelection: 'single' | 'multiple' = 'multiple';
 
     colDefs: ColDef[] = [
-        {
-            valueGetter: function (params) {
-                if (params.data.legalActType === 'ΑΛΛΟ') {
-                    return params.data.legalActTypeOther;
-                } else {
-                    return params.data.legalActType;
-                }
-            },
-            field: 'legalActType',
-            headerName: 'Τύπος',
-            flex: 3,
-        },
-        { field: 'legalActNumber', headerName: 'Αριθμός', flex: 1 },
-        { field: 'fek.number', headerName: 'ΦΕΚ (Αριθμός)', flex: 1 },
-        { field: 'fek.issue', headerName: 'ΦΕΚ (Τεύχος)', flex: 1 },
-        { field: 'fek.date', headerName: 'ΦΕΚ (Ημερομηνία)', flex: 1 },
-        { field: 'ada', headerName: 'ΑΔΑ', flex: 1 },
+        { field: 'legalActKey', headerName: 'Νομική Πράξη', flex: 6 },
+        { field: 'legalProvisionSpecs.meros', headerName: 'Μέρος', flex: 1 },
+        { field: 'legalProvisionSpecs.arthro', headerName: 'Άρθρο', flex: 1 },
+        { field: 'legalProvisionSpecs.paragrafos', headerName: 'Παράγραφος', flex: 1 },
+        { field: 'legalProvisionSpecs.edafio', headerName: 'Εδάφιο', flex: 1 },
+        { field: 'legalProvisionSpecs.pararthma', headerName: 'Παράρτημα', flex: 1 },
         {
             field: 'actionCell',
-            headerName: 'Ενέργειες',
+            headerName: '',
             cellRenderer: LegalActsActionsComponent,
             filter: false,
             sortable: false,
             floatingFilter: false,
-            flex: 0.5,
             resizable: false,
+            flex: 0.5,
         },
     ];
 
-    currentLegalAct: ILegalAct;
+    currentLegalProvisions: ILegalProvision[] = [];
 
     autoSizeStrategy = this.constService.autoSizeStrategy;
 
     loadingOverlayComponent = GridLoadingOverlayComponent;
-    loadingOverlayComponentParams = { loadingMessage: 'Αναζήτηση νομικών πράξεων...' };
+    loadingOverlayComponentParams = { loadingMessage: 'Αναζήτηση διατάξεων...' };
 
-    gridApi: GridApi<ILegalAct>;
+    gridApi: GridApi<ILegalProvision>;
 
-    onGridReady(params: GridReadyEvent<ILegalAct>): void {
+    onGridReady(params: GridReadyEvent<ILegalProvision>): void {
         this.gridApi = params.api;
         this.gridApi.showLoadingOverlay();
-        this.legalActService
-            .getAllLegalActs()
+        this.legalProvisionsService
+            .getAllLegalProvisions()
             .pipe(
                 take(1),
                 map((data) => {
@@ -83,26 +74,25 @@ export class SelectLegalActionComponent {
                 }),
             )
             .subscribe((data) => {
-                this.legalActs = data;
+                this.legalProvisions = data;
                 this.gridApi.hideOverlay();
             });
     }
 
     onSelectionChanged(): void {
-        const selectedRows = this.gridApi.getSelectedRows();
-        this.currentLegalAct = selectedRows[0];
+        this.currentLegalProvisions = this.gridApi.getSelectedRows();
     }
 
-    onSelectedLegalAct(): void {
-        this.selectedLegalAct.emit(this.currentLegalAct.legalActKey);
+    onSelectedLegalProvisions(): void {
+        this.selectedLegalProvisions.emit(this.currentLegalProvisions);
     }
 
-    newLegalAct(): void {
-        this.modalService.newLegalAct().subscribe((data) => {
+    newLegalProvision(): void {
+        this.modalService.newLegalProvision().subscribe((data) => {
             if (data) {
                 this.gridApi.showLoadingOverlay();
-                this.legalActService
-                    .getAllLegalActs()
+                this.legalProvisionsService
+                    .getAllLegalProvisions()
                     .pipe(
                         take(1),
                         map((data) => {
@@ -114,8 +104,7 @@ export class SelectLegalActionComponent {
                         }),
                     )
                     .subscribe((data) => {
-                        console.log(data);
-                        this.legalActs = data;
+                        this.legalProvisions = data;
                         this.gridApi.hideOverlay();
                     });
             }

@@ -15,6 +15,7 @@ import { SelectLegalActionComponent } from '../components/select-legal-action/se
 import { SelectLegalActionModalComponent } from '../modals/select-legal-action-modal/select-legal-action-modal.component';
 import { Observable, take } from 'rxjs';
 import { ILegalProvisionSpecs } from '../interfaces/legal-provision/legal-provision-specs.interface';
+import { SelectLegalProvisionModalComponent } from '../modals/select-legal-provision-modal/select-legal-provision-modal.component';
 
 @Injectable({
     providedIn: 'root',
@@ -84,19 +85,18 @@ export class ModalService {
         modalRef.componentInstance.organizationUnit = organizationUnit;
     }
 
-    newLegalProvision(
-        organization: { preferredLabel: string; code: string },
-        organizationUnit: { preferredLabel: string; code: string },
-        remit: { remitType: string; cofog1: string; cofog2: string; cofog3: string },
-    ) {
+    newLegalProvision() // organization: { preferredLabel: string; code: string },
+    // organizationUnit: { preferredLabel: string; code: string },
+    // remit: { remitType: string; cofog1: string; cofog2: string; cofog3: string },
+    {
         const modalRef = this.modalService.open(NewLegalProvisionComponent, {
             size: 'xl',
             centered: true,
         });
         modalRef.componentInstance.modalRef = modalRef;
-        modalRef.componentInstance.organization = organization;
-        modalRef.componentInstance.organizationUnit = organizationUnit;
-        modalRef.componentInstance.remit = remit;
+        // modalRef.componentInstance.organization = organization;
+        // modalRef.componentInstance.organizationUnit = organizationUnit;
+        // modalRef.componentInstance.remit = remit;
         return modalRef.closed.pipe(take(1)) as Observable<{
             legalActKey: string;
             legalProvisionSpecs: ILegalProvisionSpecs;
@@ -115,6 +115,15 @@ export class ModalService {
 
     selectLegalAct() {
         const modalRef = this.modalService.open(SelectLegalActionModalComponent, {
+            size: 'xl',
+            centered: true,
+        });
+        modalRef.componentInstance.modalRef = modalRef;
+        return modalRef.dismissed.pipe(take(1)) as Observable<string>;
+    }
+
+    selectLegalProvision() {
+        const modalRef = this.modalService.open(SelectLegalProvisionModalComponent, {
             size: 'xl',
             centered: true,
         });

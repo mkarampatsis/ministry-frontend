@@ -26,11 +26,11 @@ export class ForeisComponent {
     defaultColDef = this.constService.defaultColDef;
     // prettier-ignore
     colDefs: ColDef[] = [
-        { field: 'code', headerName: 'Κωδικός', width: 90, maxWidth: 90, minWidth: 90},
-        { field: 'preferredLabel', headerName: 'Ονομασία', flex: 1 },
-        { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', flex: 1 },
-        { field: 'organizationType', headerName: 'Τύπος', flex: 1 },
-        { field: 'actionCell', headerName: 'Ενέργειες', cellRenderer: ForeisActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, flex: 1, resizable: false},
+        { field: 'code', headerName: 'Κωδικός', flex: 1},
+        { field: 'preferredLabel', headerName: 'Ονομασία', flex: 4 },
+        { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', flex: 2 },
+        { field: 'organizationType', headerName: 'Τύπος', flex: 2 },
+        { field: 'actionCell', headerName: '', cellRenderer: ForeisActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, flex: 1, resizable: false},
     ];
     autoSizeStrategy = this.constService.autoSizeStrategy;
 
@@ -50,12 +50,8 @@ export class ForeisComponent {
                     return data.map((org) => {
                         return {
                             ...org,
-                            organizationType: this.organizationTypesMap.get(
-                                parseInt(String(org.organizationType)),
-                            ),
-                            subOrganizationOf: this.organizationCodesMap.get(
-                                org.subOrganizationOf,
-                            ),
+                            organizationType: this.organizationTypesMap.get(parseInt(String(org.organizationType))),
+                            subOrganizationOf: this.organizationCodesMap.get(org.subOrganizationOf),
                         };
                     });
                 }),

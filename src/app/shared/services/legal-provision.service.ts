@@ -16,7 +16,7 @@ export class LegalProvisionService {
         return this.http.post<{ msg: string; index: ILegalProvision }>(APIPREFIX, data);
     }
 
-    getAllLegalProvisions(): Observable<any[]> {
-        return this.http.get<any[]>(APIPREFIX);
+    getAllLegalProvisions(): Observable<ILegalProvision[]> {
+        return this.http.get<ILegalProvision[]>(APIPREFIX);
     }
 }
