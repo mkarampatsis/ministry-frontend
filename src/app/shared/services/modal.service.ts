@@ -16,6 +16,7 @@ import { SelectLegalActionModalComponent } from '../modals/select-legal-action-m
 import { Observable, take } from 'rxjs';
 import { ILegalProvisionSpecs } from '../interfaces/legal-provision/legal-provision-specs.interface';
 import { SelectLegalProvisionModalComponent } from '../modals/select-legal-provision-modal/select-legal-provision-modal.component';
+import { ILegalProvision } from '../interfaces/legal-provision/legal-provision.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -85,18 +86,13 @@ export class ModalService {
         modalRef.componentInstance.organizationUnit = organizationUnit;
     }
 
-    newLegalProvision() // organization: { preferredLabel: string; code: string },
-    // organizationUnit: { preferredLabel: string; code: string },
-    // remit: { remitType: string; cofog1: string; cofog2: string; cofog3: string },
-    {
+    newLegalProvision() {
         const modalRef = this.modalService.open(NewLegalProvisionComponent, {
             size: 'xl',
             centered: true,
         });
         modalRef.componentInstance.modalRef = modalRef;
-        // modalRef.componentInstance.organization = organization;
-        // modalRef.componentInstance.organizationUnit = organizationUnit;
-        // modalRef.componentInstance.remit = remit;
+
         return modalRef.closed.pipe(take(1)) as Observable<{
             legalActKey: string;
             legalProvisionSpecs: ILegalProvisionSpecs;
@@ -128,6 +124,6 @@ export class ModalService {
             centered: true,
         });
         modalRef.componentInstance.modalRef = modalRef;
-        return modalRef.dismissed.pipe(take(1)) as Observable<string>;
+        return modalRef.dismissed.pipe(take(1)) as Observable<ILegalProvision[]>;
     }
 }

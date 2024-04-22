@@ -7,7 +7,6 @@ import { Subscription, take } from 'rxjs';
 import { IFek } from 'src/app/shared/interfaces/nomiki-praji/fek.interface';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { FileUploadService } from 'src/app/shared/services/file-upload.service';
-import { IOrganizationUnit } from 'src/app/shared/interfaces/organization-unit';
 import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
 import { ILegalAct } from 'src/app/shared/interfaces/nomiki-praji/legal-act.interface';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
