@@ -41,7 +41,10 @@
                             "src/assets/digigov.css",
                             "src/styles.css"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "node_modules/@popperjs/core/dist/umd/popper.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+                        ]
                     },
                     "configurations": {
                         "production": {
@@ -97,10 +100,7 @@
                         "polyfills": ["zone.js", "zone.js/testing"],
                         "tsConfig": "tsconfig.spec.json",
                         "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": [
-                            "@angular/material/prebuilt-themes/indigo-pink.css",
-                            "src/styles.css"
-                        ],
+                        "styles": ["@angular/material/prebuilt-themes/indigo-pink.css", "src/styles.css"],
                         "scripts": []
                     }
                 }
