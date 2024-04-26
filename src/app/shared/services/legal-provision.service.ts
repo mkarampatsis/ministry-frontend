@@ -19,4 +19,9 @@ export class LegalProvisionService {
     getAllLegalProvisions(): Observable<ILegalProvision[]> {
         return this.http.get<ILegalProvision[]>(APIPREFIX);
     }
+
+    count(): Observable<{ count: number }> {
+        const url = `${APIPREFIX}/count`;
+        return this.http.get<{ count: number }>(url);
+    }
 }

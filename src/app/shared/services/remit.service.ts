@@ -19,4 +19,9 @@ export class RemitService {
     getAllRemits(): Observable<IRemit[]> {
         return this.http.get<IRemit[]>(APIPREFIX);
     }
+
+    count(): Observable<{ count: number }> {
+        const url = `${APIPREFIX}/count`;
+        return this.http.get<{ count: number }>(url);
+    }
 }

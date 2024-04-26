@@ -21,4 +21,9 @@ export class ForeasService {
         const url = `${APIPREFIX_PSPED}/${data.code}`;
         return this.http.put<IForeas>(url, data);
     }
+
+    count(): Observable<{ count: number }> {
+        const url = `${APIPREFIX_PSPED}/count`;
+        return this.http.get<{ count: number }>(url);
+    }
 }

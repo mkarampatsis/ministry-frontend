@@ -19,4 +19,9 @@ export class LegalActService {
     getAllLegalActs(): Observable<ILegalAct[]> {
         return this.http.get<ILegalAct[]>(APIPREFIX);
     }
+
+    count(): Observable<{ count: number }> {
+        const url = `${APIPREFIX}/count`;
+        return this.http.get<{ count: number }>(url);
+    }
 }
