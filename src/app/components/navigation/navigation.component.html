@@ -42,68 +42,70 @@
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="collapse navbar-collapse"
-                            id="navbarNavAltMarkup">
-                            <ul class="navbar-nav dropdown-menu-dark gap-lg-4">
-                                <li>
-                                    <a
-                                        routerLink="psped"
-                                        routerLinkActive="fw-bold"
-                                        class="dropdown-item p-1">
-                                        <mat-icon>home</mat-icon>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        routerLink="search"
-                                        routerLinkActive="fw-bold"
-                                        class="dropdown-item p-1">
-                                        <mat-icon>search</mat-icon>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        routerLink="foreis"
-                                        routerLinkActive="fw-bold"
-                                        class="dropdown-item p-1">
-                                        Φορείς
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        routerLink="monades"
-                                        routerLinkActive="fw-bold"
-                                        class="dropdown-item p-1">
-                                        Μονάδες
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        routerLink="nomikes-praxeis"
-                                        routerLinkActive="fw-bold"
-                                        class="dropdown-item p-1">
-                                        Νομικές Πράξεις
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        routerLink="diataxeis"
-                                        routerLinkActive="fw-bold"
-                                        class="dropdown-item p-1">
-                                        Διατάξεις
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        routerLink="armodiothtes"
-                                        routerLinkActive="fw-bold"
-                                        class="dropdown-item p-1">
-                                        Αρμοδιότητες
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        @if (user()) {
+                            <div
+                                class="collapse navbar-collapse"
+                                id="navbarNavAltMarkup">
+                                <ul class="navbar-nav dropdown-menu-dark gap-lg-4">
+                                    <li>
+                                        <a
+                                            routerLink="psped"
+                                            routerLinkActive="fw-bold"
+                                            class="dropdown-item p-1">
+                                            <mat-icon>home</mat-icon>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            routerLink="search"
+                                            routerLinkActive="fw-bold"
+                                            class="dropdown-item p-1">
+                                            <mat-icon>search</mat-icon>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            routerLink="foreis"
+                                            routerLinkActive="fw-bold"
+                                            class="dropdown-item p-1">
+                                            Φορείς
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            routerLink="monades"
+                                            routerLinkActive="fw-bold"
+                                            class="dropdown-item p-1">
+                                            Μονάδες
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            routerLink="nomikes-praxeis"
+                                            routerLinkActive="fw-bold"
+                                            class="dropdown-item p-1">
+                                            Νομικές Πράξεις
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            routerLink="diataxeis"
+                                            routerLinkActive="fw-bold"
+                                            class="dropdown-item p-1">
+                                            Διατάξεις
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            routerLink="armodiothtes"
+                                            routerLinkActive="fw-bold"
+                                            class="dropdown-item p-1">
+                                            Αρμοδιότητες
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        }
                     </div>
                 </div>
             </nav>
