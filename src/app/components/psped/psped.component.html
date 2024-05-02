@@ -1,31 +1,51 @@
 <h4 class="govgr-heading-lg">Πολυεπίπεδη Διακυβέρνηση</h4>
-<p class="govgr-body">Καλώς ήρθατε. Επιλέξτε από το μενού την επιθυμητή ενότητα.</p>
+<p class="govgr-body">
+    Καλώς ήρθατε. Επιλέξτε από το μενού την επιθυμητή ενότητα ή δείτε τις
+    <a
+        routerLink="/dashboard"
+        class="link-info">
+        προσβάσεις
+    </a>
+    σας.
+</p>
 
 <h5 class="govgr-heading-md">Στατιστικά</h5>
 
 <div class="d-flex gap-4 text-nowrap">
-    <div class="card">
+    <div
+        class="card"
+        role="button"
+        routerLink="/foreis">
         <div class="card-header fw-semibold text-center">Φορείς</div>
         <div class="card-body text-center fs-4">
             {{ foreasCount }}
         </div>
     </div>
 
-    <div class="card">
+    <div
+        class="card"
+        role="button"
+        routerLink="/armodiothtes">
         <div class="card-header fw-semibold text-center">Αρμοδιότητες</div>
         <div class="card-body text-center fs-4">
             {{ remitCount }}
         </div>
     </div>
 
-    <div class="card">
+    <div
+        class="card"
+        role="button"
+        routerLink="/nomikes-praxeis">
         <div class="card-header fw-semibold text-center">Νομικές Πράξεις</div>
         <div class="card-body text-center fs-4">
             {{ legalActCount }}
         </div>
     </div>
 
-    <div class="card">
+    <div
+        class="card"
+        role="button"
+        routerLink="/diataxeis">
         <div class="card-header fw-semibold text-center">Διατάξεις</div>
         <div class="card-body text-center fs-4">
             {{ legalProvisionCount }}

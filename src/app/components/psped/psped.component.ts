@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { take } from 'rxjs';
 import { ForeasService } from 'src/app/shared/services/foreas.service';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
@@ -8,7 +9,7 @@ import { RemitService } from 'src/app/shared/services/remit.service';
 @Component({
     selector: 'app-psped',
     standalone: true,
-    imports: [],
+    imports: [RouterLink],
     templateUrl: './psped.component.html',
     styleUrl: './psped.component.css',
 })
