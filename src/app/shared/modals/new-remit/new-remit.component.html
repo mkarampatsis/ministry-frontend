@@ -44,10 +44,7 @@
                             [toolbar]="toolbar"></ngx-editor-menu>
                         <ngx-editor
                             [editor]="editor"
-                            formControlName="remitText"
-                            [class.is-invalid]="
-                                form.controls.remitText.touched && form.controls.remitText.invalid
-                            "></ngx-editor>
+                            formControlName="remitText"></ngx-editor>
                     </div>
                     @if (form.controls.remitText.touched && form.controls.remitText.invalid) {
                         <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
@@ -68,7 +68,12 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     });
     formSubscriptions: Subscription[] = [];
 
+    constructor() {
+        console.log(1111111111111);
+    }
+
     ngOnInit(): void {
+        console.log(222222222222222222222222222222);
         // Get the organization code from the organization unit
         this.organizationUnitService
             .getOrganizationalUnitDetails(this.organizationUnit.code)
