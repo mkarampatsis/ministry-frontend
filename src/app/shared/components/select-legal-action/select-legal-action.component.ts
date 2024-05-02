@@ -45,6 +45,7 @@ export class SelectLegalActionComponent {
         { field: 'fek.number', headerName: 'ΦΕΚ (Αριθμός)', flex: 1 },
         { field: 'fek.issue', headerName: 'ΦΕΚ (Τεύχος)', flex: 1 },
         { field: 'fek.date', headerName: 'ΦΕΚ (Ημερομηνία)', flex: 1 },
+        { field: 'legalActYear', headerName: 'Έτος', flex: 1 },
         { field: 'ada', headerName: 'ΑΔΑ', flex: 1 },
         {
             field: 'actionCell',

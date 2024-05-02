@@ -27,11 +27,23 @@ export class NomikesPraxeisComponent {
     defaultColDef = this.constService.defaultColDef;
 
     colDefs: ColDef[] = [
-        { field: 'legalActType', headerName: 'Τύπος', flex: 1 },
+        {
+            valueGetter: function (params) {
+                if (params.data.legalActType === 'ΑΛΛΟ') {
+                    return params.data.legalActTypeOther;
+                } else {
+                    return params.data.legalActType;
+                }
+            },
+            field: 'legalActType',
+            headerName: 'Τύπος',
+            flex: 3,
+        },
         { field: 'legalActNumber', headerName: 'Αριθμός', flex: 1 },
         { field: 'fek.number', headerName: 'ΦΕΚ (Αριθμός)', flex: 1 },
         { field: 'fek.issue', headerName: 'ΦΕΚ (Τεύχος)', flex: 1 },
         { field: 'fek.date', headerName: 'ΦΕΚ (Ημερομηνία)', flex: 1 },
+        { field: 'legalActYear', headerName: 'Έτος', flex: 1 },
         { field: 'ada', headerName: 'ΑΔΑ', flex: 1 },
         {
             field: 'actionCell',
