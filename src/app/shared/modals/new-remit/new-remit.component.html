@@ -32,12 +32,23 @@
                         class="form-label">
                         Κείμενο αρμοδιότητας:
                     </label>
-                    <textarea
+                    <!-- <textarea
                         ngbAutoFocus
                         class="form-control"
                         [class.is-invalid]="form.controls.remitText.touched && form.controls.remitText.invalid"
                         id="remitText"
-                        formControlName="remitText"></textarea>
+                        formControlName="remitText"></textarea> -->
+                    <div class="NgxEditor__Wrapper">
+                        <ngx-editor-menu
+                            [editor]="editor"
+                            [toolbar]="toolbar"></ngx-editor-menu>
+                        <ngx-editor
+                            [editor]="editor"
+                            formControlName="remitText"
+                            [class.is-invalid]="
+                                form.controls.remitText.touched && form.controls.remitText.invalid
+                            "></ngx-editor>
+                    </div>
                     @if (form.controls.remitText.touched && form.controls.remitText.invalid) {
                         <div class="invalid-feedback">Το πεδίο είναι υποχρεωτικό</div>
                     }

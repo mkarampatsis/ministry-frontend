@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
@@ -10,14 +10,16 @@ import { ILegalProvision } from 'src/app/shared/interfaces/legal-provision/legal
 import { IRemit } from 'src/app/shared/interfaces/remit/remit.interface';
 import { RemitService } from 'src/app/shared/services/remit.service';
 import { Toast, ToastService } from 'src/app/shared/services/toast.service';
-import { ToastMessageComponent } from '../../components/toast-message/toast-message.component';
+import { ToastMessageComponent } from 'src/app/shared/components/toast-message/toast-message.component';
+import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 
 @Component({
     selector: 'app-new-remit',
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, NgxEditorModule],
     templateUrl: './new-remit.component.html',
     styleUrl: './new-remit.component.css',
+    encapsulation: ViewEncapsulation.None,
 })
 export class NewRemitComponent implements OnInit, OnDestroy {
     // The following two are injected by the modal service
@@ -29,6 +31,9 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     remitService = inject(RemitService);
     modalService = inject(ModalService);
     toastService = inject(ToastService);
+
+    editor: Editor = new Editor();
+    toolbar: Toolbar = DEFAULT_TOOLBAR;
 
     @ViewChild('successTpl') successTpl: TemplateRef<any>;
 
@@ -100,6 +105,7 @@ export class NewRemitComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.formSubscriptions.forEach((sub) => sub.unsubscribe());
+        this.editor.destroy();
     }
 
     onSubmit() {

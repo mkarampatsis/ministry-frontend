@@ -153,12 +153,12 @@ fieldset {
     margin: 0;
     padding: 0;
 }
-ol,
+/* ol,
 ul {
     list-style: none;
     margin: 0;
     padding: 0;
-}
+} */
 html {
     font-family:
         Roboto,
@@ -213,7 +213,7 @@ button {
 table {
     border-collapse: collapse;
 }
-h1,
+/* h1,
 h2,
 h3,
 h4,
@@ -221,7 +221,7 @@ h5,
 h6 {
     font-size: inherit;
     font-weight: inherit;
-}
+} */
 a {
     color: inherit;
     text-decoration: inherit;
