@@ -1,4 +1,4 @@
-<h4 class="govgr-heading-lg">Οι προσβάσεις σας</h4>
+<h4 class="govgr-heading-md">Οι προσβάσεις σας</h4>
 
 <p class="govgr-body">
     Στις παρακάτω κάρτες εμφανίζονται οι φορείς και οι μονάδες που έχετε πρόσβαση και οι επιτρεπτές ενέργειες σε αυτά.
@@ -16,31 +16,44 @@
 </h5>
 
 @if (organizations.length > 0 && !organizations_loading) {
-    <div class="row mb-4">
+    <div class="d-flex flex-column flex-lg-row gap-2">
         @for (organization of organizations; track organization) {
-            <div class="col-3">
-                <div class="card">
-                    <div class="card-header fw-semibold text-center text-truncate">
-                        {{ organization.preferredLabel }}
-                    </div>
-                    <div class="card-body text-center d-flex flex-column align-items-center gap-2">
-                        <button
-                            class="btn btn-primary btn-sm"
-                            style="width: fit-content"
-                            (click)="editForeas(organization.code)">
-                            Επίπεδο Διακυβέρνησης
-                        </button>
-                        <button
-                            class="btn btn-primary btn-sm"
-                            style="width: fit-content"
-                            (click)="creationRegulation()">
-                            Συστατική Διάταξη
-                        </button>
-                    </div>
+            <div
+                class="card"
+                style="width: 20rem">
+                <div class="card-header fw-semibold text-center text-truncate">
+                    {{ organization.preferredLabel }}
+                </div>
+                <div class="card-body text-center d-flex flex-column align-items-center gap-2">
+                    <button
+                        class="btn btn-primary btn-sm"
+                        style="width: fit-content"
+                        (click)="editForeas(organization.code)">
+                        Επίπεδο Διακυβέρνησης
+                    </button>
+                    <button
+                        class="btn btn-primary btn-sm"
+                        style="width: fit-content"
+                        (click)="creationRegulation()">
+                        Συστατική Διάταξη
+                    </button>
                 </div>
             </div>
         }
     </div>
+    <!-- <div class="govgr-body">
+        <ag-grid-angular
+            [domLayout]="'autoHeight'"
+            [rowData]="organizations"
+            [defaultColDef]="defaultColDef"
+            [columnDefs]="foreisColDefs"
+            [pagination]="true"
+            [paginationPageSize]="50"
+            [loadingOverlayComponent]="loadingOverlayComponent"
+            [loadingOverlayComponentParams]="loadingOverlayComponentParams"
+            (onGridReady)="onGridReady($event)"
+            class="ag-theme-balham"></ag-grid-angular>
+    </div> -->
 } @else {
     <div
         class="alert alert-info w-25 mb-4 text-center fw-semibold"
@@ -61,23 +74,23 @@
 </h5>
 
 @if (organizational_units.length > 0 && !organizational_units_loading) {
-    <div class="row mb-4">
+    <div class="d-flex flex-column flex-lg-row gap-2">
         @for (organizational_unit of organizational_units; track organizational_unit) {
-            <div class="col-3">
-                <div class="card">
-                    <div class="card-header fw-semibold text-center text-truncate">
-                        {{ organizationCodesMap.get(organizational_unit.organizationCode) }}
-                        <br />
-                        {{ organizational_unit.preferredLabel }}
-                    </div>
-                    <div class="card-body text-center d-flex flex-column align-items-center gap-2">
-                        <button
-                            class="btn btn-primary btn-sm"
-                            style="width: fit-content"
-                            (click)="newRemit(organizational_unit)">
-                            Νέα Αρμοδιότητα
-                        </button>
-                    </div>
+            <div
+                class="card"
+                style="width: 20rem">
+                <div class="card-header fw-semibold text-center text-truncate">
+                    {{ organizationCodesMap.get(organizational_unit.organizationCode) }}
+                    <br />
+                    {{ organizational_unit.preferredLabel }}
+                </div>
+                <div class="card-body text-center d-flex flex-column align-items-center gap-2">
+                    <button
+                        class="btn btn-primary btn-sm"
+                        style="width: fit-content"
+                        (click)="newRemit(organizational_unit)">
+                        Νέα Αρμοδιότητα
+                    </button>
                 </div>
             </div>
         }

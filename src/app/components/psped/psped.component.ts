@@ -4,6 +4,7 @@ import { take } from 'rxjs';
 import { ForeasService } from 'src/app/shared/services/foreas.service';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
 import { LegalProvisionService } from 'src/app/shared/services/legal-provision.service';
+import { MonadesService } from 'src/app/shared/services/monades.service';
 import { RemitService } from 'src/app/shared/services/remit.service';
 
 @Component({
@@ -15,10 +16,12 @@ import { RemitService } from 'src/app/shared/services/remit.service';
 })
 export class PspedComponent implements OnInit {
     foreasService = inject(ForeasService);
+    monadesService = inject(MonadesService);
     remitService = inject(RemitService);
     legalActService = inject(LegalActService);
     legalProvisionService = inject(LegalProvisionService);
     foreasCount = 0;
+    monadesCount = 0;
     remitCount = 0;
     legalActCount = 0;
     legalProvisionCount = 0;
@@ -29,6 +32,13 @@ export class PspedComponent implements OnInit {
             .pipe(take(1))
             .subscribe((response) => {
                 this.foreasCount = response.count;
+            });
+
+        this.monadesService
+            .count()
+            .pipe(take(1))
+            .subscribe((response) => {
+                this.monadesCount = response.count;
             });
 
         this.remitService
