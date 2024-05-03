@@ -1,35 +1,36 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { LegalProvisionService } from 'src/app/shared/services/legal-provision.service';
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
 import { ILegalProvisionSpecs } from '../../interfaces/legal-provision/legal-provision-specs.interface';
+import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 
 @Component({
     selector: 'app-new-legal-provision',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [ReactiveFormsModule, NgxEditorModule],
     templateUrl: './new-legal-provision.component.html',
     styleUrl: './new-legal-provision.component.css',
 })
-export class NewLegalProvisionComponent {
+export class NewLegalProvisionComponent implements OnDestroy {
     // Some useful services
     modalService = inject(ModalService);
     constService = inject(ConstService);
     legalProvisionService = inject(LegalProvisionService);
-    // Cofog Names will populate onInit
-    cofog1: string = '';
-    cofog2: string = '';
-    cofog3: string = '';
 
     modalRef: any;
 
     selectedLegalActKey = '';
 
+    editor: Editor = new Editor();
+    toolbar: Toolbar = DEFAULT_TOOLBAR;
+
     form = new FormGroup(
         {
+            legalActText: new FormControl('', Validators.required),
             legalProvisionSpecs: new FormGroup({
                 meros: new FormControl(''),
                 arthro: new FormControl(''),
@@ -41,6 +42,10 @@ export class NewLegalProvisionComponent {
         },
         this.checkLegalProvision,
     );
+
+    ngOnDestroy(): void {
+        this.editor.destroy();
+    }
 
     checkLegalProvision(form: FormGroup): { [key: string]: boolean } | null {
         if (
@@ -69,7 +74,8 @@ export class NewLegalProvisionComponent {
         const legalProvisionSpecs = this.form.get('legalProvisionSpecs').value as ILegalProvisionSpecs;
 
         const legalActKey = this.form.get('legalActKey').value;
-        const diataxi = { legalProvisionSpecs, legalActKey } as ILegalProvision;
+        const legalProvisionText = this.form.get('legalActText').value;
+        const diataxi = { legalProvisionSpecs, legalActKey, legalProvisionText } as ILegalProvision;
         this.legalProvisionService.newLegalProvision(diataxi).subscribe((data) => {
             const { msg, index } = data;
             console.log(msg);
