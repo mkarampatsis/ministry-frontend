@@ -80,7 +80,6 @@ export class NomikesPraxeisComponent {
                 }),
             )
             .subscribe((data) => {
-                console.log(data);
                 this.legalActs = data;
                 this.gridApi.hideOverlay();
             });

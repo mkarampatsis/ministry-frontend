@@ -1,30 +1,18 @@
-<div class="m-5">
-  <h1 class="govgr-heading-sm">Φόρμα Διατάξεων</h1>
+<h1 class="govgr-heading-sm">Διατάξεις του συστήματος ΠΣΠΕΔ</h1>
 
-  <form [formGroup]="diatajeisForm" (ngSubmit)="onSubmit()">
-
-    <div class="mb-3">
-      <label for="legalActCode" class="form-label">Κωδικός Πράξης:</label>
-      <input type="text" class="form-control" id="legalActCode" formControlName="legalActCode" placeholder="Εισάγετε κωδικό πράξης">
-    </div>
-
-    <div class="mb-3">
-      <label for="legalProvisionNumber" class="form-label">Αριθμός Διάταξης:</label>
-      <input type="text" class="form-control" id="legalProvisionNumber" formControlName="legalProvisionNumber" placeholder="Εισάγετε αριθμό διάταξης">
-    </div>
-
-    <div class="mb-3">
-      <label for="legalProvisionText" class="form-label">Κείμενο Διάταξης:</label>
-      <input type="text" class="form-control" id="legalProvisionText" formControlName="legalProvisionText" placeholder="Εισάγετε κείμενο διάταξης">
-    </div>
-
-    <div class="mb-3">
-      <label for="abolishingLegalProvisionCode" class="form-label">Αριθμός νέας Διάταξης:</label>
-      <input type="text" class="form-control" id="abolishingLegalProvisionCode" formControlName="abolishingLegalProvisionCode" placeholder="Εισάγετε αριθμό νέας διάταξης">
-    </div>
-
-    <p>Συμπληρώστε τη φόρμα για να ενεργοποιηθεί το κουμπί της υποβολής</p>
-    <button type="button" class="btn btn-primary" type="submit" [disabled]="!diatajeisForm.valid">Υποβολή</button>
-  </form>
-</div>
-
+<button
+    class="btn btn-primary btn-sm mb-2"
+    (click)="newLegalProvision()">
+    Νέα Διάταξη
+</button>
+<ag-grid-angular
+    [domLayout]="'autoHeight'"
+    [rowData]="legalProvisions"
+    [defaultColDef]="defaultColDef"
+    [columnDefs]="colDefs"
+    [pagination]="true"
+    [paginationPageSize]="50"
+    [loadingOverlayComponent]="loadingOverlayComponent"
+    [loadingOverlayComponentParams]="loadingOverlayComponentParams"
+    (gridReady)="onGridReady($event)"
+    class="ag-theme-balham"></ag-grid-angular>
