@@ -78,16 +78,12 @@ export class ModalService {
     }
 
     newRemit(organizationUnit: { preferredLabel: string; code: string }) {
-        console.log('gggggggggggggggggggggggggggggggggggggggg');
         const modalRef = this.modalService.open(NewRemitComponent, {
             size: 'xl',
             centered: true,
         });
-        console.log('fffffffffffffffffffffffffffffffffffffffffffffffffffff');
         modalRef.componentInstance.modalRef = modalRef;
-        console.log('llllllllllllllllllllllll');
         modalRef.componentInstance.organizationUnit = organizationUnit;
-        console.log('SSSSSSSSSSSSSSSSSSSKKKKKKKKKKKKKAAAAAAAAAAAAAAAATTTTTTTTTTTTTTTAA');
     }
 
     newLegalProvision() {

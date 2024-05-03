@@ -68,12 +68,7 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     });
     formSubscriptions: Subscription[] = [];
 
-    constructor() {
-        console.log(1111111111111);
-    }
-
     ngOnInit(): void {
-        console.log(222222222222222222222222222222);
         // Get the organization code from the organization unit
         this.organizationUnitService
             .getOrganizationalUnitDetails(this.organizationUnit.code)
