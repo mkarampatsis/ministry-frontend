@@ -3,7 +3,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
-import { AuthService } from 'src/app/shared/services/auth.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { FileUploadService } from 'src/app/shared/services/file-upload.service';
 import { take } from 'rxjs';
@@ -16,7 +15,6 @@ import { take } from 'rxjs';
     styleUrl: './legal-acts-actions.component.css',
 })
 export class LegalActsActionsComponent implements ICellRendererAngularComp {
-    authService = inject(AuthService);
     modalService = inject(ModalService);
     uploadService = inject(FileUploadService);
     params: ICellRendererParams;
@@ -30,12 +28,10 @@ export class LegalActsActionsComponent implements ICellRendererAngularComp {
     }
 
     displayFEK() {
-        console.log(this.params.data);
         this.uploadService
             .getUploadByID(this.params.data.legalActFile.$oid)
             .pipe(take(1))
             .subscribe((data) => {
-                console.log('>>>>>>>>>>', data);
                 const url = window.URL.createObjectURL(data);
                 const link = document.createElement('a');
                 link.href = url;

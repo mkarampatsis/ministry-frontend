@@ -17,6 +17,7 @@ import { Observable, take } from 'rxjs';
 import { ILegalProvisionSpecs } from '../interfaces/legal-provision/legal-provision-specs.interface';
 import { SelectLegalProvisionModalComponent } from '../modals/select-legal-provision-modal/select-legal-provision-modal.component';
 import { ILegalProvision } from '../interfaces/legal-provision/legal-provision.interface';
+import { ShowLegalProvisionComponent } from '../modals/show-legal-provision/show-legal-provision.component';
 
 @Injectable({
     providedIn: 'root',
@@ -77,6 +78,15 @@ export class ModalService {
         modalRef.componentInstance.modalRef = modalRef;
     }
 
+    showLegalProvision(legalProvision: ILegalProvision) {
+        const modalRef = this.modalService.open(ShowLegalProvisionComponent, {
+            size: 'xl',
+            centered: true,
+        });
+        modalRef.componentInstance.legalProvision = legalProvision;
+        modalRef.componentInstance.modalRef = modalRef;
+    }
+
     newRemit(organizationUnit: { preferredLabel: string; code: string }) {
         const modalRef = this.modalService.open(NewRemitComponent, {
             size: 'xl',
@@ -111,6 +121,7 @@ export class ModalService {
 
     selectLegalAct() {
         const modalRef = this.modalService.open(SelectLegalActionModalComponent, {
+            fullscreen: 'lg',
             size: 'xl',
             centered: true,
         });
@@ -120,7 +131,7 @@ export class ModalService {
 
     selectLegalProvision() {
         const modalRef = this.modalService.open(SelectLegalProvisionModalComponent, {
-            size: 'xl',
+            fullscreen: true,
             centered: true,
         });
         modalRef.componentInstance.modalRef = modalRef;

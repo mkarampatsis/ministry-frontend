@@ -4,7 +4,7 @@ import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { map, take } from 'rxjs';
 import { LegalActsActionsComponent } from 'src/app/shared/components/legal-acts-actions/legal-acts-actions.component';
 
-import { ILegalAct } from 'src/app/shared/interfaces/nomiki-praji/legal-act.interface';
+import { ILegalAct } from 'src/app/shared/interfaces/legal-act/legal-act.interface';
 
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals';
 import { ConstService } from 'src/app/shared/services/const.service';
@@ -28,36 +28,7 @@ export class SelectLegalActionComponent {
     defaultColDef = this.constService.defaultColDef;
     rowSelection: 'single' | 'multiple' = 'single';
 
-    colDefs: ColDef[] = [
-        {
-            valueGetter: function (params) {
-                if (params.data.legalActType === 'ΑΛΛΟ') {
-                    return params.data.legalActTypeOther;
-                } else {
-                    return params.data.legalActType;
-                }
-            },
-            field: 'legalActType',
-            headerName: 'Τύπος',
-            flex: 3,
-        },
-        { field: 'legalActNumber', headerName: 'Αριθμός', flex: 1 },
-        { field: 'fek.number', headerName: 'ΦΕΚ (Αριθμός)', flex: 1 },
-        { field: 'fek.issue', headerName: 'ΦΕΚ (Τεύχος)', flex: 1 },
-        { field: 'fek.date', headerName: 'ΦΕΚ (Ημερομηνία)', flex: 1 },
-        { field: 'legalActYear', headerName: 'Έτος', flex: 1 },
-        { field: 'ada', headerName: 'ΑΔΑ', flex: 1 },
-        {
-            field: 'actionCell',
-            headerName: 'Ενέργειες',
-            cellRenderer: LegalActsActionsComponent,
-            filter: false,
-            sortable: false,
-            floatingFilter: false,
-            flex: 0.5,
-            resizable: false,
-        },
-    ];
+    colDefs = this.constService.LEGAL_ACTS_COL_DEFS;
 
     currentLegalAct: ILegalAct;
 

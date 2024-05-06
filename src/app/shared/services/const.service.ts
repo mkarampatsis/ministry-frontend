@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { map, take } from 'rxjs';
+import { take } from 'rxjs';
 
 import {
+    ColDef,
     SizeColumnsToContentStrategy,
     SizeColumnsToFitGridStrategy,
     SizeColumnsToFitProvidedWidthStrategy,
@@ -14,6 +15,8 @@ import { OrganizationService } from 'src/app/shared/services/organization.servic
 import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
 import { CofogService } from 'src/app/shared/services/cofog.service';
 import { ICofog } from '../interfaces/cofog/cofog.interface';
+import { LegalProvisionsActionsComponent } from '../components/legal-provisions-actions/legal-provisions-actions.component';
+import { LegalActsActionsComponent } from '../components/legal-acts-actions/legal-acts-actions.component';
 
 @Injectable({
     providedIn: 'root',
@@ -69,6 +72,72 @@ export class ConstService {
         | SizeColumnsToFitGridStrategy
         | SizeColumnsToFitProvidedWidthStrategy
         | SizeColumnsToContentStrategy = { type: 'fitCellContents' };
+
+    LEGAL_ACTS_COL_DEFS: ColDef[] = [
+        {
+            valueGetter: function (params) {
+                if (params.data.legalActType === 'ΑΛΛΟ') {
+                    return params.data.legalActTypeOther;
+                } else {
+                    return params.data.legalActType;
+                }
+            },
+            field: 'legalActType',
+            headerName: 'Τύπος',
+            flex: 3,
+        },
+        { field: 'legalActNumber', headerName: 'Αριθμός', flex: 1 },
+        { field: 'fek.number', headerName: 'ΦΕΚ (Αριθμός)', flex: 1 },
+        { field: 'fek.issue', headerName: 'ΦΕΚ (Τεύχος)', flex: 1 },
+        { field: 'fek.date', headerName: 'ΦΕΚ (Ημερομηνία)', flex: 1 },
+        { field: 'legalActYear', headerName: 'Έτος', flex: 1 },
+        { field: 'ada', headerName: 'ΑΔΑ', flex: 1 },
+        {
+            field: 'actionCell',
+            headerName: 'Ενέργειες',
+            cellRenderer: LegalActsActionsComponent,
+            filter: false,
+            sortable: false,
+            floatingFilter: false,
+            flex: 1,
+            resizable: false,
+        },
+    ];
+
+    LEGAL_PROVISIONS_COL_DEFS: ColDef[] = [
+        {
+            valueGetter: function (params) {
+                if (params.data.legalActType === 'ΑΛΛΟ') {
+                    return params.data.legalActTypeOther;
+                } else {
+                    return params.data.legalActType;
+                }
+            },
+            field: 'legalActType',
+            headerName: 'Πράξη',
+            flex: 1,
+        },
+        { field: 'legalActNumber', headerName: 'Αριθμός', flex: 1 },
+        { field: 'legalActYear', headerName: 'Έτος', flex: 1 },
+        { field: 'fek.number', headerName: 'ΦΕΚ (Αριθμός)', flex: 1 },
+        { field: 'fek.issue', headerName: 'ΦΕΚ (Τεύχος)', flex: 1 },
+        { field: 'fek.date', headerName: 'ΦΕΚ (Ημερομηνία)', flex: 1 },
+        { field: 'legalProvisionSpecs.meros', headerName: 'Μέρος', flex: 1 },
+        { field: 'legalProvisionSpecs.arthro', headerName: 'Άρθρο', flex: 1 },
+        { field: 'legalProvisionSpecs.paragrafos', headerName: 'Παράγραφος', flex: 1 },
+        { field: 'legalProvisionSpecs.edafio', headerName: 'Εδάφιο', flex: 1 },
+        { field: 'legalProvisionSpecs.pararthma', headerName: 'Παράρτημα', flex: 1 },
+        {
+            field: 'actionCell',
+            headerName: 'Κείμενο',
+            cellRenderer: LegalProvisionsActionsComponent,
+            filter: false,
+            sortable: false,
+            floatingFilter: false,
+            resizable: false,
+            flex: 0.5,
+        },
+    ];
 
     constructor() {
         this.dictionaryService
