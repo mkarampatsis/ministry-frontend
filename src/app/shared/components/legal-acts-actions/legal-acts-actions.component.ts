@@ -38,7 +38,7 @@ export class LegalActsActionsComponent implements ICellRendererAngularComp {
                 link.download = this.params.data.legalActKey + '.pdf';
                 this.modalService.showPdfViewer(link);
                 document.body.appendChild(link);
-                link.click();
+                // link.click();
                 document.body.removeChild(link);
             });
     }
