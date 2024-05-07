@@ -11,13 +11,13 @@ import {
     NewRemitComponent,
     NewLegalProvisionComponent,
 } from 'src/app/shared/modals';
-import { SelectLegalActionComponent } from '../components/select-legal-action/select-legal-action.component';
 import { SelectLegalActionModalComponent } from '../modals/select-legal-action-modal/select-legal-action-modal.component';
 import { Observable, take } from 'rxjs';
 import { ILegalProvisionSpecs } from '../interfaces/legal-provision/legal-provision-specs.interface';
 import { SelectLegalProvisionModalComponent } from '../modals/select-legal-provision-modal/select-legal-provision-modal.component';
 import { ILegalProvision } from '../interfaces/legal-provision/legal-provision.interface';
 import { ShowLegalProvisionComponent } from '../modals/show-legal-provision/show-legal-provision.component';
+import { PdfViewerComponent } from '../modals/pdf-viewer/pdf-viewer.component';
 
 @Injectable({
     providedIn: 'root',
@@ -137,5 +137,14 @@ export class ModalService {
         });
         modalRef.componentInstance.modalRef = modalRef;
         return modalRef.dismissed.pipe(take(1)) as Observable<ILegalProvision[]>;
+    }
+
+    showPdfViewer(pdfURL: HTMLAnchorElement) {
+        const modalRef = this.modalService.open(PdfViewerComponent, {
+            size: 'xl',
+            centered: true,
+        });
+        modalRef.componentInstance.pdfURL = pdfURL;
+        modalRef.componentInstance.modalRef = modalRef;
     }
 }
