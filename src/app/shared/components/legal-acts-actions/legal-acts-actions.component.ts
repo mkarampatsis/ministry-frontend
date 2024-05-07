@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 import { ModalService } from 'src/app/shared/services/modal.service';
@@ -10,7 +9,7 @@ import { take } from 'rxjs';
 @Component({
     selector: 'app-legal-acts-actions',
     standalone: true,
-    imports: [MatIconModule, NgbTooltipModule],
+    imports: [MatIconModule],
     templateUrl: './legal-acts-actions.component.html',
     styleUrl: './legal-acts-actions.component.css',
 })

@@ -94,12 +94,12 @@ export class ConstService {
         { field: 'ada', headerName: 'ΑΔΑ', flex: 1 },
         {
             field: 'actionCell',
-            headerName: 'Ενέργειες',
+            headerName: 'Κείμενο',
             cellRenderer: LegalActsActionsComponent,
             filter: false,
             sortable: false,
             floatingFilter: false,
-            flex: 1,
+            flex: 0.5,
             resizable: false,
         },
     ];
