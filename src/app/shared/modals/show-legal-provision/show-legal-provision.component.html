@@ -13,18 +13,58 @@
 
             <table class="w-50">
                 <tr>
-                    <th class="text-center">Μέρος</th>
-                    <th class="text-center">Άρθρο</th>
-                    <th class="text-center">Παράγραφος</th>
-                    <th class="text-center">Εδάφιο</th>
-                    <th class="text-center">Παράρτημα</th>
+                    <th
+                        *ngIf="legalProvision.legalProvisionSpecs.meros"
+                        class="text-center">
+                        Μέρος
+                    </th>
+                    <th
+                        *ngIf="legalProvision.legalProvisionSpecs.arthro"
+                        class="text-center">
+                        Άρθρο
+                    </th>
+                    <th
+                        *ngIf="legalProvision.legalProvisionSpecs.paragrafos"
+                        class="text-center">
+                        Παράγραφος
+                    </th>
+                    <th
+                        *ngIf="legalProvision.legalProvisionSpecs.edafio"
+                        class="text-center">
+                        Εδάφιο
+                    </th>
+                    <th
+                        *ngIf="legalProvision.legalProvisionSpecs.pararthma"
+                        class="text-center">
+                        Παράρτημα
+                    </th>
                 </tr>
                 <tr>
-                    <td class="text-center">{{ legalProvision.legalProvisionSpecs.meros }}</td>
-                    <td class="text-center">{{ legalProvision.legalProvisionSpecs.arthro }}</td>
-                    <td class="text-center">{{ legalProvision.legalProvisionSpecs.paragrafos }}</td>
-                    <td class="text-center">{{ legalProvision.legalProvisionSpecs.edafio }}</td>
-                    <td class="text-center">{{ legalProvision.legalProvisionSpecs.pararthma }}</td>
+                    <td
+                        *ngIf="legalProvision.legalProvisionSpecs.meros"
+                        class="text-center">
+                        {{ legalProvision.legalProvisionSpecs.meros }}
+                    </td>
+                    <td
+                        *ngIf="legalProvision.legalProvisionSpecs.arthro"
+                        class="text-center">
+                        {{ legalProvision.legalProvisionSpecs.arthro }}
+                    </td>
+                    <td
+                        *ngIf="legalProvision.legalProvisionSpecs.paragrafos"
+                        class="text-center">
+                        {{ legalProvision.legalProvisionSpecs.paragrafos }}
+                    </td>
+                    <td
+                        *ngIf="legalProvision.legalProvisionSpecs.edafio"
+                        class="text-center">
+                        {{ legalProvision.legalProvisionSpecs.edafio }}
+                    </td>
+                    <td
+                        *ngIf="legalProvision.legalProvisionSpecs.pararthma"
+                        class="text-center">
+                        {{ legalProvision.legalProvisionSpecs.pararthma }}
+                    </td>
                 </tr>
             </table>
         </div>
