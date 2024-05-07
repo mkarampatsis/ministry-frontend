@@ -23,7 +23,7 @@ export class NewLegalProvisionComponent implements OnDestroy {
 
     modalRef: any;
 
-    selectedLegalActKey = '';
+    selectedLegalActKey: string | undefined = undefined;
 
     editor: Editor = new Editor();
     toolbar: Toolbar = DEFAULT_TOOLBAR;

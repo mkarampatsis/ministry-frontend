@@ -131,7 +131,8 @@ export class ModalService {
 
     selectLegalProvision() {
         const modalRef = this.modalService.open(SelectLegalProvisionModalComponent, {
-            fullscreen: true,
+            fullscreen: 'lg',
+            size: 'xl',
             centered: true,
         });
         modalRef.componentInstance.modalRef = modalRef;
