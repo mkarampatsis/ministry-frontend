@@ -1,23 +1,25 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
-import { map, take } from 'rxjs';
-import { IOrganizationList } from 'src/app/shared/interfaces/organization/organization-list.interface';
-import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-overlay/grid-loading-overlay.component';
+
 import { ConstService } from 'src/app/shared/services/const.service';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
+import { IOrganizationList } from 'src/app/shared/interfaces/organization';
+import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-overlay/grid-loading-overlay.component';
+import { map, take } from 'rxjs';
 
 @Component({
-    selector: 'app-foreis',
+    selector: 'app-select-organization',
     standalone: true,
     imports: [AgGridAngular, GridLoadingOverlayComponent],
-    templateUrl: './foreis.component.html',
-    styleUrl: './foreis.component.css',
+    templateUrl: './select-organization.component.html',
+    styleUrl: './select-organization.component.css',
 })
-export class ForeisComponent {
+export class SelectOrganizationComponent {
+    @Output() selectedOrganization = new EventEmitter<string>();
     constService = inject(ConstService);
     organizationService = inject(OrganizationService);
-    foreis: IOrganizationList[] = [];
+    organizations: IOrganizationList[] = [];
 
     organizationCodesMap = this.constService.ORGANIZATION_CODES_MAP;
     organizationTypesMap = this.constService.ORGANIZATION_TYPES_MAP;
@@ -25,6 +27,9 @@ export class ForeisComponent {
     defaultColDef = this.constService.defaultColDef;
     colDefs: ColDef[] = this.constService.ORGANIZATIONS_COL_DEFS;
     autoSizeStrategy = this.constService.autoSizeStrategy;
+
+    rowSelection: 'single' | 'multiple' = 'single';
+    currentOrganization: IOrganizationList;
 
     loadingOverlayComponent = GridLoadingOverlayComponent;
     loadingOverlayComponentParams = { loadingMessage: 'Αναζήτηση φορέων...' };
@@ -50,7 +55,16 @@ export class ForeisComponent {
             )
             .subscribe((data) => {
                 this.gridApi.hideOverlay();
-                this.foreis = data;
+                this.organizations = data;
             });
+    }
+
+    onSelectionChanged(): void {
+        const selectedRows = this.gridApi.getSelectedRows();
+        this.currentOrganization = selectedRows[0];
+    }
+
+    onSelectedOrganization(): void {
+        this.selectedOrganization.emit(this.currentOrganization.code);
     }
 }

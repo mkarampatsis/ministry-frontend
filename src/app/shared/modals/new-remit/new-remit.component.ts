@@ -12,11 +12,12 @@ import { RemitService } from 'src/app/shared/services/remit.service';
 import { Toast, ToastService } from 'src/app/shared/services/toast.service';
 import { ToastMessageComponent } from 'src/app/shared/components/toast-message/toast-message.component';
 import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
+import { ListSelectedLegalProvisionsComponent } from '../../components/list-selected-legal-provisions/list-selected-legal-provisions.component';
 
 @Component({
     selector: 'app-new-remit',
     standalone: true,
-    imports: [ReactiveFormsModule, NgxEditorModule],
+    imports: [ReactiveFormsModule, NgxEditorModule, ListSelectedLegalProvisionsComponent],
     templateUrl: './new-remit.component.html',
     styleUrl: './new-remit.component.css',
     encapsulation: ViewEncapsulation.None,

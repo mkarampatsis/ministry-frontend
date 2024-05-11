@@ -15,3 +15,8 @@ body {
 mat-icon:hover {
     color: #007bff;
 }
+
+.rag-red-outer {
+    background-color: lightcoral;
+    color: blue;
+}

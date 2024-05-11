@@ -18,6 +18,8 @@ import { SelectLegalProvisionModalComponent } from '../modals/select-legal-provi
 import { ILegalProvision } from '../interfaces/legal-provision/legal-provision.interface';
 import { ShowLegalProvisionComponent } from '../modals/show-legal-provision/show-legal-provision.component';
 import { PdfViewerComponent } from '../modals/pdf-viewer/pdf-viewer.component';
+import { SelectOrganizationModalComponent } from '../modals/select-organization-modal/select-organization-modal.component';
+import { YesNoComponent } from '../modals/yes-no/yes-no.component';
 
 @Injectable({
     providedIn: 'root',
@@ -119,6 +121,15 @@ export class ModalService {
         return modalRef.dismissed.pipe(take(1)) as Observable<boolean>;
     }
 
+    selectOrganization() {
+        const modalRef = this.modalService.open(SelectOrganizationModalComponent, {
+            size: 'xl',
+            centered: true,
+        });
+        modalRef.componentInstance.modalRef = modalRef;
+        return modalRef.dismissed.pipe(take(1)) as Observable<string>;
+    }
+
     selectLegalAct() {
         const modalRef = this.modalService.open(SelectLegalActionModalComponent, {
             fullscreen: 'lg',
@@ -146,5 +157,14 @@ export class ModalService {
         });
         modalRef.componentInstance.pdfURL = pdfURL;
         modalRef.componentInstance.modalRef = modalRef;
+    }
+
+    getUserConsent() {
+        const modalRef = this.modalService.open(YesNoComponent, {
+            size: 'lg',
+            centered: true,
+        });
+        modalRef.componentInstance.modalRef = modalRef;
+        return modalRef.dismissed.pipe(take(1)) as Observable<boolean>;
     }
 }

@@ -25,6 +25,5 @@ export class LegalProvisionsActionsComponent implements ICellRendererAngularComp
 
     displayLegalProvision() {
         this.modalService.showLegalProvision(this.params.data);
-        console.log(this.params.data.legalProvisionText);
     }
 }

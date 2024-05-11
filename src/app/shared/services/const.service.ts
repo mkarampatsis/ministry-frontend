@@ -3,6 +3,7 @@ import { take } from 'rxjs';
 
 import {
     ColDef,
+    RowClassRules,
     SizeColumnsToContentStrategy,
     SizeColumnsToFitGridStrategy,
     SizeColumnsToFitProvidedWidthStrategy,
@@ -17,6 +18,7 @@ import { CofogService } from 'src/app/shared/services/cofog.service';
 import { ICofog } from '../interfaces/cofog/cofog.interface';
 import { LegalProvisionsActionsComponent } from '../components/legal-provisions-actions/legal-provisions-actions.component';
 import { LegalActsActionsComponent } from '../components/legal-acts-actions/legal-acts-actions.component';
+import { ForeisActionIconsComponent } from '../components/foreis-action-icons/foreis-action-icons.component';
 
 @Injectable({
     providedIn: 'root',
@@ -73,6 +75,23 @@ export class ConstService {
         | SizeColumnsToFitProvidedWidthStrategy
         | SizeColumnsToContentStrategy = { type: 'fitCellContents' };
 
+    ORGANIZATIONS_COL_DEFS: ColDef[] = [
+        { field: 'code', headerName: 'Κωδικός', flex: 1 },
+        { field: 'preferredLabel', headerName: 'Ονομασία', flex: 4 },
+        { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', flex: 2 },
+        { field: 'organizationType', headerName: 'Τύπος', flex: 2 },
+        {
+            field: 'actionCell',
+            headerName: '',
+            cellRenderer: ForeisActionIconsComponent,
+            filter: false,
+            sortable: false,
+            floatingFilter: false,
+            flex: 1,
+            resizable: false,
+        },
+    ];
+
     LEGAL_ACTS_COL_DEFS: ColDef[] = [
         {
             valueGetter: function (params) {
@@ -94,7 +113,7 @@ export class ConstService {
         { field: 'ada', headerName: 'ΑΔΑ', flex: 1 },
         {
             field: 'actionCell',
-            headerName: 'Κείμενο',
+            headerName: 'Ενέργειες',
             cellRenderer: LegalActsActionsComponent,
             filter: false,
             sortable: false,
@@ -129,7 +148,7 @@ export class ConstService {
         { field: 'legalProvisionSpecs.pararthma', headerName: 'Παράρτημα', flex: 1 },
         {
             field: 'actionCell',
-            headerName: 'Κείμενο',
+            headerName: 'Ενέργειες',
             cellRenderer: LegalProvisionsActionsComponent,
             filter: false,
             sortable: false,
@@ -138,6 +157,12 @@ export class ConstService {
             flex: 0.5,
         },
     ];
+
+    LEGAL_PROVISIONS_ROW_CLASS_RULES: RowClassRules = {
+        'rag-red-outer': (params: any) => {
+            return !params.data.regulatedObject;
+        },
+    };
 
     constructor() {
         this.dictionaryService

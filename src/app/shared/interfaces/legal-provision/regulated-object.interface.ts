@@ -1,4 +1,4 @@
 export interface IReguLatedObject {
-    foreas: string;
-    monada: string;
+    regulatedObjectType: 'organization' | 'organizationUnit' | 'remit';
+    regulatedObjectCode: string;
 }

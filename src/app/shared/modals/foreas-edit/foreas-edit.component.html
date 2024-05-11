@@ -3,34 +3,67 @@
     <button
         type="button"
         class="btn-close"
-        (click)="modalRef.dismiss()"
-    ></button>
+        (click)="modalRef.dismiss()"></button>
 </div>
 <div class="modal-body">
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <span class="fw-semibold">{{ organization?.preferredLabel }}</span>
-            <span class="text-muted small">
-                Κωδικός απογραφής: {{ organization?.code }}</span
-            >
+            <span class="text-muted small">Κωδικός απογραφής: {{ organization?.code }}</span>
         </div>
         <div class="card-body">
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                    <label for="level"> Επίπεδο Φορέα </label>
+            <form [formGroup]="form">
+                <div class="mb-3">
+                    <label
+                        for="level"
+                        class="form-label">
+                        Επίπεδο Φορέα
+                    </label>
                     <select
                         class="form-select"
                         id="level"
-                        formControlName="level"
-                    >
-                        <option
-                            *ngFor="let level of organizationLevels"
-                            [value]="level"
-                            [selected]="level === foreas?.level"
-                        >
-                            {{ level }}
-                        </option>
+                        formControlName="level">
+                        @for (level of organizationLevels; track level) {
+                            <option
+                                [value]="level"
+                                [selected]="level === foreas?.level">
+                                {{ level }}
+                            </option>
+                        }
                     </select>
+                </div>
+                <div class="mb-3">
+                    @if (!legalProvisions.length) {
+                        <div class="mb-3 d-flex gap-2">
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                (click)="selectLegalProvision()">
+                                Διατάξεις Πρόβλεψης
+                            </button>
+                        </div>
+                    } @else {
+                        <div class="mb-3 d-flex flex-column">
+                            <label class="form-label">
+                                @if (legalProvisions.length === 1) {
+                                    Διάταξη
+                                } @else {
+                                    Διατάξεις
+                                }
+                                Πρόβλεψης:
+                            </label>
+                            <app-list-selected-legal-provisions
+                                [legalProvisions]="legalProvisions"></app-list-selected-legal-provisions>
+
+                            <div class="d-flex justify-content-start">
+                                <button
+                                    class="btn btn-primary btn-sm"
+                                    (click)="selectLegalProvision()">
+                                    Αλλαγή Διατάξεων
+                                </button>
+                            </div>
+                        </div>
+                    }
                 </div>
             </form>
         </div>
@@ -43,8 +76,7 @@
         type="button"
         class="btn btn-primary"
         (click)="onSubmit()"
-        [disabled]="form.invalid"
-    >
+        [disabled]="form.invalid">
         Υποβολή
     </button>
 </div>

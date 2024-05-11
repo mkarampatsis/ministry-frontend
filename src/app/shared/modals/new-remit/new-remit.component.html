@@ -178,47 +178,8 @@
                 } @else {
                     <div class="mb-3 d-flex flex-column">
                         <label class="form-label">Διατάξεις:</label>
-                        <table class="table table-bordered small">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Νομική Πράξη</th>
-                                    <th class="text-center">Μέρος</th>
-                                    <th class="text-center">Άρθρο</th>
-                                    <th class="text-center">Παράγραφος</th>
-                                    <th class="text-center">Εδάφιο</th>
-                                    <th class="text-center">Παράρτημα</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (legalProvision of legalProvisions; let i = $index; track i) {
-                                    <tr>
-                                        <td
-                                            rowspan="2"
-                                            class="text-center align-content-center">
-                                            {{ i + 1 }}
-                                        </td>
-                                        <td
-                                            rowspan="2"
-                                            class="align-content-center">
-                                            {{ legalProvision.legalActKey }}
-                                        </td>
-                                        <td class="text-center">{{ legalProvision.legalProvisionSpecs.meros }}</td>
-                                        <td class="text-center">{{ legalProvision.legalProvisionSpecs.arthro }}</td>
-                                        <td class="text-center">{{ legalProvision.legalProvisionSpecs.paragrafos }}</td>
-                                        <td class="text-center">{{ legalProvision.legalProvisionSpecs.edafio }}</td>
-                                        <td class="text-center">{{ legalProvision.legalProvisionSpecs.pararthma }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5">
-                                            <span
-                                                class="text-muted"
-                                                [innerHTML]="legalProvision.legalProvisionText"></span>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                        <app-list-selected-legal-provisions
+                            [legalProvisions]="legalProvisions"></app-list-selected-legal-provisions>
 
                         <div class="d-flex justify-content-start">
                             <button

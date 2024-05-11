@@ -1,13 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-overlay/grid-loading-overlay.component';
-import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
+import { GridApi, GridReadyEvent } from 'ag-grid-community';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { LegalProvisionService } from 'src/app/shared/services/legal-provision.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { ILegalProvision } from 'src/app/shared/interfaces/legal-provision/legal-provision.interface';
 import { map, take } from 'rxjs';
-import { LegalProvisionsActionsComponent } from 'src/app/shared/components/legal-provisions-actions/legal-provisions-actions.component';
 
 @Component({
     selector: 'app-diataxeis',
@@ -25,6 +24,7 @@ export class DiataxeisComponent {
     defaultColDef = this.constService.defaultColDef;
 
     colDefs = this.constService.LEGAL_PROVISIONS_COL_DEFS;
+    rowClassRules = this.constService.LEGAL_PROVISIONS_ROW_CLASS_RULES;
 
     currentLegalProvisions: ILegalProvision[] = [];
 

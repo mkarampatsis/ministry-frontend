@@ -29,6 +29,7 @@ export class SelectLegalProvisionComponent {
     rowSelection: 'single' | 'multiple' = 'multiple';
 
     colDefs = this.constService.LEGAL_PROVISIONS_COL_DEFS;
+    rowClassRules = this.constService.LEGAL_PROVISIONS_ROW_CLASS_RULES;
 
     currentLegalProvisions: ILegalProvision[] = [];
 
@@ -65,6 +66,7 @@ export class SelectLegalProvisionComponent {
     }
 
     onSelectedLegalProvisions(): void {
+        console.log('select-legal-provision', this.currentLegalProvisions);
         this.selectedLegalProvisions.emit(this.currentLegalProvisions);
     }
 

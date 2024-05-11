@@ -24,4 +24,10 @@ export class LegalProvisionService {
         const url = `${APIPREFIX}/count`;
         return this.http.get<{ count: number }>(url);
     }
+
+    fromListOfIds(ids: string[]): Observable<ILegalProvision[]> {
+        const url = `${APIPREFIX}/from_list_of_ids`;
+
+        return this.http.post<ILegalProvision[]>(url, ids);
+    }
 }
