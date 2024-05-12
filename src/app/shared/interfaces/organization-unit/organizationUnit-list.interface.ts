@@ -3,4 +3,5 @@ export interface IOrganizationUnitList {
     preferredLabel: string;
     unitType: string;
     supervisorUnitCode: string;
+    organizationCode: string;
 }

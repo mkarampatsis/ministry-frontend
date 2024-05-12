@@ -17,17 +17,19 @@ import { OrganizationalUnitService } from 'src/app/shared/services/organizationa
 })
 export class MonadesComponent {
     constService = inject(ConstService);
-    organizationUnitService = inject(OrganizationalUnitService);
+    organizationalUnitService = inject(OrganizationalUnitService);
     monades: IOrganizationUnitList[] = [];
 
+    organizationCodesMap = this.constService.ORGANIZATION_CODES_MAP;
     organizationUnitCodesMap = this.constService.ORGANIZATION_UNIT_CODES_MAP;
     organizationUnitTypesMap = this.constService.ORGANIZATION_UNIT_TYPES_MAP;
 
     defaultColDef = this.constService.defaultColDef;
     // prettier-ignore
     colDefs: ColDef[] = [
-        { field: 'code', headerName: 'Κωδικός', width: 90, maxWidth: 90, minWidth: 90},
+        { field: 'code', headerName: 'Κωδικός', flex: 1},
         { field: 'preferredLabel', headerName: 'Ονομασία', flex: 1 },
+        { field: 'organization', headerName: 'Φορέας', flex: 1},
         { field: 'subOrganizationOf', headerName: 'Προϊστάμενη Μονάδα', flex: 1 },
         { field: 'organizationType', headerName: 'Τύπος', flex: 1 },
         { field: 'actionCell', headerName: 'Ενέργειες', cellRenderer: MonadesActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, flex: 1, resizable: false},
@@ -42,7 +44,7 @@ export class MonadesComponent {
     onGridReady(params: GridReadyEvent<IOrganizationUnitList>): void {
         this.gridApi = params.api;
         this.gridApi.showLoadingOverlay();
-        this.organizationUnitService
+        this.organizationalUnitService
             .getAllOrganizationalUnits()
             .pipe(
                 take(1),
@@ -51,12 +53,14 @@ export class MonadesComponent {
                         return {
                             ...org,
                             organizationType: this.organizationUnitTypesMap.get(parseInt(String(org.unitType))),
+                            organization: this.organizationCodesMap.get(org.organizationCode),
                             subOrganizationOf: this.organizationUnitCodesMap.get(org.supervisorUnitCode),
                         };
                     });
                 }),
             )
             .subscribe((data) => {
+                console.log(data);
                 this.gridApi.hideOverlay();
                 this.monades = data;
             });
