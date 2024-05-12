@@ -70,26 +70,26 @@ export class SelectLegalProvisionComponent {
     }
 
     newLegalProvision(): void {
-        this.modalService.newLegalProvision().subscribe((data) => {
-            if (data) {
-                this.gridApi.showLoadingOverlay();
-                this.legalProvisionsService
-                    .getAllLegalProvisions()
-                    .pipe(
-                        take(1),
-                        map((data) => {
-                            return data.map((legalAct) => {
-                                return {
-                                    ...legalAct,
-                                };
-                            });
-                        }),
-                    )
-                    .subscribe((data) => {
-                        this.legalProvisions = data;
-                        this.gridApi.hideOverlay();
-                    });
-            }
-        });
+        // this.modalService.newLegalProvision().subscribe((data) => {
+        //     if (data) {
+        //         this.gridApi.showLoadingOverlay();
+        //         this.legalProvisionsService
+        //             .getAllLegalProvisions()
+        //             .pipe(
+        //                 take(1),
+        //                 map((data) => {
+        //                     return data.map((legalAct) => {
+        //                         return {
+        //                             ...legalAct,
+        //                         };
+        //                     });
+        //                 }),
+        //             )
+        //             .subscribe((data) => {
+        //                 this.legalProvisions = data;
+        //                 this.gridApi.hideOverlay();
+        //             });
+        //     }
+        // });
     }
 }

@@ -30,19 +30,23 @@ export class BackendInterceptor implements HttpInterceptor {
                             component: ToastMessageComponent,
                             inputs: { message },
                             classname: 'bg-success text-light',
-                            delay: 10000,
+                            delay: 15000,
                         };
                         this.toastService.show(toast);
                     }
                 }
             }),
             catchError((response: HttpErrorResponse): Observable<any> => {
-                if (response.status === 403 && response.error) {
+                // console.log('============= ERROR =============');
+                // console.log(response);
+                // console.log('============= ERROR =============');
+                if (response.error) {
+                    const message = response.error.message;
                     const toast: Toast = {
                         component: ToastMessageComponent,
-                        inputs: { message: response.error.error },
+                        inputs: { message },
                         classname: 'bg-danger text-light',
-                        delay: 5000,
+                        delay: 15000,
                     };
                     this.toastService.show(toast);
                 }
@@ -53,7 +57,7 @@ export class BackendInterceptor implements HttpInterceptor {
                             message: 'Το αρχείο είναι πολύ μεγάλο για αποστολή (μέγιστο μέγεθος 16ΜΒ).',
                         },
                         classname: 'bg-danger text-light',
-                        delay: 5000,
+                        delay: 15000,
                     };
                     this.toastService.show(toast);
                 }

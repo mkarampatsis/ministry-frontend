@@ -20,6 +20,8 @@ import { ShowLegalProvisionComponent } from '../modals/show-legal-provision/show
 import { PdfViewerComponent } from '../modals/pdf-viewer/pdf-viewer.component';
 import { SelectOrganizationModalComponent } from '../modals/select-organization-modal/select-organization-modal.component';
 import { YesNoComponent } from '../modals/yes-no/yes-no.component';
+import { IForeas } from '../interfaces/foreas/foreas.interface';
+import { IReguLatedObject } from '../interfaces/legal-provision/regulated-object.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -98,17 +100,19 @@ export class ModalService {
         modalRef.componentInstance.organizationUnit = organizationUnit;
     }
 
-    newLegalProvision() {
+    newLegalProvision(regulatedObject: IReguLatedObject) {
         const modalRef = this.modalService.open(NewLegalProvisionComponent, {
             size: 'xl',
             centered: true,
         });
         modalRef.componentInstance.modalRef = modalRef;
+        modalRef.componentInstance.regulatedObject = regulatedObject;
 
-        return modalRef.closed.pipe(take(1)) as Observable<{
-            legalActKey: string;
-            legalProvisionSpecs: ILegalProvisionSpecs;
-            regulatedObject: { foreas: string; monada: string };
+        return modalRef.dismissed.pipe(take(1)) as Observable<{
+            // legalActKey: string;
+            // legalProvisionSpecs: ILegalProvisionSpecs;
+            // regulatedObject: { foreas: string; monada: string };
+            legalProvision: ILegalProvision;
         }>;
     }
 

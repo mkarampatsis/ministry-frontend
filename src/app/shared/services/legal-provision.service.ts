@@ -14,8 +14,8 @@ const APIPREFIX = `${environment.apiUrl}/legal_provision`;
 export class LegalProvisionService {
     http = inject(HttpClient);
 
-    newLegalProvision(data: ILegalProvision): Observable<{ msg: string; index: ILegalProvision }> {
-        return this.http.post<{ msg: string; index: ILegalProvision }>(APIPREFIX, data);
+    newLegalProvision(data: ILegalProvision): Observable<{ message: string; legalProvision: ILegalProvision }> {
+        return this.http.post<{ message: string; legalProvision: ILegalProvision }>(APIPREFIX, data);
     }
 
     getAllLegalProvisions(): Observable<ILegalProvision[]> {
@@ -27,16 +27,21 @@ export class LegalProvisionService {
         return this.http.get<{ count: number }>(url);
     }
 
-    fromListOfIds(ids: string[]): Observable<ILegalProvision[]> {
-        const url = `${APIPREFIX}/from_list_of_ids`;
-        return this.http.post<ILegalProvision[]>(url, ids);
+    getLegalProvisionsByRegulatedObject(id: string): Observable<ILegalProvision[]> {
+        const url = `${APIPREFIX}/by_regulated_object/${id}`;
+        return this.http.get<ILegalProvision[]>(url);
     }
 
-    fromListOfKeysUpdateRegulatedObject(
-        keys: { legalActKey: string; legalProvisionSpecs: ILegalProvisionSpecs }[],
-        regulatedObject: IReguLatedObject,
-    ) {
-        const url = `${APIPREFIX}/from_list_of_keys/update_regulated_object`;
-        return this.http.post(url, { keys, regulatedObject });
-    }
+    // fromListOfIds(ids: string[]): Observable<ILegalProvision[]> {
+    //     const url = `${APIPREFIX}/from_list_of_ids`;
+    //     return this.http.post<ILegalProvision[]>(url, ids);
+    // }
+
+    // fromListOfKeysUpdateRegulatedObject(
+    //     keys: { legalActKey: string; legalProvisionSpecs: ILegalProvisionSpecs }[],
+    //     regulatedObject: IReguLatedObject,
+    // ) {
+    //     const url = `${APIPREFIX}/from_list_of_keys/update_regulated_object`;
+    //     return this.http.post(url, { keys, regulatedObject });
+    // }
 }

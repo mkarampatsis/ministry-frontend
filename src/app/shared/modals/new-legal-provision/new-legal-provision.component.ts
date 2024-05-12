@@ -7,6 +7,7 @@ import { LegalProvisionService } from 'src/app/shared/services/legal-provision.s
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
 import { ILegalProvisionSpecs } from '../../interfaces/legal-provision/legal-provision-specs.interface';
 import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
+import { IReguLatedObject } from '../../interfaces/legal-provision/regulated-object.interface';
 
 @Component({
     selector: 'app-new-legal-provision',
@@ -22,6 +23,7 @@ export class NewLegalProvisionComponent implements OnDestroy {
     legalProvisionService = inject(LegalProvisionService);
 
     modalRef: any;
+    regulatedObject: IReguLatedObject;
 
     selectedLegalActKey: string | undefined = undefined;
 
@@ -70,16 +72,21 @@ export class NewLegalProvisionComponent implements OnDestroy {
     }
 
     onSubmit() {
-        console.log(this.form.value);
+        // console.log(this.form.value);
         const legalProvisionSpecs = this.form.get('legalProvisionSpecs').value as ILegalProvisionSpecs;
 
         const legalActKey = this.form.get('legalActKey').value;
         const legalProvisionText = this.form.get('legalActText').value;
-        const diataxi = { legalProvisionSpecs, legalActKey, legalProvisionText } as ILegalProvision;
-        this.legalProvisionService.newLegalProvision(diataxi).subscribe((data) => {
-            const { msg, index } = data;
-            console.log(msg);
-            this.modalRef.close(index);
+        const legalProvision = {
+            legalProvisionSpecs,
+            legalActKey,
+            legalProvisionText,
+            regulatedObject: this.regulatedObject,
+        } as ILegalProvision;
+        this.legalProvisionService.newLegalProvision(legalProvision).subscribe((data) => {
+            const { message, legalProvision } = data;
+            console.log(message);
+            this.modalRef.dismiss({ legalProvision });
         });
     }
 }

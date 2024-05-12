@@ -12,60 +12,60 @@
             <span class="text-muted small">Κωδικός απογραφής: {{ organization?.code }}</span>
         </div>
         <div class="card-body">
-            <form [formGroup]="form">
-                <div class="mb-3">
-                    <label
-                        for="level"
-                        class="form-label">
-                        Επίπεδο Φορέα
-                    </label>
-                    <select
-                        class="form-select"
-                        id="level"
-                        formControlName="level">
-                        @for (level of organizationLevels; track level) {
-                            <option
-                                [value]="level"
-                                [selected]="level === foreas?.level">
-                                {{ level }}
-                            </option>
-                        }
-                    </select>
-                </div>
-                <div class="mb-3">
-                    @if (!legalProvisions.length) {
-                        <div class="mb-3 d-flex gap-2">
-                            <button
-                                type="button"
-                                class="btn btn-primary"
-                                (click)="selectLegalProvision()">
-                                Διατάξεις Πρόβλεψης
-                            </button>
-                        </div>
-                    } @else {
-                        <div class="mb-3 d-flex flex-column">
-                            <label class="form-label">
-                                @if (legalProvisions.length === 1) {
-                                    Διάταξη
-                                } @else {
-                                    Διατάξεις
-                                }
-                                Πρόβλεψης:
-                            </label>
-                            <app-list-selected-legal-provisions
-                                [legalProvisions]="legalProvisions"></app-list-selected-legal-provisions>
+            <!-- <form [formGroup]="form"> -->
+            <div class="mb-3">
+                <label
+                    for="level"
+                    class="form-label">
+                    Επίπεδο Φορέα
+                </label>
+                <select
+                    (change)="onLevelChange()"
+                    class="form-select"
+                    id="level"
+                    [(ngModel)]="level">
+                    @for (level of organizationLevels; track level) {
+                        <option
+                            [value]="level"
+                            [selected]="level === foreas?.level">
+                            {{ level }}
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <button
+                    type="button"
+                    class="btn btn-primary mb-3"
+                    (click)="newLegalProvision()">
+                    Προσθήκη Διάταξης
+                </button>
+                @if (!legalProvisions.length) {
+                    <p class="text-info">Δεν υπάρχει προς το παρόν κάποια διάταξη</p>
+                } @else {
+                    <div class="mb-3 d-flex flex-column">
+                        <label class="form-label">
+                            @if (legalProvisions.length === 1) {
+                                Διάταξη
+                            } @else {
+                                Διατάξεις
+                            }
+                            Πρόβλεψης:
+                        </label>
+                        <app-list-selected-legal-provisions
+                            [legalProvisions]="legalProvisions"></app-list-selected-legal-provisions>
 
-                            <div class="d-flex justify-content-start">
+                        <!-- <div class="d-flex justify-content-start">
                                 <button
                                     class="btn btn-primary"
                                     (click)="selectLegalProvision()">
                                     Αλλαγή Διατάξεων
                                 </button>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </form>
+                            </div> -->
+                    </div>
+                }
+            </div>
+            <!-- </form> -->
         </div>
     </div>
 </div>
@@ -76,7 +76,7 @@
         type="button"
         class="btn btn-primary"
         (click)="onSubmit()"
-        [disabled]="form.invalid">
+        [disabled]="false">
         Υποβολή
     </button>
 </div>
