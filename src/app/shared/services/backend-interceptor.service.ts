@@ -23,7 +23,7 @@ export class BackendInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             tap((event) => {
                 if (event instanceof HttpResponse) {
-                    console.log('Event:', event);
+                    // console.log('Event:', event);
                     if (event.status === 201) {
                         const message = event.body.message;
                         const toast: Toast = {
