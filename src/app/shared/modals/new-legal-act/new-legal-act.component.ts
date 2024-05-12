@@ -32,7 +32,7 @@ export class NewLegalActComponent implements OnInit {
     organizationUnitService = inject(OrganizationUnitService);
     legalActService = inject(LegalActService);
 
-    @ViewChild('successTpl') successTpl: TemplateRef<any>;
+    // @ViewChild('successTpl') successTpl: TemplateRef<any>;
     nomikiPraxiString = '';
 
     modalRef: any;
@@ -144,7 +144,7 @@ export class NewLegalActComponent implements OnInit {
         this.legalActService.newLegalAct(data).subscribe((data) => {
             console.log('Data', data);
             this.modalRef.dismiss(true);
-            this.showSuccess(this.successTpl);
+            // this.showSuccess(this.successTpl);
         });
     }
 
@@ -190,14 +190,14 @@ export class NewLegalActComponent implements OnInit {
         return this.constService.ORGANIZATION_CODES.find((x) => x.code === code)?.preferredLabel;
     }
 
-    showSuccess(template: TemplateRef<any>) {
-        const toast: Toast = {
-            component: ToastMessageComponent,
-            inputs: {
-                message: `Επιτυχής εισαγωγή νέας Νομικής Πράξης <strong>${this.nomikiPraxiString}</strong>.`,
-            },
-            classname: 'bg-success text-light',
-        };
-        this.toastService.show(toast);
-    }
+    // showSuccess(template: TemplateRef<any>) {
+    //     const toast: Toast = {
+    //         component: ToastMessageComponent,
+    //         inputs: {
+    //             message: `Επιτυχής εισαγωγή νέας Νομικής Πράξης <strong>${this.nomikiPraxiString}</strong>.`,
+    //         },
+    //         classname: 'bg-success text-light',
+    //     };
+    //     this.toastService.show(toast);
+    // }
 }

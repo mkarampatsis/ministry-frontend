@@ -14,7 +14,7 @@ import { Toast, ToastService } from './toast.service';
 import { ToastMessageComponent } from 'src/app/shared/components/toast-message/toast-message.component';
 
 @Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
+export class BackendInterceptor implements HttpInterceptor {
     modalService = inject(ModalService);
 
     toastService = inject(ToastService);
@@ -23,7 +23,17 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             tap((event) => {
                 if (event instanceof HttpResponse) {
-                    // console.log(event.body);
+                    console.log('Event:', event);
+                    if (event.status === 201) {
+                        const message = event.body.message;
+                        const toast: Toast = {
+                            component: ToastMessageComponent,
+                            inputs: { message },
+                            classname: 'bg-success text-light',
+                            delay: 10000,
+                        };
+                        this.toastService.show(toast);
+                    }
                 }
             }),
             catchError((response: HttpErrorResponse): Observable<any> => {
