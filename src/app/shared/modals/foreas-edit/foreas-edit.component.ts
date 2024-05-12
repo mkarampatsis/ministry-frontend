@@ -12,6 +12,7 @@ import { ILegalProvision } from '../../interfaces/legal-provision/legal-provisio
 import { ModalService } from '../../services/modal.service';
 import { ListSelectedLegalProvisionsComponent } from '../../components/list-selected-legal-provisions/list-selected-legal-provisions.component';
 import { LegalProvisionService } from '../../services/legal-provision.service';
+import { IReguLatedObject } from '../../interfaces/legal-provision/regulated-object.interface';
 
 @Component({
     selector: 'app-foreas-edit',
@@ -58,7 +59,6 @@ export class ForeasEditComponent implements OnInit {
             .getForeas(this.foreas_id)
             .pipe(take(1))
             .subscribe((data) => {
-                console.log(data);
                 this.foreas = data;
                 if (this.foreas.legalProvisions) {
                     this.legalProvisionService
@@ -70,37 +70,63 @@ export class ForeasEditComponent implements OnInit {
                             this.form.get('legalProvisions').setValue(data);
                         });
                 }
-                // this.legalProvisions = data.legalProvisions;
             });
     }
 
     onSubmit() {
         this.form.controls.legalProvisions.enable();
-        if (this.form.valid) {
-            const legalProvisionsIDs = this.legalProvisions.map((provision) => provision['_id']['$oid']);
-            console.log(legalProvisionsIDs);
-            this.level = this.form.value.level;
-            const organization = {
-                code: this.foreas.code,
-                level: this.level,
-                legalProvisions: legalProvisionsIDs,
-            } as IForeas;
 
-            this.foreasService
-                .updateForeas(organization)
-                .pipe(take(1))
-                .subscribe(() => {
-                    this.modalRef.dismiss();
-                    this.showSuccess(this.successTpl);
-                });
-        }
+        const legalProvisionsIDs = this.legalProvisions.map((provision) => provision['_id']['$oid']);
+        const legalProvisionsKeys = this.legalProvisions.map((provision) => {
+            return { legalActKey: provision.legalActKey, legalProvisionSpecs: provision.legalProvisionSpecs };
+        });
+        const regulatedObject: IReguLatedObject = {
+            regulatedObjectType: 'organization',
+            regulatedObjectCode: this.foreas.code,
+        };
+        this.level = this.form.value.level;
+        const organization = {
+            code: this.foreas.code,
+            level: this.level,
+            legalProvisions: legalProvisionsIDs,
+        } as IForeas;
+        console.log(organization);
+        console.log(legalProvisionsKeys, regulatedObject);
+
+        this.foreasService
+            .updateForeas(organization)
+            .pipe(take(1))
+            .subscribe(() => {
+                this.modalRef.dismiss();
+                this.showSuccess(this.successTpl);
+            });
+
+        this.legalProvisionService
+            .fromListOfKeysUpdateRegulatedObject(legalProvisionsKeys, regulatedObject)
+            .pipe(take(1))
+            .subscribe((response) => {
+                console.log(response);
+                // this.modalRef.dismiss();
+                this.showSuccessLegalProvisions(this.successTpl);
+            });
     }
 
     showSuccess(template: TemplateRef<any>) {
         const toast: Toast = {
             component: ToastMessageComponent,
             inputs: {
-                message: `Το επίπεδο του φορέα ενημερώθηκε σε <strong>${this.level}</strong>.`,
+                message: `Ο φορέας <strong>${this.organization.preferredLabel}</strong> ενημερώθηκε επιτυχώς!`,
+            },
+            classname: 'bg-success text-light',
+        };
+        this.toastService.show(toast);
+    }
+
+    showSuccessLegalProvisions(template: TemplateRef<any>) {
+        const toast: Toast = {
+            component: ToastMessageComponent,
+            inputs: {
+                message: `Ο φορέας <strong>${this.organization.preferredLabel}</strong> ενσωματώθηκε στις διατάξεις πρόβλεψής του!`,
             },
             classname: 'bg-success text-light',
         };

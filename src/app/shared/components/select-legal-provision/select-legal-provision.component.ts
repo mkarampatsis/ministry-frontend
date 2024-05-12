@@ -66,7 +66,6 @@ export class SelectLegalProvisionComponent {
     }
 
     onSelectedLegalProvisions(): void {
-        console.log('select-legal-provision', this.currentLegalProvisions);
         this.selectedLegalProvisions.emit(this.currentLegalProvisions);
     }
 
