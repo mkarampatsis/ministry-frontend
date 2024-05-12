@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
+import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
 import { IOrganizationUnit } from 'src/app/shared/interfaces/organization-unit';
 import { take } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,7 @@ import { ConstService } from 'src/app/shared/services/const.service';
     styleUrl: './organization-unit-details.component.css',
 })
 export class OrganizationUnitDetailsComponent {
-    organizationUnitService = inject(OrganizationUnitService);
+    organizationUnitService = inject(OrganizationalUnitService);
     constService = inject(ConstService);
 
     organizationUnitCode: string | null = null;

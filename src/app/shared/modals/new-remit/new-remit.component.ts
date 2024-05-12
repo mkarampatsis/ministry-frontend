@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConstService } from 'src/app/shared/services/const.service';
-import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
+import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { ICofog2 } from 'src/app/shared/interfaces/cofog/cofog2.interface';
 import { ICofog3 } from 'src/app/shared/interfaces/cofog/cofog3.interface';
@@ -28,7 +28,7 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     organizationUnit: { preferredLabel: string; code: string };
     // Some useful services
     constService = inject(ConstService);
-    organizationUnitService = inject(OrganizationUnitService);
+    organizationUnitService = inject(OrganizationalUnitService);
     remitService = inject(RemitService);
     modalService = inject(ModalService);
     toastService = inject(ToastService);

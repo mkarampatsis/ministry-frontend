@@ -10,7 +10,7 @@ const APIPREFIX_APOGRAFI = `${environment.apiUrl}/apografi/organizationalUnit`;
 @Injectable({
     providedIn: 'root',
 })
-export class OrganizationUnitService {
+export class OrganizationalUnitService {
     http = inject(HttpClient);
 
     getAllOrganizationalUnitCodes(): Observable<IOrganizationUnitCode[]> {

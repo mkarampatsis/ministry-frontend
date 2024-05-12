@@ -7,7 +7,7 @@ import { Subscription, take } from 'rxjs';
 import { IFek } from 'src/app/shared/interfaces/legal-act/fek.interface';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { FileUploadService } from 'src/app/shared/services/file-upload.service';
-import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
+import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
 import { ILegalAct } from 'src/app/shared/interfaces/legal-act/legal-act.interface';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
 import { Toast, ToastService } from 'src/app/shared/services/toast.service';
@@ -29,7 +29,7 @@ export class NewLegalActComponent implements OnInit {
     constService = inject(ConstService);
     toastService = inject(ToastService);
     uploadService = inject(FileUploadService);
-    organizationUnitService = inject(OrganizationUnitService);
+    organizationUnitService = inject(OrganizationalUnitService);
     legalActService = inject(LegalActService);
 
     // @ViewChild('successTpl') successTpl: TemplateRef<any>;

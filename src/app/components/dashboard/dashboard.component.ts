@@ -8,7 +8,7 @@ import { IOrganizationUnit } from 'src/app/shared/interfaces/organization-unit';
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
-import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
+import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 
 import { UserService } from 'src/app/shared/services/user.service';
@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
     constService = inject(ConstService);
     modalService = inject(ModalService);
     organizationService = inject(OrganizationService);
-    organizationUnitsService = inject(OrganizationUnitService);
+    organizationUnitsService = inject(OrganizationalUnitService);
 
     organizations: IOrganization[] = [];
     organizations_loading = false;

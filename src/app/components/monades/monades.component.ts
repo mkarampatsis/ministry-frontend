@@ -6,7 +6,7 @@ import { MonadesActionIconsComponent } from 'src/app/shared/components/monades-a
 import { IOrganizationUnitList } from 'src/app/shared/interfaces/organization-unit';
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-overlay/grid-loading-overlay.component';
 import { ConstService } from 'src/app/shared/services/const.service';
-import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
+import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
 
 @Component({
     selector: 'app-monades',
@@ -17,7 +17,7 @@ import { OrganizationUnitService } from 'src/app/shared/services/organization-un
 })
 export class MonadesComponent {
     constService = inject(ConstService);
-    organizationUnitService = inject(OrganizationUnitService);
+    organizationUnitService = inject(OrganizationalUnitService);
     monades: IOrganizationUnitList[] = [];
 
     organizationUnitCodesMap = this.constService.ORGANIZATION_UNIT_CODES_MAP;
@@ -50,13 +50,8 @@ export class MonadesComponent {
                     return data.map((org) => {
                         return {
                             ...org,
-                            organizationType: this.organizationUnitTypesMap.get(
-                                parseInt(String(org.unitType)),
-                            ),
-                            subOrganizationOf:
-                                this.organizationUnitCodesMap.get(
-                                    org.supervisorUnitCode,
-                                ),
+                            organizationType: this.organizationUnitTypesMap.get(parseInt(String(org.unitType))),
+                            subOrganizationOf: this.organizationUnitCodesMap.get(org.supervisorUnitCode),
                         };
                     });
                 }),

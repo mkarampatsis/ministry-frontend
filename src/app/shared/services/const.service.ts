@@ -13,7 +13,7 @@ import { IDictionaryType, IOrganizationCode, IOrganizationUnitCode } from 'src/a
 
 import { DictionaryService } from 'src/app/shared/services/dictionary.service';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
-import { OrganizationUnitService } from 'src/app/shared/services/organization-unit.service';
+import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
 import { CofogService } from 'src/app/shared/services/cofog.service';
 import { ICofog } from '../interfaces/cofog/cofog.interface';
 import { LegalProvisionsActionsComponent } from '../components/legal-provisions-actions/legal-provisions-actions.component';
@@ -26,7 +26,7 @@ import { ForeisActionIconsComponent } from '../components/foreis-action-icons/fo
 export class ConstService {
     dictionaryService = inject(DictionaryService);
     organizationService = inject(OrganizationService);
-    organizationUnitService = inject(OrganizationUnitService);
+    organizationUnitService = inject(OrganizationalUnitService);
     cofogService = inject(CofogService);
 
     readonly ORGANIZATION_LEVELS = ['ΚΕΝΤΡΙΚΟ', 'ΑΠΟΚΕΝΤΡΩΜΕΝΟ', 'ΠΕΡΙΦΕΡΕΙΑΚΟ', 'ΤΟΠΙΚΟ', 'ΜΗ ΟΡΙΣΜΕΝΟ'];
