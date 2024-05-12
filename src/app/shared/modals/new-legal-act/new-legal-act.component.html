@@ -80,7 +80,7 @@
                     <label
                         for="legalActDate"
                         class="form-label">
-                        Χρονολογία πράξης:
+                        Έτος πράξης:
                     </label>
                     <!-- <input
                                 type="date"
@@ -100,7 +100,7 @@
                         }
                     </select>
                     @if (form.controls.legalActYear.invalid) {
-                        <div class="invalid-feedback">Πρέπει να εισάγετε έτος πράξης</div>
+                        <div class="invalid-feedback">Πρέπει να καταχωρήσετε έτος πράξης</div>
                     }
                 </div>
                 <!-- legalActDate -->
@@ -172,7 +172,7 @@
                         formControlName="ada"
                         placeholder="Εισάγετε ΑΔΑ" />
                     @if (form.controls.ada.invalid) {
-                        <div class="invalid-feedback">H μορφή του ΑΔΑ είναι ΑΒΓΔΕΖΗΘΙΚ-ΛΜΝ</div>
+                        <div class="invalid-feedback">H μορφή του ΑΔΑ είναι ΑΒΓ4ΕΖ44ΙΚ-5ΜΝ</div>
                     }
                 </div>
             </div>
@@ -181,7 +181,7 @@
         @if (checkFEK()) {
             <ngb-alert
                 *ngIf="checkFEK()"
-                type="info"
+                type="warning"
                 [dismissible]="false">
                 Αν δεν συμπληρωθούν και τα τρία πεδία του ΦΕΚ, θα καταχωρηθεί στον αριθμό η ένδειξη "Μη δημοσιευτέα
                 πράξη"
@@ -189,7 +189,7 @@
         }
         @if (checkADA()) {
             <ngb-alert
-                type="info"
+                type="warning"
                 [dismissible]="false"
                 class="mt-2">
                 Αν δεν συμπληρώσετε το ΑΔΑ, θα καταχωρηθεί η ένδειξη "Μη αναρτητέα πράξη"

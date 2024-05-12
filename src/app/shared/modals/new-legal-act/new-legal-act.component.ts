@@ -60,7 +60,7 @@ export class NewLegalActComponent implements OnInit {
             issue: new FormControl(''),
             date: new FormControl(''),
         }),
-        ada: new FormControl('', Validators.pattern(/^[Α-Ω]{10}-[Α-Ω]{3}$/)),
+        ada: new FormControl('', Validators.pattern(/^[Α-Ω,0-9]{10}-[Α-Ω,0-9]{3}$/)),
         legalActFile: new FormControl('', Validators.required),
     });
 
