@@ -60,7 +60,7 @@ export class NewLegalActComponent implements OnInit {
             issue: new FormControl(''),
             date: new FormControl(''),
         }),
-        ada: new FormControl('', Validators.pattern(/^[Α-Ω,0-9]{10}-[Α-Ω,0-9]{3}$/)),
+        ada: new FormControl(null, Validators.pattern(/^[Α-Ω,0-9]{10}-[Α-Ω,0-9]{3}$/)),
         legalActFile: new FormControl('', Validators.required),
     });
 
@@ -124,19 +124,19 @@ export class NewLegalActComponent implements OnInit {
     }
 
     onSubmit() {
-        const ada = this.form.get('ada').value ? this.form.get('ada').value : 'ΜΗ ΑΝΑΡΤΗΤΕΑ ΠΡΑΞΗ';
+        // const ada = this.form.get('ada').value ? this.form.get('ada').value : 'ΜΗ ΑΝΑΡΤΗΤΕΑ ΠΡΑΞΗ';
 
-        const fek =
-            this.form.get('fek.number').value === '' ||
-            this.form.get('fek.issue').value === '' ||
-            this.form.get('fek.date').value === ''
-                ? { number: 'ΜΗ ΔΗΜΟΣΙΕΥΤΕΑ ΠΡΑΞΗ', issue: '', date: '' }
-                : this.form.get('fek').value;
+        // const fek =
+        //     this.form.get('fek.number').value === '' ||
+        //     this.form.get('fek.issue').value === '' ||
+        //     this.form.get('fek.date').value === ''
+        //         ? { number: 'ΜΗ ΔΗΜΟΣΙΕΥΤΕΑ ΠΡΑΞΗ', issue: '', date: '' }
+        //         : this.form.get('fek').value;
 
         const data = {
             ...this.form.value,
-            ada,
-            fek,
+            // ada,
+            // fek,
         } as ILegalAct;
 
         this.nomikiPraxiString = `${this.form.get('legalActType').value === 'ΑΛΛΟ' ? this.form.get('legalActTypeOther').value : this.form.get('legalActType').value}`;

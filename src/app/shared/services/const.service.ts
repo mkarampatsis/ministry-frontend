@@ -106,7 +106,18 @@ export class ConstService {
             flex: 3,
         },
         { field: 'legalActNumber', headerName: 'Αριθμός', flex: 1 },
-        { field: 'fek.number', headerName: 'ΦΕΚ (Αριθμός)', flex: 1 },
+        {
+            valueGetter: function (params) {
+                if (params.data.fek.number.startsWith('ΜΗ ΔΗΜΟΣΙΕΥΤΕΑ ΠΡΑΞΗ-')) {
+                    return params.data.fek.number.split('-', 2)[0];
+                } else {
+                    return params.data.fek.number;
+                }
+            },
+            field: 'fek.number',
+            headerName: 'ΦΕΚ (Αριθμός)',
+            flex: 1,
+        },
         { field: 'fek.issue', headerName: 'ΦΕΚ (Τεύχος)', flex: 1 },
         { field: 'fek.date', headerName: 'ΦΕΚ (Ημερομηνία)', flex: 1 },
         { field: 'legalActYear', headerName: 'Έτος', flex: 1 },
