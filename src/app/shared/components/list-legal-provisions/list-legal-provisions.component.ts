@@ -7,10 +7,10 @@ import { ModalService } from '../../services/modal.service';
     selector: 'app-list-selected-legal-provisions',
     standalone: true,
     imports: [MatIconModule],
-    templateUrl: './list-selected-legal-provisions.component.html',
-    styleUrl: './list-selected-legal-provisions.component.css',
+    templateUrl: './list-legal-provisions.component.html',
+    styleUrl: './list-legal-provisions.component.css',
 })
-export class ListSelectedLegalProvisionsComponent {
+export class ListLegalProvisionsComponent {
     @Input() legalProvisions: ILegalProvision[] = [];
     modalService = inject(ModalService);
 

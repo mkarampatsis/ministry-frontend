@@ -9,12 +9,12 @@ import { ForeasService } from '../../services/foreas.service';
 import { LegalProvisionService } from '../../services/legal-provision.service';
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
 import { IForeas } from '../../interfaces/foreas/foreas.interface';
-import { ListSelectedLegalProvisionsComponent } from '../../components/list-selected-legal-provisions/list-selected-legal-provisions.component';
+import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
 
 @Component({
     selector: 'app-organization-details',
     standalone: true,
-    imports: [CommonModule, NgbModalModule, CardRowRightLeftComponent, ListSelectedLegalProvisionsComponent],
+    imports: [CommonModule, NgbModalModule, CardRowRightLeftComponent, ListLegalProvisionsComponent],
     templateUrl: './organization-details.component.html',
     styleUrl: './organization-details.component.css',
 })

@@ -10,14 +10,14 @@ import { Toast, ToastService } from 'src/app/shared/services/toast.service';
 import { ToastMessageComponent } from 'src/app/shared/components/toast-message/toast-message.component';
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
 import { ModalService } from '../../services/modal.service';
-import { ListSelectedLegalProvisionsComponent } from '../../components/list-selected-legal-provisions/list-selected-legal-provisions.component';
+import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
 import { LegalProvisionService } from '../../services/legal-provision.service';
 import { IReguLatedObject } from '../../interfaces/legal-provision/regulated-object.interface';
 
 @Component({
     selector: 'app-foreas-edit',
     standalone: true,
-    imports: [FormsModule, ListSelectedLegalProvisionsComponent],
+    imports: [FormsModule, ListLegalProvisionsComponent],
     templateUrl: './foreas-edit.component.html',
     styleUrl: './foreas-edit.component.css',
 })
