@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 import { IOrganization } from 'src/app/shared/interfaces/organization';
 import { ConstService } from 'src/app/shared/services/const.service';
@@ -39,10 +39,6 @@ export class ForeasEditComponent implements OnInit {
 
     foreas: IForeas;
 
-    // form = new FormGroup({
-    //     level: new FormControl(''),
-    //     legalProvisions: new FormControl({ value: [], disabled: true }),
-    // });
     organizationLevels = this.constService.ORGANIZATION_LEVELS;
 
     legalProvisions: ILegalProvision[] = [];
@@ -59,7 +55,6 @@ export class ForeasEditComponent implements OnInit {
             .getForeas(this.foreas_id)
             .pipe(take(1))
             .subscribe((data) => {
-                // console.log('>>>>> FOREAS', data._id);
                 this.foreas = data;
                 this.level = this.foreas.level;
                 this.legalProvisionService
@@ -67,39 +62,16 @@ export class ForeasEditComponent implements OnInit {
                     .subscribe((data) => {
                         this.legalProvisions = data;
                     });
-                // if (this.foreas.legalProvisions) {
-                //     this.legalProvisionService
-                //         .fromListOfIds(this.foreas.legalProvisions)
-                //         .pipe(take(1))
-                //         .subscribe((data) => {
-                //             this.legalProvisions = data;
-                //             // this.form.get('level').setValue(this.foreas.level);
-                //             // this.form.get('legalProvisions').setValue(data);
-                //         });
-                // }
             });
     }
 
     onSubmit() {
         console.log(this.level);
-        // this.form.controls.legalProvisions.enable();
 
-        // const legalProvisionsIDs = this.legalProvisions.map((provision) => provision['_id']['$oid']);
-        // const legalProvisionsKeys = this.legalProvisions.map((provision) => {
-        //     return { legalActKey: provision.legalActKey, legalProvisionSpecs: provision.legalProvisionSpecs };
-        // });
-        // const regulatedObject: IReguLatedObject = {
-        //     regulatedObjectType: 'organization',
-        //     regulatedObjectCode: this.foreas.code,
-        // };
-        // // this.level = this.form.value.level;
         const organization = {
             code: this.foreas.code,
             level: this.level,
-            // legalProvisions: legalProvisionsIDs,
         } as IForeas;
-        // console.log(organization);
-        // console.log(legalProvisionsKeys, regulatedObject);
 
         this.foreasService
             .updateForeas(organization)
@@ -108,15 +80,6 @@ export class ForeasEditComponent implements OnInit {
                 this.modalRef.dismiss();
                 this.showSuccess(this.successTpl);
             });
-
-        // this.legalProvisionService
-        //     .fromListOfKeysUpdateRegulatedObject(legalProvisionsKeys, regulatedObject)
-        //     .pipe(take(1))
-        //     .subscribe((response) => {
-        //         console.log(response);
-        //         // this.modalRef.dismiss();
-        //         this.showSuccessLegalProvisions(this.successTpl);
-        //     });
     }
 
     showSuccess(template: TemplateRef<any>) {
@@ -130,41 +93,16 @@ export class ForeasEditComponent implements OnInit {
         this.toastService.show(toast);
     }
 
-    showSuccessLegalProvisions(template: TemplateRef<any>) {
-        const toast: Toast = {
-            component: ToastMessageComponent,
-            inputs: {
-                message: `Ο φορέας <strong>${this.organization.preferredLabel}</strong> ενσωματώθηκε στις διατάξεις πρόβλεψής του!`,
-            },
-            classname: 'bg-success text-light',
-        };
-        this.toastService.show(toast);
-    }
-
-    selectLegalProvision() {
-        this.modalService
-            .selectLegalProvision()
-            .pipe(take(1))
-            .subscribe((data) => {
-                if (data) {
-                    this.legalProvisions = data;
-                    // this.form.get('legalProvisions').setValue(data);
-                }
-            });
-    }
-
     newLegalProvision(): void {
         const regulatedObject: IReguLatedObject = {
             regulatedObjectType: 'organization',
             regulatedObjectObjectId: this.foreas._id['$oid'],
         };
         this.modalService.newLegalProvision(regulatedObject).subscribe((data) => {
-            console.log(data);
-            this.legalProvisions.push(data.legalProvision);
+            if (data) {
+                console.log(data);
+                this.legalProvisions.push(data.legalProvision);
+            }
         });
-    }
-
-    onLevelChange() {
-        console.log(this.level);
     }
 }
