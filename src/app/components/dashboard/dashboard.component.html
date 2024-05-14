@@ -1,7 +1,7 @@
 <h4 class="govgr-heading-md">Οι προσβάσεις σας</h4>
 
 <p class="govgr-body">
-    Στις παρακάτω κάρτες εμφανίζονται οι φορείς και οι μονάδες που έχετε πρόσβαση και οι επιτρεπτές ενέργειες σε αυτά.
+    Στους παρακάτω πίνακες εμφανίζονται οι φορείς και οι μονάδες που έχετε πρόσβαση και οι επιτρεπτές ενέργειες.
 </p>
 
 <h5 class="govgr-heading-md d-flex align-items-center gap-2">
@@ -17,37 +17,38 @@
 
 @if (organizations.length > 0 && !organizations_loading) {
     <div class="d-flex flex-column flex-lg-row gap-2">
-        @for (organization of organizations; track organization) {
-            <div
-                class="card"
-                style="width: 20rem">
-                <div class="card-header fw-semibold text-center text-truncate">
-                    {{ organization.preferredLabel }}
-                </div>
-                <div class="card-body text-center d-flex flex-column align-items-center gap-2">
-                    <button
-                        class="btn btn-primary"
-                        style="width: fit-content"
-                        (click)="editForeas(organization.code)">
-                        Επεξεργασία Φορέα
-                    </button>
-                </div>
-            </div>
-        }
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Κωδικός</th>
+                    <th scope="col">Ονομασία</th>
+                    <th scope="col">Ενέργειες</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (organization of organizations; track organization) {
+                    <tr class="align-middle">
+                        <td>{{ organization.code }}</td>
+                        <td>{{ organization.preferredLabel }}</td>
+                        <td class="d-flex gap-2">
+                            <button
+                                class="d-flex align-items-center btn btn-primary btn-sm"
+                                (click)="showOrganizationDetails(organization.code)"
+                                ngbTooltip="Καρτέλα Φορέα">
+                                <mat-icon>info</mat-icon>
+                            </button>
+                            <button
+                                class="d-flex align-items-center btn btn-primary btn-sm"
+                                (click)="editForeas(organization.code)"
+                                ngbTooltip="Επεξεργασία Φορέα">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-    <!-- <div class="govgr-body">
-        <ag-grid-angular
-            [domLayout]="'autoHeight'"
-            [rowData]="organizations"
-            [defaultColDef]="defaultColDef"
-            [columnDefs]="foreisColDefs"
-            [pagination]="true"
-            [paginationPageSize]="50"
-            [loadingOverlayComponent]="loadingOverlayComponent"
-            [loadingOverlayComponentParams]="loadingOverlayComponentParams"
-            (onGridReady)="onGridReady($event)"
-            class="ag-theme-balham"></ag-grid-angular>
-    </div> -->
 } @else {
     <div
         class="alert alert-info w-25 mb-4 text-center fw-semibold"
@@ -69,7 +70,46 @@
 
 @if (organizational_units.length > 0 && !organizational_units_loading) {
     <div class="d-flex flex-column flex-lg-row gap-2 mb-4">
-        @for (organizational_unit of organizational_units; track organizational_unit) {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Κωδικός</th>
+                    <th scope="col">Ονομασία Φορέα</th>
+                    <th scope="col">Ονομασία Μονάδας</th>
+                    <th scope="col">Ενέργειες</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (organizational_unit of organizational_units; track organizational_unit) {
+                    <tr class="align-middle">
+                        <td>{{ organizational_unit.code }}</td>
+                        <td>{{ organizationCodesMap.get(organizational_unit.organizationCode) }}</td>
+                        <td>{{ organizational_unit.preferredLabel }}</td>
+                        <td class="d-flex gap-2">
+                            <button
+                                class="d-flex align-items-center btn btn-primary btn-sm"
+                                (click)="showOrganizationalUnitDetails(organizational_unit.code)"
+                                ngbTooltip="Καρτέλα Μονάδας">
+                                <mat-icon>info</mat-icon>
+                            </button>
+                            <button
+                                class="d-flex align-items-center btn btn-primary btn-sm"
+                                (click)="editForeas(organizational_unit.code)"
+                                ngbTooltip="Επεξεργασία Μονάδας">
+                                <mat-icon>edit_square</mat-icon>
+                            </button>
+                            <button
+                                class="d-flex align-items-center btn btn-primary btn-sm"
+                                (click)="newRemit(organizational_unit)"
+                                ngbTooltip="Αρμοδιότητες Μονάδας">
+                                <mat-icon>gavel</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- @for (organizational_unit of organizational_units; track organizational_unit) {
             <div
                 class="card"
                 style="width: 20rem">
@@ -87,7 +127,7 @@
                     </button>
                 </div>
             </div>
-        }
+        } -->
     </div>
 } @else {
     <div

@@ -1,21 +1,20 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
-import { map, take } from 'rxjs';
-import { ForeisActionIconsComponent } from 'src/app/shared/components/foreis-action-icons/foreis-action-icons.component';
-import { IOrganization, IOrganizationList } from 'src/app/shared/interfaces/organization';
+import { take } from 'rxjs';
+import { IOrganization } from 'src/app/shared/interfaces/organization';
 import { IOrganizationUnit } from 'src/app/shared/interfaces/organization-unit';
-import { GridLoadingOverlayComponent } from 'src/app/shared/modals';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 
 import { UserService } from 'src/app/shared/services/user.service';
+import { MatIconModule } from '@angular/material/icon';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
     selector: 'app-dashboard',
     standalone: true,
-    imports: [AgGridAngular, GridLoadingOverlayComponent],
+    imports: [MatIconModule, NgbTooltipModule],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css',
 })
@@ -35,21 +34,6 @@ export class DashboardComponent implements OnInit {
     organizationalUnitCodesMap = this.constService.ORGANIZATION_UNIT_CODES_MAP;
 
     organizationTypesMap = this.constService.ORGANIZATION_TYPES_MAP;
-
-    defaultColDef = this.constService.defaultColDef;
-    // prettier-ignore
-    foreisColDefs: ColDef[] = [
-        { field: 'code', headerName: 'Κωδικός', flex: 1},
-        { field: 'preferredLabel', headerName: 'Ονομασία', flex: 4 },
-        { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', flex: 2 },
-        { field: 'organizationType', headerName: 'Τύπος', flex: 2 },
-        { field: 'actionCell', headerName: '', cellRenderer: ForeisActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, flex: 1, resizable: false},
-    ];
-    autoSizeStrategy = this.constService.autoSizeStrategy;
-    loadingOverlayComponent = GridLoadingOverlayComponent;
-    loadingOverlayComponentParams = { loadingMessage: 'Αναζήτηση προσβάσεων...' };
-
-    gridApi: GridApi<IOrganizationList>;
 
     ngOnInit() {
         this.userService.getMyOrganizations().subscribe((data) => {
@@ -107,15 +91,11 @@ export class DashboardComponent implements OnInit {
             });
     }
 
-    onGridReady(params: any): void {
-        this.gridApi = params.api;
-        this.gridApi.showLoadingOverlay();
-        this.userService.getMyOrganizations().subscribe((data) => {
-            data.organizations.forEach((org) => {
-                console.log(org);
-                this.getOrganizationDetails(org);
-            });
-            this.gridApi.hideOverlay();
-        });
+    showOrganizationDetails(code: string): void {
+        this.modalService.showOrganizationDetails(code);
+    }
+
+    showOrganizationalUnitDetails(code: string): void {
+        this.modalService.showOrganizationUnitDetails(code);
     }
 }
