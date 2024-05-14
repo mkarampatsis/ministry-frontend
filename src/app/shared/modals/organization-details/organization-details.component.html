@@ -79,9 +79,13 @@
                     key: 'Επίπεδο Διακυβέρνησης',
                     value: foreas?.level
                 }"></app-card-row-right-left>
-            <p class="fw-bold">Διατάξεις Πρόβλεψης</p>
-            <app-list-selected-legal-provisions
-                [legalProvisions]="legalProvisions"></app-list-selected-legal-provisions>
+
+            <div class="row">
+                <div class="col-md-4 fw-semibold d-inline text-truncate">Διατάξεις Πρόβλεψης</div>
+                <div class="col-md-8">
+                    <app-list-legal-provisions [legalProvisions]="legalProvisions"></app-list-legal-provisions>
+                </div>
+            </div>
         </div>
     </div>
 </div>

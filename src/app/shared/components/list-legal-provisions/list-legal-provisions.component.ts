@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ModalService } from '../../services/modal.service';
 
 @Component({
-    selector: 'app-list-selected-legal-provisions',
+    selector: 'app-list-legal-provisions',
     standalone: true,
     imports: [MatIconModule],
     templateUrl: './list-legal-provisions.component.html',
