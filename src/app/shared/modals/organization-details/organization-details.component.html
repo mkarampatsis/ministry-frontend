@@ -3,88 +3,85 @@
     <button
         type="button"
         class="btn-close"
-        (click)="modalRef.dismiss()"
-    ></button>
+        (click)="modalRef.dismiss()"></button>
 </div>
 <div class="modal-body">
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <span class="fw-semibold">{{ organization?.preferredLabel }}</span>
-            <span class="text-muted small">
-                Κωδικός απογραφής: {{ organization?.code }}</span
-            >
+            <span class="text-muted small">Κωδικός απογραφής: {{ organization?.code }}</span>
         </div>
         <div class="card-body">
+            <p class="text-info small">Δεδομένα Απογραφής</p>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Εναλλακτικές Ονομασίες',
                     value: organization?.alternativeLabels
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Σκοπός',
                     value: descriptionMap(organization?.purpose)
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Εποπτεύοντας φορέας',
                     value: organization?.subOrganizationOf.description
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Τύπος Φορέα',
                     value: organization?.organizationType.description
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Κατάσταση',
                     value: organization?.status
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Ημερομηνία Κύριας Ενημέρωσης',
                     value: organization?.mainDataUpdateDate
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Ημερομηνία Ενημέρωσης Δομής Φορέα',
                     value: organization?.organizationStructureUpdateDate
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 *ngIf="organization?.contactPoint"
                 [keyValue]="{
                     key: 'Email Φορέα',
                     value: organization?.contactPoint.email
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 *ngIf="organization?.contactPoint"
                 [keyValue]="{
                     key: 'Τηλέφωνο Φορέα',
                     value: organization?.contactPoint.telephone
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 *ngIf="organization?.mainAddress"
                 [keyValue]="{
                     key: 'Ταχυδρομική Διεύθυνση',
                     value: organization?.mainAddress.fullAddress
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 *ngIf="organization?.secondaryAddresses"
                 [keyValue]="{
                     key: 'Δευτερεύουσες Διευθύνσεις',
                     value: fullAddressMap(organization?.secondaryAddresses)
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
+            <hr class="mt-2 mb-2" />
+            <p class="text-info small">Δεδομένα ΠΣΠΕΔ</p>
+            <app-card-row-right-left
+                [keyValue]="{
+                    key: 'Επίπεδο Διακυβέρνησης',
+                    value: foreas?.level
+                }"></app-card-row-right-left>
+            <p class="fw-bold">Διατάξεις Πρόβλεψης</p>
+            <app-list-selected-legal-provisions
+                [legalProvisions]="legalProvisions"></app-list-selected-legal-provisions>
         </div>
     </div>
 </div>
@@ -94,8 +91,7 @@
         ngbAutofocus
         type="button"
         class="btn btn-primary"
-        (click)="modalRef.close()"
-    >
+        (click)="modalRef.close()">
         Επιστροφή
     </button>
 </div>
