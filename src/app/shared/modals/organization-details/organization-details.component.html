@@ -24,6 +24,7 @@
                     value: descriptionMap(organization?.purpose)
                 }"></app-card-row-right-left>
             <app-card-row-right-left
+                *ngIf="organization?.subOrganizationOf"
                 [keyValue]="{
                     key: 'Εποπτεύοντας φορέας',
                     value: organization?.subOrganizationOf.description
