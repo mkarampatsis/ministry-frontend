@@ -13,14 +13,12 @@ import {
 } from 'src/app/shared/modals';
 import { SelectLegalActionModalComponent } from '../modals/select-legal-action-modal/select-legal-action-modal.component';
 import { Observable, take } from 'rxjs';
-import { ILegalProvisionSpecs } from '../interfaces/legal-provision/legal-provision-specs.interface';
 import { SelectLegalProvisionModalComponent } from '../modals/select-legal-provision-modal/select-legal-provision-modal.component';
 import { ILegalProvision } from '../interfaces/legal-provision/legal-provision.interface';
 import { ShowLegalProvisionComponent } from '../modals/show-legal-provision/show-legal-provision.component';
 import { PdfViewerComponent } from '../modals/pdf-viewer/pdf-viewer.component';
 import { SelectOrganizationModalComponent } from '../modals/select-organization-modal/select-organization-modal.component';
 import { YesNoComponent } from '../modals/yes-no/yes-no.component';
-import { IForeas } from '../interfaces/foreas/foreas.interface';
 import { IReguLatedObject } from '../interfaces/legal-provision/regulated-object.interface';
 
 @Injectable({
@@ -68,6 +66,7 @@ export class ModalService {
         const modalRef = this.modalService.open(ForeasEditComponent, {
             size: 'xl',
             centered: true,
+            backdrop: 'static',
         });
         modalRef.componentInstance.foreas_id = foreas_id;
         modalRef.componentInstance.modalRef = modalRef;
@@ -95,6 +94,7 @@ export class ModalService {
         const modalRef = this.modalService.open(NewRemitComponent, {
             size: 'xl',
             centered: true,
+            backdrop: 'static',
         });
         modalRef.componentInstance.modalRef = modalRef;
         modalRef.componentInstance.organizationUnit = organizationUnit;
@@ -104,6 +104,7 @@ export class ModalService {
         const modalRef = this.modalService.open(NewLegalProvisionComponent, {
             size: 'xl',
             centered: true,
+            backdrop: 'static',
         });
         modalRef.componentInstance.modalRef = modalRef;
         modalRef.componentInstance.regulatedObject = regulatedObject;
@@ -120,6 +121,7 @@ export class ModalService {
         const modalRef = this.modalService.open(NewLegalActComponent, {
             size: 'xl',
             centered: true,
+            backdrop: 'static',
         });
         modalRef.componentInstance.modalRef = modalRef;
         return modalRef.dismissed.pipe(take(1)) as Observable<boolean>;
@@ -163,12 +165,14 @@ export class ModalService {
         modalRef.componentInstance.modalRef = modalRef;
     }
 
-    getUserConsent() {
+    getUserConsent(prompt: string) {
         const modalRef = this.modalService.open(YesNoComponent, {
             size: 'lg',
             centered: true,
+            backdrop: 'static',
         });
         modalRef.componentInstance.modalRef = modalRef;
+        modalRef.componentInstance.prompt = prompt;
         return modalRef.dismissed.pipe(take(1)) as Observable<boolean>;
     }
 }

@@ -1,14 +1,15 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-yes-no',
     standalone: true,
-    imports: [],
+    imports: [NgbAlertModule],
     templateUrl: './yes-no.component.html',
     styleUrl: './yes-no.component.css',
 })
 export class YesNoComponent {
-    @Input() prompt = 'A question with yes/no answer';
+    prompt = 'A question with yes/no answer';
 
     modalRef: any;
 

@@ -3,7 +3,7 @@
     <button
         type="button"
         class="btn-close"
-        (click)="modalRef.dismiss()"></button>
+        (click)="dismiss()"></button>
 </div>
 <div class="modal-body">
     <div class="card">
@@ -12,7 +12,6 @@
             <span class="text-muted small">Κωδικός απογραφής: {{ organization?.code }}</span>
         </div>
         <div class="card-body">
-            <!-- <form [formGroup]="form"> -->
             <div class="mb-3">
                 <label
                     for="level"
@@ -52,18 +51,9 @@
                             Πρόβλεψης:
                         </label>
                         <app-list-legal-provisions [legalProvisions]="legalProvisions"></app-list-legal-provisions>
-
-                        <!-- <div class="d-flex justify-content-start">
-                                <button
-                                    class="btn btn-primary"
-                                    (click)="selectLegalProvision()">
-                                    Αλλαγή Διατάξεων
-                                </button>
-                            </div> -->
                     </div>
                 }
             </div>
-            <!-- </form> -->
         </div>
     </div>
 </div>

@@ -13,6 +13,7 @@ import { Toast, ToastService } from 'src/app/shared/services/toast.service';
 import { ToastMessageComponent } from 'src/app/shared/components/toast-message/toast-message.component';
 import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
+import { IReguLatedObject } from '../../interfaces/legal-provision/regulated-object.interface';
 
 @Component({
     selector: 'app-new-remit',
@@ -152,5 +153,18 @@ export class NewRemitComponent implements OnInit, OnDestroy {
             classname: 'bg-success text-light',
         };
         this.toastService.show(toast);
+    }
+
+    newLegalProvision(): void {
+        const regulatedObject: IReguLatedObject = {
+            regulatedObjectType: 'remit',
+            regulatedObjectObjectId: '',
+        };
+        this.modalService.newLegalProvision(regulatedObject).subscribe((data) => {
+            if (data) {
+                console.log(data);
+                this.legalProvisions.push(data.legalProvision);
+            }
+        });
     }
 }

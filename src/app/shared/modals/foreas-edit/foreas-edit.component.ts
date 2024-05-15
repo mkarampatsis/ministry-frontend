@@ -105,4 +105,17 @@ export class ForeasEditComponent implements OnInit {
             }
         });
     }
+
+    dismiss() {
+        this.modalService
+            .getUserConsent(
+                `Αν κλείσετε το παράθυρο οι αλλαγές του Φορέα <strong>${this.organization.preferredLabel}</strong>  δεν θα αποθηκευτούν! Παρακαλούμε επιβεβαιώστε την ενέργεια.`,
+            )
+            .pipe(take(1))
+            .subscribe((consent) => {
+                if (consent) {
+                    this.modalRef.dismiss();
+                }
+            });
+    }
 }

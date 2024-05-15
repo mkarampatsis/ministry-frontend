@@ -165,7 +165,7 @@
                     </div>
                 }
 
-                @if (!legalProvisions.length) {
+                <!-- @if (!legalProvisions.length) {
                     <div class="mb-3 d-flex gap-2">
                         <button
                             type="button"
@@ -188,7 +188,16 @@
                             </button>
                         </div>
                     </div>
-                }
+                } -->
+
+                <div class="mb-3">
+                    <button
+                        type="button"
+                        class="btn btn-primary mb-3"
+                        (click)="newLegalProvision()">
+                        Προσθήκη Διάταξης
+                    </button>
+                </div>
 
                 <button
                     type="button"
