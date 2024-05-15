@@ -91,27 +91,9 @@ export class ForeasEditComponent implements OnInit {
             .pipe(take(1))
             .subscribe((response) => {
                 console.log(response);
+                this.modalRef.dismiss();
             });
-
-        // this.foreasService
-        //     .updateForeas(organization)
-        //     .pipe(take(1))
-        //     .subscribe(() => {
-        //         this.modalRef.dismiss();
-        //         // this.showSuccess(this.successTpl);
-        //     });
     }
-
-    // showSuccess(template: TemplateRef<any>) {
-    //     const toast: Toast = {
-    //         component: ToastMessageComponent,
-    //         inputs: {
-    //             message: `Ο φορέας <strong>${this.organization.preferredLabel}</strong> ενημερώθηκε επιτυχώς!`,
-    //         },
-    //         classname: 'bg-success text-light',
-    //     };
-    //     this.toastService.show(toast);
-    // }
 
     newLegalProvision(): void {
         this.modalService.newLegalProvision().subscribe((data) => {
