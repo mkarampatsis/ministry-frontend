@@ -8,7 +8,7 @@ import { CardRowRightLeftComponent } from 'src/app/shared/components/card-row-ri
 import { ForeasService } from '../../services/foreas.service';
 import { LegalProvisionService } from '../../services/legal-provision.service';
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
-import { IForeas } from '../../interfaces/foreas/foreas.interface';
+import { IForeasDTO } from '../../interfaces/foreas/foreas.interface';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
 
 @Component({
@@ -28,7 +28,7 @@ export class OrganizationDetailsComponent {
     modalRef: any;
 
     legalProvisions: ILegalProvision[] = [];
-    foreas: IForeas;
+    foreas: IForeasDTO;
     level: string;
 
     ngOnInit() {
@@ -45,7 +45,7 @@ export class OrganizationDetailsComponent {
                         this.foreas = data;
                         this.level = this.foreas.level;
                         this.legalProvisionService
-                            .getLegalProvisionsByRegulatedObject(this.foreas._id['$oid'])
+                            .getLegalProvisionsByRegulatedOrganization(this.foreas.code)
                             .subscribe((data) => {
                                 this.legalProvisions = data;
                             });

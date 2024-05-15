@@ -34,12 +34,22 @@ export class BackendInterceptor implements HttpInterceptor {
                         };
                         this.toastService.show(toast);
                     }
+                    if (event.status === 211) {
+                        const message = event.body.message;
+                        const toast: Toast = {
+                            component: ToastMessageComponent,
+                            inputs: { message },
+                            classname: 'bg-info text-light',
+                            delay: 15000,
+                        };
+                        this.toastService.show(toast);
+                    }
                 }
             }),
             catchError((response: HttpErrorResponse): Observable<any> => {
-                // console.log('============= ERROR =============');
-                // console.log(response);
-                // console.log('============= ERROR =============');
+                console.log('============= ERROR =============');
+                console.log(response);
+                console.log('============= ERROR =============');
                 if (response.error) {
                     const message = response.error.message;
                     const toast: Toast = {
@@ -61,6 +71,7 @@ export class BackendInterceptor implements HttpInterceptor {
                     };
                     this.toastService.show(toast);
                 }
+                console.log('SKATA');
                 return throwError(() => new Error(response.error.error));
             }),
         );

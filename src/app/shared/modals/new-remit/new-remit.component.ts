@@ -156,11 +156,11 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     }
 
     newLegalProvision(): void {
-        const regulatedObject: IReguLatedObject = {
-            regulatedObjectType: 'remit',
-            regulatedObjectObjectId: '',
-        };
-        this.modalService.newLegalProvision(regulatedObject).subscribe((data) => {
+        // const regulatedObject: IReguLatedObject = {
+        //     regulatedObjectType: 'remit',
+        //     regulatedObjectObjectId: '',
+        // };
+        this.modalService.newLegalProvision().subscribe((data) => {
             if (data) {
                 console.log(data);
                 this.legalProvisions.push(data.legalProvision);

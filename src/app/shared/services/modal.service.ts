@@ -100,14 +100,13 @@ export class ModalService {
         modalRef.componentInstance.organizationUnit = organizationUnit;
     }
 
-    newLegalProvision(regulatedObject: IReguLatedObject) {
+    newLegalProvision() {
         const modalRef = this.modalService.open(NewLegalProvisionComponent, {
             size: 'xl',
             centered: true,
             backdrop: 'static',
         });
         modalRef.componentInstance.modalRef = modalRef;
-        modalRef.componentInstance.regulatedObject = regulatedObject;
 
         return modalRef.dismissed.pipe(take(1)) as Observable<{
             // legalActKey: string;

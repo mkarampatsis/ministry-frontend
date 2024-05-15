@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { ConstService } from 'src/app/shared/services/const.service';
@@ -8,6 +7,7 @@ import { ILegalProvision } from '../../interfaces/legal-provision/legal-provisio
 import { ILegalProvisionSpecs } from '../../interfaces/legal-provision/legal-provision-specs.interface';
 import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { IReguLatedObject } from '../../interfaces/legal-provision/regulated-object.interface';
+import { take } from 'rxjs';
 
 @Component({
     selector: 'app-new-legal-provision',
@@ -20,10 +20,9 @@ export class NewLegalProvisionComponent implements OnDestroy {
     // Some useful services
     modalService = inject(ModalService);
     constService = inject(ConstService);
-    legalProvisionService = inject(LegalProvisionService);
+    // legalProvisionService = inject(LegalProvisionService);
 
     modalRef: any;
-    regulatedObject: IReguLatedObject;
 
     selectedLegalActKey: string | undefined = undefined;
 
@@ -81,12 +80,29 @@ export class NewLegalProvisionComponent implements OnDestroy {
             legalProvisionSpecs,
             legalActKey,
             legalProvisionText,
-            regulatedObject: this.regulatedObject,
         } as ILegalProvision;
-        this.legalProvisionService.newLegalProvision(legalProvision).subscribe((data) => {
-            const { message, legalProvision } = data;
-            console.log(message);
-            this.modalRef.dismiss({ legalProvision });
-        });
+        // this.legalProvisionService.newLegalProvision(legalProvision).subscribe((data) => {
+        //     const { message, legalProvision } = data;
+        //     console.log(message);
+        //     this.modalRef.dismiss({ legalProvision });
+        // });
+        this.modalRef.dismiss({ legalProvision });
+    }
+
+    dismiss() {
+        if (this.form.dirty) {
+            this.modalService
+                .getUserConsent(
+                    `Αν κλείσετε το παράθυρο οι αλλαγές στη διάταξη δεν θα αποθηκευτούν! Παρακαλούμε επιβεβαιώστε την ενέργεια.`,
+                )
+                .pipe(take(1))
+                .subscribe((consent) => {
+                    if (consent) {
+                        this.modalRef.dismiss();
+                    }
+                });
+        } else {
+            this.modalRef.dismiss();
+        }
     }
 }

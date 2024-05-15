@@ -17,4 +17,8 @@ export class ListLegalProvisionsComponent {
     displayLegalProvision(provision: ILegalProvision) {
         this.modalService.showLegalProvision(provision);
     }
+
+    removeLegalProvision(i: number) {
+        this.legalProvisions.splice(i, 1);
+    }
 }

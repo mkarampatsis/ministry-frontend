@@ -27,8 +27,8 @@ export class LegalProvisionService {
         return this.http.get<{ count: number }>(url);
     }
 
-    getLegalProvisionsByRegulatedObject(id: string): Observable<ILegalProvision[]> {
-        const url = `${APIPREFIX}/by_regulated_object/${id}`;
+    getLegalProvisionsByRegulatedOrganization(code: string): Observable<ILegalProvision[]> {
+        const url = `${APIPREFIX}/by_regulated_organization/${code}`;
         return this.http.get<ILegalProvision[]>(url);
     }
 
