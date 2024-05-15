@@ -14,11 +14,13 @@ import { ToastMessageComponent } from 'src/app/shared/components/toast-message/t
 import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
 import { IReguLatedObject } from '../../interfaces/legal-provision/regulated-object.interface';
+import { cloneDeep, isEqual, uniqWith } from 'lodash-es';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-new-remit',
     standalone: true,
-    imports: [ReactiveFormsModule, NgxEditorModule, ListLegalProvisionsComponent],
+    imports: [ReactiveFormsModule, NgxEditorModule, ListLegalProvisionsComponent, NgbAlertModule],
     templateUrl: './new-remit.component.html',
     styleUrl: './new-remit.component.css',
     encapsulation: ViewEncapsulation.None,
@@ -50,6 +52,7 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     cofog2_selected: boolean = false;
 
     legalProvisions: ILegalProvision[] = [];
+    originalLegalProvisions: ILegalProvision[] = [];
 
     get canAddLegalProvision() {
         return (
@@ -61,7 +64,7 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     }
 
     form = new FormGroup({
-        remitText: new FormControl('', Validators.required),
+        remitText: new FormControl('Το κείμενο θα ενημερώνεται όσο προσθέτετε διατάξεις', Validators.required),
         remitType: new FormControl('', Validators.required),
         cofog1: new FormControl('', Validators.required),
         cofog2: new FormControl('', Validators.required),
@@ -156,15 +159,39 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     }
 
     newLegalProvision(): void {
-        // const regulatedObject: IReguLatedObject = {
-        //     regulatedObjectType: 'remit',
-        //     regulatedObjectObjectId: '',
-        // };
         this.modalService.newLegalProvision().subscribe((data) => {
             if (data) {
-                console.log(data);
-                this.legalProvisions.push(data.legalProvision);
+                const tempLegalProvision = [data.legalProvision, ...this.legalProvisions];
+                this.legalProvisions = uniqWith(tempLegalProvision, (a, b) => {
+                    return a.legalActKey === b.legalActKey && isEqual(a.legalProvisionSpecs, b.legalProvisionSpecs);
+                });
+                this.updateRemitTextfromLegalProvisions();
             }
         });
+    }
+
+    updateRemitTextfromLegalProvisions() {
+        if (this.legalProvisions.length >= 1) {
+            let remitText = this.legalProvisions.reduce((acc, legalProvision) => {
+                return acc + this.legalProvisionHeader(legalProvision);
+            }, '');
+            remitText = `<p style="color:red"><strong>Ελέγξτε και τροποποιήστε το συνολικό κείμενο της Αρμοδιότητας</strong></p>${remitText}`;
+            this.form.get('remitText').setValue(remitText);
+        }
+    }
+
+    legalProvisionHeader(legalProvision: ILegalProvision): string {
+        let html = `${legalProvision.legalActKey}`;
+        let specs = '';
+        if (legalProvision.legalProvisionSpecs.meros) specs += `Μέρος ${legalProvision.legalProvisionSpecs.meros}, `;
+        if (legalProvision.legalProvisionSpecs.arthro) specs += `Άρθρο ${legalProvision.legalProvisionSpecs.arthro}, `;
+        if (legalProvision.legalProvisionSpecs.paragrafos)
+            specs += `Παράγραφος ${legalProvision.legalProvisionSpecs.paragrafos}, `;
+        if (legalProvision.legalProvisionSpecs.edafio) specs += `Εδάφιο ${legalProvision.legalProvisionSpecs.edafio}, `;
+        if (legalProvision.legalProvisionSpecs.pararthma)
+            specs += `Παράρτημα ${legalProvision.legalProvisionSpecs.pararthma}`;
+        html = `<strong>${html} (${specs.slice(0, -2)})</strong> ${legalProvision.legalProvisionText}`;
+
+        return html;
     }
 }

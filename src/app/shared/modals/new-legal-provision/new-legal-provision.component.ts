@@ -64,7 +64,7 @@ export class NewLegalProvisionComponent implements OnDestroy {
 
     selectLegalAct() {
         this.modalService.selectLegalAct().subscribe((data) => {
-            console.log(data);
+            // console.log(data);
             this.selectedLegalActKey = data;
             this.form.get('legalActKey').setValue(data);
         });

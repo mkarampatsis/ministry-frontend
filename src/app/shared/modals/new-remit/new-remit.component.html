@@ -194,9 +194,36 @@
                     <button
                         type="button"
                         class="btn btn-primary mb-3"
+                        [disabled]="!canAddLegalProvision"
                         (click)="newLegalProvision()">
                         Προσθήκη Διάταξης
                     </button>
+                    @if (!canAddLegalProvision) {
+                        <ngb-alert
+                            [dismissible]="false"
+                            [type]="'info'">
+                            Επιλέξτε τύπο αρμοδιότητας και τα πεδία COFOG για να προσθέσετε διατάξεις
+                        </ngb-alert>
+                    }
+                    @if (!legalProvisions.length) {
+                        <ngb-alert
+                            [dismissible]="false"
+                            [type]="'info'">
+                            Δεν υπάρχει προς το παρόν κάποια διάταξη
+                        </ngb-alert>
+                    } @else {
+                        <div class="mb-3 d-flex flex-column">
+                            <label class="form-label">
+                                @if (legalProvisions.length === 1) {
+                                    Διάταξη
+                                } @else {
+                                    Διατάξεις
+                                }
+                                Πρόβλεψης Αρμοδιότητας:
+                            </label>
+                            <app-list-legal-provisions [legalProvisions]="legalProvisions"></app-list-legal-provisions>
+                        </div>
+                    }
                 </div>
 
                 <button
