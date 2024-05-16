@@ -72,7 +72,7 @@ export class NewRemitComponent implements OnInit, OnDestroy {
         cofog1: new FormControl('', Validators.required),
         cofog2: new FormControl('', Validators.required),
         cofog3: new FormControl('', Validators.required),
-        legalProvisions: new FormControl({ value: [], disabled: true }, Validators.required),
+        legalProvisions: new FormControl([], Validators.required),
     });
     formSubscriptions: Subscription[] = [];
 
@@ -168,6 +168,7 @@ export class NewRemitComponent implements OnInit, OnDestroy {
                 this.legalProvisions = uniqWith(tempLegalProvision, (a, b) => {
                     return a.legalActKey === b.legalActKey && isEqual(a.legalProvisionSpecs, b.legalProvisionSpecs);
                 });
+                this.form.get('legalProvisions').setValue(this.legalProvisions);
                 this.updateRemitTextfromLegalProvisions();
             }
         });
