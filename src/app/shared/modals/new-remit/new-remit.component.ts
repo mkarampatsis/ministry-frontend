@@ -28,10 +28,10 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 export class NewRemitComponent implements OnInit, OnDestroy {
     // The following two are injected by the modal service
     modalRef: any;
-    organizationUnit: { preferredLabel: string; code: string };
+    organizationalUnit: { preferredLabel: string; code: string };
     // Some useful services
     constService = inject(ConstService);
-    organizationUnitService = inject(OrganizationalUnitService);
+    organizationalUnitService = inject(OrganizationalUnitService);
     remitService = inject(RemitService);
     modalService = inject(ModalService);
     toastService = inject(ToastService);
@@ -64,7 +64,10 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     }
 
     form = new FormGroup({
-        remitText: new FormControl('Το κείμενο θα ενημερώνεται όσο προσθέτετε διατάξεις', Validators.required),
+        remitText: new FormControl(
+            '<strong>Το κείμενο θα ενημερώνεται αυτόματα όσο προσθέτετε διατάξεις</strong>',
+            Validators.required,
+        ),
         remitType: new FormControl('', Validators.required),
         cofog1: new FormControl('', Validators.required),
         cofog2: new FormControl('', Validators.required),
@@ -75,8 +78,8 @@ export class NewRemitComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         // Get the organization code from the organization unit
-        this.organizationUnitService
-            .getOrganizationalUnitDetails(this.organizationUnit.code)
+        this.organizationalUnitService
+            .getOrganizationalUnitDetails(this.organizationalUnit.code)
             .pipe(take(1))
             .subscribe((data) => {
                 const organizationCode = data.organizationCode;
@@ -119,7 +122,7 @@ export class NewRemitComponent implements OnInit, OnDestroy {
         const remit = {
             regulatedObject: {
                 organization: this.organization.code,
-                organizationalUnit: this.organizationUnit.code,
+                organizationalUnit: this.organizationalUnit.code,
             },
             remitText: this.form.get('remitText').value,
             remitType: this.form.get('remitType').value,
@@ -138,14 +141,14 @@ export class NewRemitComponent implements OnInit, OnDestroy {
         });
     }
 
-    selectLegalProvision() {
-        this.modalService.selectLegalProvision().subscribe((data) => {
-            if (data) {
-                this.legalProvisions = data;
-                this.form.get('legalProvisions').setValue(data);
-            }
-        });
-    }
+    // selectLegalProvision() {
+    //     this.modalService.selectLegalProvision().subscribe((data) => {
+    //         if (data) {
+    //             this.legalProvisions = data;
+    //             this.form.get('legalProvisions').setValue(data);
+    //         }
+    //     });
+    // }
 
     showSuccess(template: TemplateRef<any>) {
         const toast: Toast = {
@@ -175,7 +178,10 @@ export class NewRemitComponent implements OnInit, OnDestroy {
             let remitText = this.legalProvisions.reduce((acc, legalProvision) => {
                 return acc + this.legalProvisionHeader(legalProvision);
             }, '');
-            remitText = `<p style="color:red"><strong>Ελέγξτε και τροποποιήστε το συνολικό κείμενο της Αρμοδιότητας</strong></p>${remitText}`;
+            remitText = `<p style="color:red"><strong>
+            Το κείμενο ενημερώνεται αυτόματα όσο προσθέτετε Διατάξεις.<br>
+            Ελέγξτε και τροποποιήστε το συνολικό κείμενο της Αρμοδιότητας μετά την τελευταία προσθήκη Διάταξης.
+            </strong></p>${remitText}`;
             this.form.get('remitText').setValue(remitText);
         }
     }

@@ -90,14 +90,14 @@ export class ModalService {
         modalRef.componentInstance.modalRef = modalRef;
     }
 
-    newRemit(organizationUnit: { preferredLabel: string; code: string }) {
+    newRemit(organizationalUnit: { preferredLabel: string; code: string }) {
         const modalRef = this.modalService.open(NewRemitComponent, {
             size: 'xl',
             centered: true,
             backdrop: 'static',
         });
         modalRef.componentInstance.modalRef = modalRef;
-        modalRef.componentInstance.organizationUnit = organizationUnit;
+        modalRef.componentInstance.organizationalUnit = organizationalUnit;
     }
 
     newLegalProvision() {
