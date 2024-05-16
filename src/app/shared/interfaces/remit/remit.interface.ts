@@ -2,8 +2,8 @@ import { ILegalProvision } from '../legal-provision/legal-provision.interface';
 
 export interface IRemit {
     regulatedObject: {
-        organization: string;
-        organizationalUnit: string;
+        regulatedObjectType: 'remit';
+        regulatedObjectCode: string;
     };
     remitText: string;
     remitType: string;

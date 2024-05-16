@@ -62,9 +62,9 @@ export class ArmodiothtesComponent {
                     return data.map((remit) => {
                         return {
                             ...remit,
-                            organizationLabel: this.organizationCodesMap.get(remit.regulatedObject.organization),
+                            organizationLabel: this.organizationCodesMap.get(remit.regulatedObject.regulatedObjectCode),
                             organizationUnitLabel: this.organizationUnitCodesMap.get(
-                                remit.regulatedObject.organizationalUnit,
+                                remit.regulatedObject.regulatedObjectCode,
                             ),
                         };
                     });

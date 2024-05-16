@@ -121,8 +121,8 @@ export class NewRemitComponent implements OnInit, OnDestroy {
         // const remit = this.form.value as IRemit;
         const remit = {
             regulatedObject: {
-                organization: this.organization.code,
-                organizationalUnit: this.organizationalUnit.code,
+                regulatedObjectType: 'remit',
+                regulatedObjectCode: this.organizationalUnit.code,
             },
             remitText: this.form.get('remitText').value,
             remitType: this.form.get('remitType').value,

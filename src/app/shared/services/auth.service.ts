@@ -31,7 +31,7 @@ export class AuthService {
                             next: (res: IAuthResponse) => {
                                 this.user.set(res.user);
                                 localStorage.setItem('accessToken', res.accessToken);
-                                this.router.navigate(['psped']);
+                                this.router.navigate(['dashboard']);
                             },
                             error: (err) => {
                                 console.log(err);
