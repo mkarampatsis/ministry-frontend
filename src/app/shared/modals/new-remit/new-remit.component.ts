@@ -9,11 +9,8 @@ import { Subscription, take } from 'rxjs';
 import { ILegalProvision } from 'src/app/shared/interfaces/legal-provision/legal-provision.interface';
 import { IRemit } from 'src/app/shared/interfaces/remit/remit.interface';
 import { RemitService } from 'src/app/shared/services/remit.service';
-import { Toast, ToastService } from 'src/app/shared/services/toast.service';
-import { ToastMessageComponent } from 'src/app/shared/components/toast-message/toast-message.component';
 import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
-import { IReguLatedObject } from '../../interfaces/legal-provision/regulated-object.interface';
 import { cloneDeep, isEqual, uniqWith } from 'lodash-es';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -34,12 +31,9 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     organizationalUnitService = inject(OrganizationalUnitService);
     remitService = inject(RemitService);
     modalService = inject(ModalService);
-    toastService = inject(ToastService);
 
     editor: Editor = new Editor();
     toolbar: Toolbar = DEFAULT_TOOLBAR;
-
-    @ViewChild('successTpl') successTpl: TemplateRef<any>;
 
     // Populate organization OnInit
     organization: { preferredLabel: string; code: string };
@@ -117,8 +111,6 @@ export class NewRemitComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
-        this.form.get('legalProvisions').enable();
-        // const remit = this.form.value as IRemit;
         const remit = {
             regulatedObject: {
                 regulatedObjectType: 'remit',
@@ -137,28 +129,7 @@ export class NewRemitComponent implements OnInit, OnDestroy {
         this.remitService.newRemit(remit).subscribe((data) => {
             console.log(data);
             this.modalRef.dismiss();
-            this.showSuccess(this.successTpl);
         });
-    }
-
-    // selectLegalProvision() {
-    //     this.modalService.selectLegalProvision().subscribe((data) => {
-    //         if (data) {
-    //             this.legalProvisions = data;
-    //             this.form.get('legalProvisions').setValue(data);
-    //         }
-    //     });
-    // }
-
-    showSuccess(template: TemplateRef<any>) {
-        const toast: Toast = {
-            component: ToastMessageComponent,
-            inputs: {
-                message: `Επιτυχής εισαγωγή νέας Αρμοδιότητας.`,
-            },
-            classname: 'bg-success text-light',
-        };
-        this.toastService.show(toast);
     }
 
     newLegalProvision(): void {
@@ -181,7 +152,7 @@ export class NewRemitComponent implements OnInit, OnDestroy {
             }, '');
             remitText = `<p style="color:red"><strong>
             Το κείμενο ενημερώνεται αυτόματα όσο προσθέτετε Διατάξεις.<br>
-            Ελέγξτε και τροποποιήστε το συνολικό κείμενο της Αρμοδιότητας μετά την τελευταία προσθήκη Διάταξης.
+            Ελέγξτε και τροποποιήστε το συνολικό κείμενο της Αρμοδιότητας μετά την τελευταία προσθήκη Διάταξης και πριν την υποβολή της Αρμοδιότητας. (Τουλάχιστον διαγράψτε το κόκκινο σχόλιο)
             </strong></p>${remitText}`;
             this.form.get('remitText').setValue(remitText);
         }
