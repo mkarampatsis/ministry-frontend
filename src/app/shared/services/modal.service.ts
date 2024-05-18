@@ -7,7 +7,7 @@ import {
     OrganizationDetailsComponent,
     OrganizationTreeComponent,
     OrganizationUnitDetailsComponent,
-    NewLegalActComponent,
+    LegalActModalComponent,
     NewRemitComponent,
     NewLegalProvisionComponent,
 } from 'src/app/shared/modals';
@@ -19,7 +19,7 @@ import { ShowLegalProvisionComponent } from '../modals/show-legal-provision/show
 import { PdfViewerComponent } from '../modals/pdf-viewer/pdf-viewer.component';
 import { SelectOrganizationModalComponent } from '../modals/select-organization-modal/select-organization-modal.component';
 import { YesNoComponent } from '../modals/yes-no/yes-no.component';
-import { IReguLatedObject } from '../interfaces/legal-provision/regulated-object.interface';
+import { ILegalAct } from '../interfaces/legal-act/legal-act.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -117,12 +117,23 @@ export class ModalService {
     }
 
     newLegalAct() {
-        const modalRef = this.modalService.open(NewLegalActComponent, {
+        const modalRef = this.modalService.open(LegalActModalComponent, {
             size: 'xl',
             centered: true,
             backdrop: 'static',
         });
         modalRef.componentInstance.modalRef = modalRef;
+        return modalRef.dismissed.pipe(take(1)) as Observable<boolean>;
+    }
+
+    editLegalAct(legalAct: ILegalAct) {
+        const modalRef = this.modalService.open(LegalActModalComponent, {
+            size: 'xl',
+            centered: true,
+            backdrop: 'static',
+        });
+        modalRef.componentInstance.modalRef = modalRef;
+        modalRef.componentInstance.legalAct.next(legalAct);
         return modalRef.dismissed.pipe(take(1)) as Observable<boolean>;
     }
 

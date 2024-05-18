@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription, take } from 'rxjs';
+import { BehaviorSubject, Subscription, take } from 'rxjs';
 import { IFek } from 'src/app/shared/interfaces/legal-act/fek.interface';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { FileUploadService } from 'src/app/shared/services/file-upload.service';
@@ -22,15 +22,13 @@ function dateDifference(date1: Date, date2: Date): number {
     templateUrl: './new-legal-act.component.html',
     styleUrl: './new-legal-act.component.css',
 })
-export class NewLegalActComponent implements OnInit {
+export class LegalActModalComponent implements OnInit {
+    legalAct = new BehaviorSubject<ILegalAct | null>(null);
     // Some useful services
     constService = inject(ConstService);
     uploadService = inject(FileUploadService);
     organizationUnitService = inject(OrganizationalUnitService);
     legalActService = inject(LegalActService);
-
-    // @ViewChild('successTpl') successTpl: TemplateRef<any>;
-    nomikiPraxiString = '';
 
     modalRef: any;
 
@@ -87,6 +85,14 @@ export class NewLegalActComponent implements OnInit {
         );
 
         this.formSubscriptions.push(
+            this.form.controls.fek.controls.number.valueChanges.subscribe((value: string) => {
+                if (value && value.trim() === '' && value.length > 0) {
+                    this.form.controls.fek.controls.number.setErrors({ empty: true });
+                }
+            }),
+        );
+
+        this.formSubscriptions.push(
             this.form.controls.legalActDateOrYear.valueChanges.subscribe((value) => {
                 if (value) {
                     if (!this.emptyFEK()) {
@@ -109,11 +115,41 @@ export class NewLegalActComponent implements OnInit {
                 }
             }),
         );
+
+        this.formSubscriptions.push(
+            this.legalAct.subscribe((legalAct) => {
+                if (legalAct) {
+                    this.form.controls.legalActType.setValue(legalAct.legalActType);
+                    this.form.controls.legalActTypeOther.setValue(legalAct.legalActTypeOther);
+                    this.form.controls.legalActNumber.setValue(legalAct.legalActNumber);
+                    this.form.controls.legalActDateOrYear.setValue(legalAct.legalActDateOrYear);
+                    if (legalAct.ada.startsWith('ΜΗ ΑΝΑΡΤΗΤΕΑ ΠΡΑΞΗ')) {
+                        this.form.controls.ada.setValue(null);
+                    } else {
+                        this.form.controls.ada.setValue(legalAct.ada);
+                    }
+                    this.form.controls.legalActFile.setValue(legalAct.legalActFile);
+                    if (legalAct.fek.number.startsWith('ΜΗ ΔΗΜΟΣΙΕΥΤΕΑ ΠΡΑΞΗ')) {
+                        this.form.controls.fek.setValue({
+                            number: null,
+                            issue: null,
+                            date: null,
+                        });
+                    } else {
+                        this.form.controls.fek.setValue({
+                            number: legalAct.fek?.number,
+                            issue: legalAct.fek?.issue,
+                            date: legalAct.fek?.date,
+                        });
+                    }
+                }
+            }),
+        );
     }
 
     formDatesDifference() {
         const legalType = this.form.controls.legalActType.value;
-        if (!['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalType)) {
+        if (legalType && !['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalType)) {
             const dateFek = new Date(this.form.get('fek.date').value);
             const dateAct = new Date(this.form.get('legalActDateOrYear').value);
             const diffDays = dateDifference(dateFek, dateAct);
@@ -128,16 +164,26 @@ export class NewLegalActComponent implements OnInit {
     }
 
     onSubmit() {
-        const data = {
+        let data = {
             ...this.form.value,
         } as ILegalAct;
 
-        this.nomikiPraxiString = `${this.form.get('legalActType').value === 'ΑΛΛΟ' ? this.form.get('legalActTypeOther').value : this.form.get('legalActType').value}`;
+        console.log('Subject', this.legalAct.getValue());
 
-        this.legalActService.newLegalAct(data).subscribe((data) => {
-            console.log('Data', data);
-            this.modalRef.dismiss(true);
-        });
+        if (this.legalAct.getValue() === null) {
+            console.log('POST DATA', data);
+            this.legalActService.newLegalAct(data).subscribe((data) => {
+                console.log('Data', data);
+                this.modalRef.dismiss(true);
+            });
+        } else {
+            const id = this.legalAct.getValue()._id.$oid;
+            console.log('PUT DATA', data);
+            this.legalActService.updateLegalAct(id, data).subscribe((data) => {
+                console.log('Data', data);
+                this.modalRef.dismiss(data);
+            });
+        }
     }
 
     selectFile(event: any): void {
@@ -174,7 +220,10 @@ export class NewLegalActComponent implements OnInit {
         return (
             this.form.get('fek.number').value === null ||
             this.form.get('fek.issue').value === null ||
-            this.form.get('fek.date').value === null
+            this.form.get('fek.date').value === null ||
+            this.form.get('fek.number').value.trim() === '' ||
+            this.form.get('fek.issue').value === '' ||
+            this.form.get('fek.date').value === ''
         );
     }
 

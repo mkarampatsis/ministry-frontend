@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, effect, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { map, take } from 'rxjs';
@@ -18,11 +18,13 @@ import { ModalService } from 'src/app/shared/services/modal.service';
     templateUrl: './nomikes-praxeis.component.html',
     styleUrl: './nomikes-praxeis.component.css',
 })
-export class NomikesPraxeisComponent {
+export class NomikesPraxeisComponent implements OnInit {
     constService = inject(ConstService);
     modalService = inject(ModalService);
     legalActService = inject(LegalActService);
     legalActs: ILegalAct[] = [];
+
+    legalActsNeedUpdate = this.legalActService.legalActsNeedUpdate;
 
     defaultColDef = this.constService.defaultColDef;
 
@@ -34,6 +36,40 @@ export class NomikesPraxeisComponent {
     loadingOverlayComponentParams = { loadingMessage: 'Αναζήτηση νομικών πράξεων...' };
 
     gridApi: GridApi<ILegalAct>;
+
+    constructor() {
+        effect(
+            () => {
+                console.log('AAAAAAAAA', this.legalActsNeedUpdate());
+                if (this.legalActsNeedUpdate()) {
+                    this.gridApi.showLoadingOverlay();
+                    this.legalActService
+                        .getAllLegalActs()
+                        .pipe(
+                            take(1),
+                            map((data) => {
+                                return data.map((legalAct) => {
+                                    return {
+                                        ...legalAct,
+                                    };
+                                });
+                            }),
+                        )
+                        .subscribe((data) => {
+                            console.log(data);
+                            this.legalActs = data;
+                            this.gridApi.hideOverlay();
+                        });
+                    this.legalActsNeedUpdate.set(false);
+                }
+            },
+            { allowSignalWrites: true },
+        );
+    }
+
+    ngOnInit() {
+        // console.log(this.legalActsNeedUpdate());
+    }
 
     onGridReady(params: GridReadyEvent<ILegalAct>): void {
         this.gridApi = params.api;
@@ -51,6 +87,7 @@ export class NomikesPraxeisComponent {
                 }),
             )
             .subscribe((data) => {
+                console.log(data);
                 this.legalActs = data;
                 this.gridApi.hideOverlay();
             });

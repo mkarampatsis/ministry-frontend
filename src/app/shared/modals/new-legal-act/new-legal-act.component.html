@@ -1,5 +1,13 @@
 <div class="d-flex justify-content-between m-3">
-    <span class="h5">Εισαγωγή Νέας Νομικής Πράξης</span>
+    <span class="h5">
+        @if (legalAct.getValue() === null) {
+            Εισαγωγή Νέας
+        } @else {
+            Επεξεργασία
+        }
+
+        Νομικής Πράξης
+    </span>
     <button
         type="button"
         class="btn-close"
@@ -7,6 +15,19 @@
 </div>
 
 <div class="modal-body">
+    @if (legalAct.getValue() !== null) {
+        <ngb-alert
+            type="info"
+            [dismissible]="false">
+            <p>
+                Έχετε επιλέξει να επεξεργαστείτε μια υπάρχουσα νομική πράξη. Έχουν ανασυρθεί τα στοιχεία της πράξης και
+                έχουν ανατεθεί στα αντίστοιχα πεδία.
+                <strong>ΠΡΟΣΟΧΗ:</strong>
+                αν επιλέξετε νέο αρχείο PDF, το παλιό αρχείο θα αντικατασταθεί! Βεβαιωθείτε πως η αλλαγή που θα κάνετε
+                συμβαδίζει με τις υπάρχουσες διατάξεις που χρησιμοποιούν τη νομική πράξη που αλλάζετε!
+            </p>
+        </ngb-alert>
+    }
     <form
         [formGroup]="form"
         (ngSubmit)="onSubmit()">
@@ -128,7 +149,13 @@
                             type="text"
                             class="form-control"
                             formControlName="number"
+                            [class.is-invalid]="
+                                form.controls.fek.controls.number.touched && form.controls.fek.controls.number.invalid
+                            "
                             id="number" />
+                        @if (form.controls.fek.controls.number.invalid) {
+                            <div class="invalid-feedback">Μη αποδεκτός αριθμός ΦΕΚ</div>
+                        }
                     </div>
                     <!-- fek.number -->
                     <div class="flex-grow-1">
