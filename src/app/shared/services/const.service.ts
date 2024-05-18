@@ -125,6 +125,8 @@ export class ConstService {
             valueGetter: function (params) {
                 if (params.data.ada.startsWith('ΜΗ ΑΝΑΡΤΗΤΕΑ ΠΡΑΞΗ-')) {
                     return params.data.ada.split('-', 2)[0];
+                } else {
+                    return params.data.ada;
                 }
             },
             field: 'ada',
