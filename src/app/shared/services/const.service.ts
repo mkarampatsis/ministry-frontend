@@ -120,7 +120,7 @@ export class ConstService {
         },
         { field: 'fek.issue', headerName: 'ΦΕΚ (Τεύχος)', flex: 1 },
         { field: 'fek.date', headerName: 'ΦΕΚ (Ημερομηνία)', flex: 1 },
-        { field: 'legalActYear', headerName: 'Έτος', flex: 1 },
+        { field: 'legalActDateOrYear', headerName: 'Έτος ή Ημερομηνία', flex: 1 },
         {
             valueGetter: function (params) {
                 if (params.data.ada.startsWith('ΜΗ ΑΝΑΡΤΗΤΕΑ ΠΡΑΞΗ-')) {

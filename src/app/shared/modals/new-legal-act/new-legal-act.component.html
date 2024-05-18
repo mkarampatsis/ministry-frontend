@@ -76,33 +76,39 @@
                     }
                 </div>
                 <!-- legalActNumber -->
-                <div class="flex-grow-1">
-                    <label
-                        for="legalActDate"
-                        class="form-label">
-                        Έτος πράξης:
-                    </label>
-                    <!-- <input
+                @if (!hideLegalActDateOrYear()) {
+                    <div class="flex-grow-1">
+                        @if (actNeedsOnlyYear()) {
+                            <label class="form-label">Έτος πράξης:</label>
+
+                            <select
+                                class="form-select"
+                                [class.is-invalid]="form.controls.legalActDateOrYear.invalid"
+                                formControlName="legalActDateOrYear">
+                                @for (year of years; track year) {
+                                    <option [value]="year">{{ year }}</option>
+                                }
+                            </select>
+                            @if (form.controls.legalActDateOrYear.invalid) {
+                                <div class="invalid-feedback">Πρέπει να καταχωρήσετε το έτος πράξης</div>
+                            }
+                        } @else {
+                            <label
+                                for="legalActDateOrYear"
+                                class="form-label">
+                                Ημερομηνία πράξης:
+                            </label>
+                            <input
                                 type="date"
                                 class="form-control"
-                                [class.is-invalid]="form.controls.legalActDate.invalid"
-                                id="legalActDate"
-                                formControlName="legalActDate"
-                                placeholder="Εισάγετε ημερομηνία έκδοσης πράξης"
-                            /> -->
-                    <select
-                        class="form-select"
-                        [class.is-invalid]="form.controls.legalActYear.touched && form.controls.legalActYear.invalid"
-                        id="year"
-                        formControlName="legalActYear">
-                        @for (year of years; track year) {
-                            <option [value]="year">{{ year }}</option>
+                                [class.is-invalid]="form.controls.legalActDateOrYear.invalid"
+                                formControlName="legalActDateOrYear" />
+                            @if (form.controls.legalActDateOrYear.invalid) {
+                                <div class="invalid-feedback">Πρέπει να καταχωρήσετε την ημερομηνία της πράξης</div>
+                            }
                         }
-                    </select>
-                    @if (form.controls.legalActYear.invalid) {
-                        <div class="invalid-feedback">Πρέπει να καταχωρήσετε έτος πράξης</div>
-                    }
-                </div>
+                    </div>
+                }
                 <!-- legalActDate -->
             </div>
         </div>
@@ -178,29 +184,33 @@
             </div>
         </div>
 
-        @if (checkFEK()) {
-            <ngb-alert
-                *ngIf="checkFEK()"
-                type="warning"
-                [dismissible]="false">
-                Αν δεν συμπληρωθούν και τα τρία πεδία του ΦΕΚ, θα καταχωρηθεί στον αριθμό η ένδειξη "Μη δημοσιευτέα
-                πράξη"
-            </ngb-alert>
-        }
-        @if (!form.controls.ada.value) {
-            <ngb-alert
-                type="warning"
-                [dismissible]="false"
-                class="mt-2">
-                Αν δεν συμπληρώσετε το ΑΔΑ, θα καταχωρηθεί η ένδειξη "Μη αναρτητέα πράξη"
-            </ngb-alert>
-        }
-        <!-- <div class="mb-3">
-            <div class="d-flex flex-column flex-md-row gap-2 align-items-center"></div>
-            <ngb-alert *ngIf="moreThan30" type="info" [dismissible]="false" class="mt-2">
-                        Προσοχή: Οι ημερομηνίες έκδοσης της πράξης και του ΦΕΚ διαφέρουν περισσότερο από 30 ημέρες.
-                    </ngb-alert>
-        </div> -->
+        <div class="flex flex-column gap-3">
+            @if (emptyFEK()) {
+                <ngb-alert
+                    type="warning"
+                    [dismissible]="false">
+                    Αν δεν συμπληρωθούν και τα τρία πεδία του ΦΕΚ, θα καταχωρηθεί στον αριθμό η ένδειξη "Μη δημοσιευτέα
+                    πράξη"
+                </ngb-alert>
+            }
+            @if (emptyADA()) {
+                <ngb-alert
+                    type="warning"
+                    [dismissible]="false"
+                    class="mt-2">
+                    Αν δεν συμπληρώσετε το ΑΔΑ, θα καταχωρηθεί η ένδειξη "Μη αναρτητέα πράξη"
+                </ngb-alert>
+            }
+            @if (moreThan30) {
+                <ngb-alert
+                    *ngIf="moreThan30"
+                    type="info"
+                    [dismissible]="false"
+                    class="mt-2">
+                    Προσοχή: Οι ημερομηνίες της πράξης και του ΦΕΚ διαφέρουν περισσότερο από 30 ημέρες.
+                </ngb-alert>
+            }
+        </div>
 
         <div class="mb-3">
             <label class="form-label">Αρχείο PDF (16MB maximum):</label>

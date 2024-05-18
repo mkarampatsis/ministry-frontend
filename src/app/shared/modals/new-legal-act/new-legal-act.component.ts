@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -10,8 +10,6 @@ import { FileUploadService } from 'src/app/shared/services/file-upload.service';
 import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
 import { ILegalAct } from 'src/app/shared/interfaces/legal-act/legal-act.interface';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
-import { Toast, ToastService } from 'src/app/shared/services/toast.service';
-import { ToastMessageComponent } from 'src/app/shared/components/toast-message/toast-message.component';
 
 function dateDifference(date1: Date, date2: Date): number {
     const diffTime = Math.abs(date1.getTime() - date2.getTime());
@@ -27,7 +25,6 @@ function dateDifference(date1: Date, date2: Date): number {
 export class NewLegalActComponent implements OnInit {
     // Some useful services
     constService = inject(ConstService);
-    toastService = inject(ToastService);
     uploadService = inject(FileUploadService);
     organizationUnitService = inject(OrganizationalUnitService);
     legalActService = inject(LegalActService);
@@ -46,22 +43,22 @@ export class NewLegalActComponent implements OnInit {
 
     fek: IFek;
 
-    // moreThan30 = false;
+    moreThan30 = false;
 
     actTypes = this.constService.ACT_TYPES;
 
     form = new FormGroup({
-        legalActType: new FormControl('', Validators.required),
-        legalActTypeOther: new FormControl(''),
-        legalActNumber: new FormControl('', Validators.required),
-        legalActYear: new FormControl('', Validators.required),
+        legalActType: new FormControl(null, Validators.required),
+        legalActTypeOther: new FormControl(null),
+        legalActNumber: new FormControl(null, Validators.required),
+        legalActDateOrYear: new FormControl(null, Validators.required),
         fek: new FormGroup({
-            number: new FormControl(''),
-            issue: new FormControl(''),
-            date: new FormControl(''),
+            number: new FormControl(null),
+            issue: new FormControl(null),
+            date: new FormControl(null),
         }),
         ada: new FormControl(null, Validators.pattern(/^[Α-Ω,0-9]{10}-[Α-Ω,0-9]{3}$/)),
-        legalActFile: new FormControl('', Validators.required),
+        legalActFile: new FormControl(null, Validators.required),
     });
 
     formSubscriptions: Subscription[] = [];
@@ -74,6 +71,8 @@ export class NewLegalActComponent implements OnInit {
 
         this.formSubscriptions.push(
             this.form.controls.legalActType.valueChanges.subscribe((value) => {
+                this.form.controls.legalActDateOrYear.setValue('');
+                this.form.controls.legalActDateOrYear.updateValueAndValidity();
                 if (value === 'ΑΛΛΟ') {
                     this.showOtherLegalActType = true;
                     this.form.controls.legalActTypeOther.setValidators(Validators.required);
@@ -87,36 +86,41 @@ export class NewLegalActComponent implements OnInit {
             }),
         );
 
-        // this.formSubscriptions.push(
-        //     this.form.controls.legalActDate.valueChanges.subscribe((value) => {
-        //         if (value) {
-        //             if (!this.checkFEK()) {
-        //                 this.moreThan30 = this.formDatesDifference();
-        //             } else {
-        //                 this.moreThan30 = false;
-        //             }
-        //         }
-        //     }),
-        // );
+        this.formSubscriptions.push(
+            this.form.controls.legalActDateOrYear.valueChanges.subscribe((value) => {
+                if (value) {
+                    if (!this.emptyFEK()) {
+                        this.moreThan30 = this.formDatesDifference();
+                    } else {
+                        this.moreThan30 = false;
+                    }
+                }
+            }),
+        );
 
-        // this.formSubscriptions.push(
-        //     this.form.controls.fek.valueChanges.subscribe((value) => {
-        //         if (value) {
-        //             if (!this.checkFEK()) {
-        //                 this.moreThan30 = this.formDatesDifference();
-        //             } else {
-        //                 this.moreThan30 = false;
-        //             }
-        //         }
-        //     }),
-        // );
+        this.formSubscriptions.push(
+            this.form.controls.fek.valueChanges.subscribe((value) => {
+                if (value) {
+                    if (!this.emptyFEK()) {
+                        this.moreThan30 = this.formDatesDifference();
+                    } else {
+                        this.moreThan30 = false;
+                    }
+                }
+            }),
+        );
     }
 
     formDatesDifference() {
-        const dateFek = new Date(this.form.get('fek.date').value);
-        const dateAct = new Date(this.form.get('legalActDate').value);
-        const diffDays = dateDifference(dateFek, dateAct);
-        return diffDays > 30;
+        const legalType = this.form.controls.legalActType.value;
+        if (!['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalType)) {
+            const dateFek = new Date(this.form.get('fek.date').value);
+            const dateAct = new Date(this.form.get('legalActDateOrYear').value);
+            const diffDays = dateDifference(dateFek, dateAct);
+            console.log(diffDays);
+            return diffDays > 30;
+        }
+        return false;
     }
 
     ngOnDestroy(): void {
@@ -124,19 +128,8 @@ export class NewLegalActComponent implements OnInit {
     }
 
     onSubmit() {
-        // const ada = this.form.get('ada').value ? this.form.get('ada').value : 'ΜΗ ΑΝΑΡΤΗΤΕΑ ΠΡΑΞΗ';
-
-        // const fek =
-        //     this.form.get('fek.number').value === '' ||
-        //     this.form.get('fek.issue').value === '' ||
-        //     this.form.get('fek.date').value === ''
-        //         ? { number: 'ΜΗ ΔΗΜΟΣΙΕΥΤΕΑ ΠΡΑΞΗ', issue: '', date: '' }
-        //         : this.form.get('fek').value;
-
         const data = {
             ...this.form.value,
-            // ada,
-            // fek,
         } as ILegalAct;
 
         this.nomikiPraxiString = `${this.form.get('legalActType').value === 'ΑΛΛΟ' ? this.form.get('legalActTypeOther').value : this.form.get('legalActType').value}`;
@@ -144,7 +137,6 @@ export class NewLegalActComponent implements OnInit {
         this.legalActService.newLegalAct(data).subscribe((data) => {
             console.log('Data', data);
             this.modalRef.dismiss(true);
-            // this.showSuccess(this.successTpl);
         });
     }
 
@@ -174,15 +166,15 @@ export class NewLegalActComponent implements OnInit {
         });
     }
 
-    checkADA() {
-        return this.form.get('ada').value === '';
+    emptyADA() {
+        return this.form.get('ada').value === null;
     }
 
-    checkFEK() {
+    emptyFEK() {
         return (
-            this.form.get('fek.number').value === '' ||
-            this.form.get('fek.issue').value === '' ||
-            this.form.get('fek.date').value === ''
+            this.form.get('fek.number').value === null ||
+            this.form.get('fek.issue').value === null ||
+            this.form.get('fek.date').value === null
         );
     }
 
@@ -190,14 +182,12 @@ export class NewLegalActComponent implements OnInit {
         return this.constService.ORGANIZATION_CODES.find((x) => x.code === code)?.preferredLabel;
     }
 
-    // showSuccess(template: TemplateRef<any>) {
-    //     const toast: Toast = {
-    //         component: ToastMessageComponent,
-    //         inputs: {
-    //             message: `Επιτυχής εισαγωγή νέας Νομικής Πράξης <strong>${this.nomikiPraxiString}</strong>.`,
-    //         },
-    //         classname: 'bg-success text-light',
-    //     };
-    //     this.toastService.show(toast);
-    // }
+    hideLegalActDateOrYear(): boolean {
+        return this.form.controls.legalActType.value === null;
+    }
+
+    actNeedsOnlyYear(): boolean {
+        const legalType = this.form.controls.legalActType.value;
+        return ['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalType);
+    }
 }

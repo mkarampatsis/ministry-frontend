@@ -12,7 +12,10 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-mat-icon:hover {
+i {
+    color: grey;
+}
+i:hover {
     color: #007bff;
 }
 

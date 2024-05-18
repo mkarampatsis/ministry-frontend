@@ -12,11 +12,11 @@ import { AuthInterceptorService } from './shared/services/auth-interceptor.servi
 import { BackendInterceptor } from './shared/services/backend-interceptor.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-registerLocaleData(localeEl);
+registerLocaleData(localeEl, 'el-GR');
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        { provide: LOCALE_ID, useValue: 'el' },
+        { provide: LOCALE_ID, useValue: 'el-GR' },
         provideRouter(routes),
         {
             provide: 'SocialAuthServiceConfig',
