@@ -1,8 +1,7 @@
 import { Component, OnInit, effect, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
-import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
+import { GridApi, GridReadyEvent } from 'ag-grid-community';
 import { map, take } from 'rxjs';
-import { LegalActsActionsComponent } from 'src/app/shared/components/legal-acts-actions/legal-acts-actions.component';
 
 import { ILegalAct } from 'src/app/shared/interfaces/legal-act/legal-act.interface';
 
@@ -40,7 +39,6 @@ export class NomikesPraxeisComponent implements OnInit {
     constructor() {
         effect(
             () => {
-                console.log('AAAAAAAAA', this.legalActsNeedUpdate());
                 if (this.legalActsNeedUpdate()) {
                     this.gridApi.showLoadingOverlay();
                     this.legalActService
@@ -56,7 +54,6 @@ export class NomikesPraxeisComponent implements OnInit {
                             }),
                         )
                         .subscribe((data) => {
-                            console.log(data);
                             this.legalActs = data;
                             this.gridApi.hideOverlay();
                         });
@@ -87,34 +84,17 @@ export class NomikesPraxeisComponent implements OnInit {
                 }),
             )
             .subscribe((data) => {
-                console.log(data);
                 this.legalActs = data;
                 this.gridApi.hideOverlay();
             });
     }
 
     newLegalAct(): void {
-        this.modalService.newLegalAct().subscribe((data) => {
-            if (data) {
-                this.gridApi.showLoadingOverlay();
-                this.legalActService
-                    .getAllLegalActs()
-                    .pipe(
-                        take(1),
-                        map((data) => {
-                            return data.map((legalAct) => {
-                                return {
-                                    ...legalAct,
-                                };
-                            });
-                        }),
-                    )
-                    .subscribe((data) => {
-                        console.log(data);
-                        this.legalActs = data;
-                        this.gridApi.hideOverlay();
-                    });
-            }
-        });
+        this.modalService
+            .newLegalAct()
+            .pipe(take(1))
+            .subscribe((data) => {
+                this.legalActsNeedUpdate.set(true);
+            });
     }
 }

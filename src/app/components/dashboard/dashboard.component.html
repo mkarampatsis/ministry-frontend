@@ -30,22 +30,16 @@
                     <tr class="align-middle">
                         <td>{{ organization.code }}</td>
                         <td>{{ organization.preferredLabel }}</td>
-                        <td>
-                            <mat-icon
-                                class="me-2"
+                        <td class="d-flex gap-2 fs-5">
+                            <i
+                                class="bi bi-info-circle"
                                 role="button"
-                                (click)="showOrganizationDetails(organization.code)"
-                                ngbTooltip="Καρτέλα Φορέα">
-                                info
-                            </mat-icon>
+                                (click)="showOrganizationDetails(organization.code)"></i>
 
-                            <mat-icon
-                                class="me-2"
+                            <i
+                                class="bi bi-pencil-square"
                                 role="button"
-                                (click)="editForeas(organization.code)"
-                                ngbTooltip="Επεξεργασία Φορέα">
-                                edit_square
-                            </mat-icon>
+                                (click)="editForeas(organization.code)"></i>
                         </td>
                     </tr>
                 }
@@ -88,30 +82,21 @@
                         <td>{{ organizational_unit.code }}</td>
                         <td>{{ organizationCodesMap.get(organizational_unit.organizationCode) }}</td>
                         <td>{{ organizational_unit.preferredLabel }}</td>
-                        <td>
-                            <mat-icon
-                                class="me-2"
+                        <td class="d-flex gap-2 fs-5">
+                            <i
+                                class="bi bi-info-circle"
                                 role="button"
-                                (click)="showOrganizationalUnitDetails(organizational_unit.code)"
-                                ngbTooltip="Καρτέλα Μονάδας">
-                                info
-                            </mat-icon>
+                                (click)="showOrganizationalUnitDetails(organizational_unit.code)"></i>
 
-                            <mat-icon
-                                class="me-2"
+                            <i
+                                class="bi bi-pencil-square"
                                 role="button"
-                                (click)="editForeas(organizational_unit.code)"
-                                ngbTooltip="Επεξεργασία Μονάδας">
-                                edit_square
-                            </mat-icon>
+                                (click)="editForeas(organizational_unit.code)"></i>
 
-                            <mat-icon
-                                class="me-2"
+                            <i
+                                class="bi bi-gear"
                                 role="button"
-                                (click)="newRemit(organizational_unit)"
-                                ngbTooltip="Αρμοδιότητες Μονάδας">
-                                gavel
-                            </mat-icon>
+                                (click)="newRemit(organizational_unit)"></i>
                         </td>
                     </tr>
                 }
