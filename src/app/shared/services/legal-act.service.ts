@@ -27,7 +27,7 @@ export class LegalActService {
     }
 
     getLegalActById(id: string): Observable<ILegalAct> {
-        const url = `${APIPREFIX}/get-by-id/${id}`;
+        const url = `${APIPREFIX}/by-id/${id}`;
         return this.http.get<ILegalAct>(url);
     }
 

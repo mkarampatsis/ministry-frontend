@@ -103,7 +103,7 @@ export class ConstService {
             },
             field: 'legalActType',
             headerName: 'Τύπος',
-            flex: 3,
+            flex: 2,
         },
         { field: 'legalActNumber', headerName: 'Αριθμός', flex: 1 },
         {
@@ -140,7 +140,7 @@ export class ConstService {
             filter: false,
             sortable: false,
             floatingFilter: false,
-            flex: 0.5,
+            flex: 1,
             resizable: false,
         },
     ];
