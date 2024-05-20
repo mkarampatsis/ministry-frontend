@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 import { IOrganization } from 'src/app/shared/interfaces/organization';
 import { take } from 'rxjs';
@@ -10,11 +9,12 @@ import { LegalProvisionService } from '../../services/legal-provision.service';
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
 import { IForeasDTO } from '../../interfaces/foreas/foreas.interface';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-organization-details',
     standalone: true,
-    imports: [CommonModule, NgbModalModule, CardRowRightLeftComponent, ListLegalProvisionsComponent],
+    imports: [CommonModule, CardRowRightLeftComponent, ListLegalProvisionsComponent, NgbAccordionModule],
     templateUrl: './organization-details.component.html',
     styleUrl: './organization-details.component.css',
 })
