@@ -24,25 +24,23 @@
                     <td class="align-content-center">
                         {{ legalProvision.legalActKey }}
                     </td>
-                    <td class="text-center">{{ legalProvision.legalProvisionSpecs.meros }}</td>
-                    <td class="text-center">{{ legalProvision.legalProvisionSpecs.arthro }}</td>
-                    <td class="text-center">{{ legalProvision.legalProvisionSpecs.paragrafos }}</td>
-                    <td class="text-center">{{ legalProvision.legalProvisionSpecs.edafio }}</td>
-                    <td class="text-center">{{ legalProvision.legalProvisionSpecs.pararthma }}</td>
-                    <td class="text-center">
-                        <mat-icon
-                            role="button"
-                            (click)="displayLegalProvision(legalProvision)">
-                            wysiwyg
-                        </mat-icon>
+                    <td class="text-center align-content-center">{{ legalProvision.legalProvisionSpecs.meros }}</td>
+                    <td class="text-center align-content-center">{{ legalProvision.legalProvisionSpecs.arthro }}</td>
+                    <td class="text-center align-content-center">
+                        {{ legalProvision.legalProvisionSpecs.paragrafos }}
                     </td>
-                    <!-- <td class="text-center">
-                        <mat-icon
+                    <td class="text-center align-content-center">{{ legalProvision.legalProvisionSpecs.edafio }}</td>
+                    <td class="text-center align-content-center">{{ legalProvision.legalProvisionSpecs.pararthma }}</td>
+                    <td class="text-center align-content-center">
+                        <i
                             role="button"
-                            (click)="removeLegalProvision(i)">
-                            delete
-                        </mat-icon>
-                    </td> -->
+                            (click)="displayLegalProvision(legalProvision)"
+                            class="bi bi-file-text fs-5 me-2"></i>
+                        <i
+                            [cdkCopyToClipboard]="legalProvision.legalProvisionText"
+                            role="button"
+                            class="bi bi-copy fs-5"></i>
+                    </td>
                 </tr>
             }
         </tbody>

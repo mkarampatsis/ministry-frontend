@@ -1,12 +1,13 @@
 import { Component, Input, inject } from '@angular/core';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
-import { MatIconModule } from '@angular/material/icon';
 import { ModalService } from '../../services/modal.service';
 
 @Component({
     selector: 'app-list-legal-provisions',
     standalone: true,
-    imports: [MatIconModule],
+    imports: [ClipboardModule],
     templateUrl: './list-legal-provisions.component.html',
     styleUrl: './list-legal-provisions.component.css',
 })
