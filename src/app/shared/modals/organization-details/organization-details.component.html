@@ -12,80 +12,109 @@
             <span class="text-muted small">Κωδικός απογραφής: {{ organization?.code }}</span>
         </div>
         <div class="card-body">
-            <p class="text-info small">Δεδομένα Απογραφής</p>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Εναλλακτικές Ονομασίες',
-                    value: organization?.alternativeLabels
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Σκοπός',
-                    value: descriptionMap(organization?.purpose)
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                *ngIf="organization?.subOrganizationOf"
-                [keyValue]="{
-                    key: 'Εποπτεύοντας φορέας',
-                    value: organization?.subOrganizationOf.description
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Τύπος Φορέα',
-                    value: organization?.organizationType.description
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Κατάσταση',
-                    value: organization?.status
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Ημερομηνία Κύριας Ενημέρωσης',
-                    value: organization?.mainDataUpdateDate
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Ημερομηνία Ενημέρωσης Δομής Φορέα',
-                    value: organization?.organizationStructureUpdateDate
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                *ngIf="organization?.contactPoint"
-                [keyValue]="{
-                    key: 'Email Φορέα',
-                    value: organization?.contactPoint.email
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                *ngIf="organization?.contactPoint"
-                [keyValue]="{
-                    key: 'Τηλέφωνο Φορέα',
-                    value: organization?.contactPoint.telephone
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                *ngIf="organization?.mainAddress"
-                [keyValue]="{
-                    key: 'Ταχυδρομική Διεύθυνση',
-                    value: organization?.mainAddress.fullAddress
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                *ngIf="organization?.secondaryAddresses"
-                [keyValue]="{
-                    key: 'Δευτερεύουσες Διευθύνσεις',
-                    value: fullAddressMap(organization?.secondaryAddresses)
-                }"></app-card-row-right-left>
-            <hr class="mt-2 mb-2" />
-            <p class="text-info small">Δεδομένα ΠΣΠΕΔ</p>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Επίπεδο Διακυβέρνησης',
-                    value: foreas?.level
-                }"></app-card-row-right-left>
+            <div
+                ngbAccordion
+                [closeOthers]="true">
+                <div
+                    ngbAccordionItem
+                    [collapsed]="false">
+                    <h2 ngbAccordionHeader>
+                        <button ngbAccordionButton>Δεδομένα Απογραφής</button>
+                    </h2>
+                    <div ngbAccordionCollapse>
+                        <div ngbAccordionBody>
+                            <ng-template>
+                                <app-card-row-right-left
+                                    [keyValue]="{
+                                        key: 'Εναλλακτικές Ονομασίες',
+                                        value: organization?.alternativeLabels
+                                    }"></app-card-row-right-left>
+                                <app-card-row-right-left
+                                    [keyValue]="{
+                                        key: 'Σκοπός',
+                                        value: descriptionMap(organization?.purpose)
+                                    }"></app-card-row-right-left>
+                                <app-card-row-right-left
+                                    *ngIf="organization?.subOrganizationOf"
+                                    [keyValue]="{
+                                        key: 'Εποπτεύοντας φορέας',
+                                        value: organization?.subOrganizationOf.description
+                                    }"></app-card-row-right-left>
+                                <app-card-row-right-left
+                                    [keyValue]="{
+                                        key: 'Τύπος Φορέα',
+                                        value: organization?.organizationType.description
+                                    }"></app-card-row-right-left>
+                                <app-card-row-right-left
+                                    [keyValue]="{
+                                        key: 'Κατάσταση',
+                                        value: organization?.status
+                                    }"></app-card-row-right-left>
+                                <app-card-row-right-left
+                                    [keyValue]="{
+                                        key: 'Ημερομηνία Κύριας Ενημέρωσης',
+                                        value: organization?.mainDataUpdateDate
+                                    }"></app-card-row-right-left>
+                                <app-card-row-right-left
+                                    [keyValue]="{
+                                        key: 'Ημερομηνία Ενημέρωσης Δομής Φορέα',
+                                        value: organization?.organizationStructureUpdateDate
+                                    }"></app-card-row-right-left>
+                                <app-card-row-right-left
+                                    *ngIf="organization?.contactPoint"
+                                    [keyValue]="{
+                                        key: 'Email Φορέα',
+                                        value: organization?.contactPoint.email
+                                    }"></app-card-row-right-left>
+                                <app-card-row-right-left
+                                    *ngIf="organization?.contactPoint"
+                                    [keyValue]="{
+                                        key: 'Τηλέφωνο Φορέα',
+                                        value: organization?.contactPoint.telephone
+                                    }"></app-card-row-right-left>
+                                <app-card-row-right-left
+                                    *ngIf="organization?.mainAddress"
+                                    [keyValue]="{
+                                        key: 'Ταχυδρομική Διεύθυνση',
+                                        value: organization?.mainAddress.fullAddress
+                                    }"></app-card-row-right-left>
+                                <app-card-row-right-left
+                                    *ngIf="organization?.secondaryAddresses"
+                                    [keyValue]="{
+                                        key: 'Δευτερεύουσες Διευθύνσεις',
+                                        value: fullAddressMap(organization?.secondaryAddresses)
+                                    }"></app-card-row-right-left>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    ngbAccordionItem
+                    [collapsed]="true">
+                    <h2 ngbAccordionHeader>
+                        <button ngbAccordionButton>Δεδομένα ΠΣΠΕΔ</button>
+                    </h2>
+                    <div ngbAccordionCollapse>
+                        <div ngbAccordionBody>
+                            <ng-template>
+                                <app-card-row-right-left
+                                    [keyValue]="{
+                                        key: 'Επίπεδο Διακυβέρνησης',
+                                        value: foreas?.level
+                                    }"></app-card-row-right-left>
 
-            <div class="row">
-                <div class="col-md-4 fw-semibold d-inline text-truncate">Διατάξεις Πρόβλεψης</div>
-                <div class="col-md-8"></div>
+                                <div class="row">
+                                    <div class="col-md-4 fw-semibold d-inline text-truncate">Διατάξεις Πρόβλεψης</div>
+                                    <div class="col-md-8"></div>
+                                </div>
+                                <app-list-legal-provisions
+                                    [legalProvisions]="legalProvisions"></app-list-legal-provisions>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <app-list-legal-provisions [legalProvisions]="legalProvisions"></app-list-legal-provisions>
+            <!-- end of ngbAccordion -->
         </div>
     </div>
 </div>
