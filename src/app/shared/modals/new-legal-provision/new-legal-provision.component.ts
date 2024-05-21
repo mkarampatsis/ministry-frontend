@@ -70,6 +70,15 @@ export class NewLegalProvisionComponent implements OnDestroy {
         });
     }
 
+    onPaste(event: ClipboardEvent) {
+        console.log('Pasting...');
+        event.preventDefault();
+        const text = event.clipboardData?.getData('text');
+        console.log(text);
+        this.form.get('legalActText').setValue(text);
+        // document.execCommand('insertText', false, text);
+    }
+
     onSubmit() {
         // console.log(this.form.value);
         const legalProvisionSpecs = this.form.get('legalProvisionSpecs').value as ILegalProvisionSpecs;
