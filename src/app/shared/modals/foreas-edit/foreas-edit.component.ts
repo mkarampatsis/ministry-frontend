@@ -4,7 +4,7 @@ import { OrganizationService } from 'src/app/shared/services/organization.servic
 import { IOrganization } from 'src/app/shared/interfaces/organization';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { take } from 'rxjs';
-import { IForeasDTO } from 'src/app/shared/interfaces/foreas/foreas.interface';
+import { IForeas } from 'src/app/shared/interfaces/foreas/foreas.interface';
 import { ForeasService } from 'src/app/shared/services/foreas.service';
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
 import { ModalService } from '../../services/modal.service';
@@ -33,7 +33,7 @@ export class ForeasEditComponent implements OnInit {
     organization: IOrganization;
     modalRef: any;
 
-    foreas: IForeasDTO;
+    foreas: IForeas;
 
     organizationLevels = this.constService.ORGANIZATION_LEVELS;
 
@@ -70,7 +70,7 @@ export class ForeasEditComponent implements OnInit {
             code: this.foreas.code,
             level: this.level,
             legalProvisions: this.legalProvisions,
-        } as IForeasDTO;
+        } as IForeas;
 
         console.log(organization);
 

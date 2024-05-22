@@ -7,7 +7,7 @@ import { CardRowRightLeftComponent } from 'src/app/shared/components/card-row-ri
 import { ForeasService } from '../../services/foreas.service';
 import { LegalProvisionService } from '../../services/legal-provision.service';
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
-import { IForeasDTO } from '../../interfaces/foreas/foreas.interface';
+import { IForeas } from '../../interfaces/foreas/foreas.interface';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -28,7 +28,7 @@ export class OrganizationDetailsComponent {
     modalRef: any;
 
     legalProvisions: ILegalProvision[] = [];
-    foreas: IForeasDTO;
+    foreas: IForeas;
     level: string;
 
     ngOnInit() {

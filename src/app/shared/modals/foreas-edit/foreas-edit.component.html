@@ -50,7 +50,11 @@
                             }
                             Πρόβλεψης:
                         </label>
-                        <app-list-legal-provisions [legalProvisions]="legalProvisions"></app-list-legal-provisions>
+                        <app-list-legal-provisions
+                            [code]="organization?.code"
+                            [provisionType]="'organization'"
+                            [actionColumnVisible]="true"
+                            [legalProvisions]="legalProvisions"></app-list-legal-provisions>
                     </div>
                 }
             </div>
@@ -64,7 +68,7 @@
         type="button"
         class="btn btn-primary"
         (click)="onSubmit()"
-        [disabled]="false">
+        [disabled]="!hasChanges()">
         Υποβολή
     </button>
 </div>

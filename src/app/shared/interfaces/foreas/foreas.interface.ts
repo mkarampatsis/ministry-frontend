@@ -1,8 +1,8 @@
 import { ILegalProvision } from '../legal-provision/legal-provision.interface';
 
-export interface IForeasDTO {
-    // _id: { $oid: string };
+export interface IForeas {
     code: string;
     level: string;
+    provisionText: string;
     legalProvisions: ILegalProvision[];
 }

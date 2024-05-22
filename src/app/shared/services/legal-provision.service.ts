@@ -32,6 +32,16 @@ export class LegalProvisionService {
         return this.http.get<ILegalProvision[]>(url);
     }
 
+    deleteLegalProvision(
+        provisionType: string,
+        code: string,
+        provision: ILegalProvision,
+    ): Observable<{ message: string }> {
+        const url = `${APIPREFIX}/delete`;
+        const data = { provisionType, code, provision };
+        return this.http.post<{ message: string }>(url, data);
+    }
+
     // fromListOfIds(ids: string[]): Observable<ILegalProvision[]> {
     //     const url = `${APIPREFIX}/from_list_of_ids`;
     //     return this.http.post<ILegalProvision[]>(url, ids);
