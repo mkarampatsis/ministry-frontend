@@ -9,7 +9,7 @@ import {
     OrganizationUnitDetailsComponent,
     LegalActModalComponent,
     NewRemitComponent,
-    NewLegalProvisionComponent,
+    LegalProvisionComponent,
 } from 'src/app/shared/modals';
 import { SelectLegalActionModalComponent } from '../modals/select-legal-action-modal/select-legal-action-modal.component';
 import { Observable, take } from 'rxjs';
@@ -101,7 +101,7 @@ export class ModalService {
     }
 
     newLegalProvision() {
-        const modalRef = this.modalService.open(NewLegalProvisionComponent, {
+        const modalRef = this.modalService.open(LegalProvisionComponent, {
             size: 'xl',
             centered: true,
             backdrop: 'static',
@@ -133,7 +133,8 @@ export class ModalService {
             backdrop: 'static',
         });
         modalRef.componentInstance.modalRef = modalRef;
-        modalRef.componentInstance.legalAct.next(legalAct);
+        modalRef.componentInstance.skata = 'skata';
+        modalRef.componentInstance.legalAct = legalAct;
         return modalRef.dismissed.pipe(take(1)) as Observable<boolean>;
     }
 

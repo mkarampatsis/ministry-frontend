@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between m-3">
     <span class="h5">
-        @if (legalAct.getValue() === null) {
+        @if (legalAct === null) {
             Εισαγωγή Νέας
         } @else {
             Επεξεργασία
@@ -15,7 +15,7 @@
 </div>
 
 <div class="modal-body">
-    @if (legalAct.getValue() !== null) {
+    @if (legalAct !== null) {
         <ngb-alert
             type="info"
             [dismissible]="false">

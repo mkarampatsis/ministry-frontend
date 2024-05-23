@@ -1,9 +1,9 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, Subscription, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { IFek } from 'src/app/shared/interfaces/legal-act/fek.interface';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { FileUploadService } from 'src/app/shared/services/file-upload.service';
@@ -23,7 +23,8 @@ function dateDifference(date1: Date, date2: Date): number {
     styleUrl: './new-legal-act.component.css',
 })
 export class LegalActModalComponent implements OnInit {
-    legalAct = new BehaviorSubject<ILegalAct | null>(null);
+    // legalAct = new BehaviorSubject<ILegalAct | null>(null);
+    legalAct: ILegalAct | null = null;
     // Some useful services
     constService = inject(ConstService);
     uploadService = inject(FileUploadService);
@@ -63,6 +64,32 @@ export class LegalActModalComponent implements OnInit {
     showOtherLegalActType = false;
 
     ngOnInit(): void {
+        if (this.legalAct) {
+            this.form.controls.legalActType.setValue(this.legalAct.legalActType);
+            this.form.controls.legalActTypeOther.setValue(this.legalAct.legalActTypeOther);
+            this.form.controls.legalActNumber.setValue(this.legalAct.legalActNumber);
+            this.form.controls.legalActDateOrYear.setValue(this.legalAct.legalActDateOrYear);
+            if (this.legalAct.ada.startsWith('ΜΗ ΑΝΑΡΤΗΤΕΑ ΠΡΑΞΗ')) {
+                this.form.controls.ada.setValue(null);
+            } else {
+                this.form.controls.ada.setValue(this.legalAct.ada);
+            }
+            this.form.controls.legalActFile.setValue(this.legalAct.legalActFile);
+            if (this.legalAct.fek.number.startsWith('ΜΗ ΔΗΜΟΣΙΕΥΤΕΑ ΠΡΑΞΗ')) {
+                this.form.controls.fek.setValue({
+                    number: null,
+                    issue: null,
+                    date: null,
+                });
+            } else {
+                this.form.controls.fek.setValue({
+                    number: this.legalAct.fek?.number,
+                    issue: this.legalAct.fek?.issue,
+                    date: this.legalAct.fek?.date,
+                });
+            }
+        }
+
         for (let i = this.currentYear; i >= 1846; i--) {
             this.years.push(i);
         }
@@ -115,36 +142,6 @@ export class LegalActModalComponent implements OnInit {
                 }
             }),
         );
-
-        this.formSubscriptions.push(
-            this.legalAct.subscribe((legalAct) => {
-                if (legalAct) {
-                    this.form.controls.legalActType.setValue(legalAct.legalActType);
-                    this.form.controls.legalActTypeOther.setValue(legalAct.legalActTypeOther);
-                    this.form.controls.legalActNumber.setValue(legalAct.legalActNumber);
-                    this.form.controls.legalActDateOrYear.setValue(legalAct.legalActDateOrYear);
-                    if (legalAct.ada.startsWith('ΜΗ ΑΝΑΡΤΗΤΕΑ ΠΡΑΞΗ')) {
-                        this.form.controls.ada.setValue(null);
-                    } else {
-                        this.form.controls.ada.setValue(legalAct.ada);
-                    }
-                    this.form.controls.legalActFile.setValue(legalAct.legalActFile);
-                    if (legalAct.fek.number.startsWith('ΜΗ ΔΗΜΟΣΙΕΥΤΕΑ ΠΡΑΞΗ')) {
-                        this.form.controls.fek.setValue({
-                            number: null,
-                            issue: null,
-                            date: null,
-                        });
-                    } else {
-                        this.form.controls.fek.setValue({
-                            number: legalAct.fek?.number,
-                            issue: legalAct.fek?.issue,
-                            date: legalAct.fek?.date,
-                        });
-                    }
-                }
-            }),
-        );
     }
 
     formDatesDifference() {
@@ -153,7 +150,7 @@ export class LegalActModalComponent implements OnInit {
             const dateFek = new Date(this.form.get('fek.date').value);
             const dateAct = new Date(this.form.get('legalActDateOrYear').value);
             const diffDays = dateDifference(dateFek, dateAct);
-            console.log(diffDays);
+            // console.log('Days difference', diffDays);
             return diffDays > 30;
         }
         return false;
@@ -168,16 +165,16 @@ export class LegalActModalComponent implements OnInit {
             ...this.form.value,
         } as ILegalAct;
 
-        console.log('Subject', this.legalAct.getValue());
+        console.log('Subject', this.legalAct);
 
-        if (this.legalAct.getValue() === null) {
+        if (this.legalAct === null) {
             console.log('POST DATA', data);
             this.legalActService.newLegalAct(data).subscribe((data) => {
                 console.log('Data', data);
                 this.modalRef.dismiss(true);
             });
         } else {
-            const id = this.legalAct.getValue()._id.$oid;
+            const id = this.legalAct._id.$oid;
             console.log('PUT DATA', data);
             this.legalActService.updateLegalAct(id, data).subscribe((data) => {
                 console.log('Data', data);

@@ -5,6 +5,6 @@ export * from './organization-details/organization-details.component';
 export * from './organization-tree/organization-tree.component';
 export * from './organization-unit-details/organization-unit-details.component';
 export * from './backend-error/backend-error.component';
-export * from './new-legal-act/legal-act-modal.component';
+export * from './legal-act-modal/legal-act-modal.component';
 export * from './new-remit/new-remit.component';
-export * from './new-legal-provision/new-legal-provision.component';
+export * from './legal-provision-modal/new-legal-provision.component';
