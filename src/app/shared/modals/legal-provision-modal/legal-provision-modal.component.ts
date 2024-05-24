@@ -7,17 +7,19 @@ import { ILegalProvision } from '../../interfaces/legal-provision/legal-provisio
 import { ILegalProvisionSpecs } from '../../interfaces/legal-provision/legal-provision-specs.interface';
 import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { IReguLatedObject } from '../../interfaces/legal-provision/regulated-object.interface';
-import { BehaviorSubject, Subscription, take } from 'rxjs';
+import { take } from 'rxjs';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { cloneDeep, isEqual, uniqWith } from 'lodash-es';
 
 @Component({
     selector: 'app-new-legal-provision',
     standalone: true,
-    imports: [ReactiveFormsModule, NgxEditorModule],
-    templateUrl: './new-legal-provision.component.html',
-    styleUrl: './new-legal-provision.component.css',
+    imports: [ReactiveFormsModule, NgxEditorModule, NgbAlertModule],
+    templateUrl: './legal-provision-modal.component.html',
+    styleUrl: './legal-provision-modal.component.css',
 })
-export class LegalProvisionComponent implements OnInit, OnDestroy {
-    legalProvision = new BehaviorSubject<ILegalProvision | null>(null);
+export class LegalProvisionModalComponent implements OnInit, OnDestroy {
+    legalProvision: ILegalProvision | null = null;
     // Some useful services
     modalService = inject(ModalService);
     constService = inject(ConstService);
@@ -45,23 +47,17 @@ export class LegalProvisionComponent implements OnInit, OnDestroy {
         this.checkLegalProvision,
     );
 
-    subscriptions: Subscription[] = [];
-
     ngOnInit(): void {
-        this.subscriptions.push(
-            this.legalProvision.subscribe((legalProvision) => {
-                if (legalProvision) {
-                    this.form.get('legalActText').setValue(legalProvision.legalProvisionText);
-                    this.form.get('legalProvisionSpecs').setValue(legalProvision.legalProvisionSpecs);
-                    this.form.get('legalActKey').setValue(legalProvision.legalActKey);
-                }
-            }),
-        );
+        if (this.legalProvision) {
+            this.selectedLegalActKey = this.legalProvision.legalActKey;
+            this.form.get('legalActText').setValue(this.legalProvision.legalProvisionText);
+            this.form.get('legalProvisionSpecs').setValue(this.legalProvision.legalProvisionSpecs);
+            this.form.get('legalActKey').setValue(this.legalProvision.legalActKey);
+        }
     }
 
     ngOnDestroy(): void {
         this.editor.destroy();
-        this.subscriptions.forEach((sub) => sub.unsubscribe());
     }
 
     checkLegalProvision(form: FormGroup): { [key: string]: boolean } | null {

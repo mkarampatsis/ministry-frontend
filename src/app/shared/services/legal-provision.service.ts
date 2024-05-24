@@ -42,6 +42,17 @@ export class LegalProvisionService {
         return this.http.post<{ message: string }>(url, data);
     }
 
+    updateLegalProvision(
+        provisionType: string,
+        code: string,
+        currentProvision: ILegalProvision,
+        updatedProvision: ILegalProvision,
+    ): Observable<{ message: string; updatedLegalProvision: ILegalProvision }> {
+        const url = `${APIPREFIX}/update`;
+        const data = { provisionType, code, currentProvision, updatedProvision };
+        return this.http.post<{ message: string; updatedLegalProvision: ILegalProvision }>(url, data);
+    }
+
     // fromListOfIds(ids: string[]): Observable<ILegalProvision[]> {
     //     const url = `${APIPREFIX}/from_list_of_ids`;
     //     return this.http.post<ILegalProvision[]>(url, ids);

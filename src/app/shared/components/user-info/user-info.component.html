@@ -13,7 +13,7 @@
                     alt="user photo"
                     (error)="imgSrcError = true" />
             } @else {
-                <mat-icon>person</mat-icon>
+                <i class="bi bi-person-circle text-white fs-1"></i>
             }
         </a>
         <div
@@ -23,25 +23,22 @@
             <a
                 ngbDropdownItem
                 [disabled]="true">
-                <div class="d-flex align-items-center gap-3">
-                    <mat-icon class="fw-lighter">person</mat-icon>
-                    {{ user().name }}
-                </div>
+                <span class="fw-bold">{{ user().name }}</span>
             </a>
 
             <a
                 ngbDropdownItem
                 routerLink="/dashboard">
                 <div class="d-flex align-items-center gap-3">
-                    <mat-icon class="fw-lighter">edit</mat-icon>
+                    <i class="bi bi-person-gear fs-4"></i>
                     Οι προσβάσεις μου
                 </div>
             </a>
             <a
                 ngbDropdownItem
                 (click)="logout()">
-                <div class="d-flex align-items-center gap-3 text-danger">
-                    <mat-icon class="fw-lighter">logout</mat-icon>
+                <div class="d-flex align-items-center gap-3">
+                    <i class="bi bi-escape fs-4"></i>
                     <span>Έξοδος</span>
                 </div>
             </a>

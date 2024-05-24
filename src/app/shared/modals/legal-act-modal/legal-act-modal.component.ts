@@ -19,11 +19,10 @@ function dateDifference(date1: Date, date2: Date): number {
     selector: 'app-new-legal-act',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, NgbAlertModule, NgbTooltipModule],
-    templateUrl: './new-legal-act.component.html',
-    styleUrl: './new-legal-act.component.css',
+    templateUrl: './legal-act-modal.component.html',
+    styleUrl: './legal-act-modal.component.css',
 })
 export class LegalActModalComponent implements OnInit {
-    // legalAct = new BehaviorSubject<ILegalAct | null>(null);
     legalAct: ILegalAct | null = null;
     // Some useful services
     constService = inject(ConstService);

@@ -4,6 +4,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
 import { ModalService } from '../../services/modal.service';
 import { LegalProvisionService } from '../../services/legal-provision.service';
+import { indexOf } from 'lodash-es';
 
 @Component({
     selector: 'app-list-legal-provisions',
@@ -52,7 +53,6 @@ export class ListLegalProvisionsComponent implements OnChanges {
     }
 
     removeLegalProvision(i: number) {
-        console.log(this.legalProvisions[i]);
         this.modalService
             .getUserConsent(
                 `Πρόκειται να διαγράψετε τη διάταξη που βασίζεται στο <strong>${this.legalProvisions[i].legalActKey}</strong>. Παρακαλούμε επιβεβαιώστε ότι επιθυμείτε να συνεχίσετε.`,
@@ -66,6 +66,37 @@ export class ListLegalProvisionsComponent implements OnChanges {
                         });
                 }
             });
-        // this.legalProvisions.splice(i, 1);
+    }
+
+    editLegalProvision(currentProvision: ILegalProvision): void {
+        this.modalService.editLegalProvision(currentProvision).subscribe((data) => {
+            if (data) {
+                const updatedProvision = data.legalProvision;
+                this.modalService
+                    .getUserConsent(
+                        'Πρόκειται να ενημερώσετε μια υπάρχουσα διάταξη. Επιβεβαιώστε ότι θέλετε να συνεχίσετε.',
+                    )
+                    .subscribe((result) => {
+                        if (result) {
+                            this.legalProvisionService
+                                .updateLegalProvision(this.provisionType, this.code, currentProvision, updatedProvision)
+                                .subscribe((response) => {
+                                    console.log(response);
+                                    const currentProvisionIndex = indexOf(this.legalProvisions, currentProvision);
+                                    this.legalProvisions.splice(currentProvisionIndex, 1);
+                                    this.legalProvisions.push(response.updatedLegalProvision);
+                                    // const updatedLegalProvision = response.updatedLegalProvision;
+                                    // this.legalProvisions.push(updatedLegalProvision);
+                                    this.sortLegalProvisions();
+                                });
+                        }
+                    });
+                // const tempLegalProvision = [data.legalProvision, ...this.legalProvisions];
+                // this.legalProvisions = uniqWith(tempLegalProvision, (a, b) => {
+                //     return a.legalActKey === b.legalActKey && isEqual(a.legalProvisionSpecs, b.legalProvisionSpecs);
+                // });
+                // this.sortLegalProvisions();
+            }
+        });
     }
 }

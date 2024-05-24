@@ -1,5 +1,12 @@
 <div class="d-flex justify-content-between m-3">
-    <span class="h5">Εισαγωγή Νέας Διάταξης</span>
+    <span class="h5">
+        @if (legalProvision === null) {
+            Εισαγωγή Νέας
+        } @else {
+            Επεξεργασία
+        }
+        Διάταξης
+    </span>
     <button
         type="button"
         class="btn-close"
