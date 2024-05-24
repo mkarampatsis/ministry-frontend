@@ -6,10 +6,10 @@ import { LegalActsActionsComponent } from 'src/app/shared/components/legal-acts-
 
 import { ILegalAct } from 'src/app/shared/interfaces/legal-act/legal-act.interface';
 
-import { GridLoadingOverlayComponent } from 'src/app/shared/modals';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
+import { GridLoadingOverlayComponent } from '../../modals/grid-loading-overlay/grid-loading-overlay.component';
 
 @Component({
     selector: 'app-select-legal-action',

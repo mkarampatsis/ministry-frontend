@@ -4,8 +4,8 @@ import { GridApi, GridReadyEvent } from 'ag-grid-community';
 import { map, take } from 'rxjs';
 
 import { ILegalAct } from 'src/app/shared/interfaces/legal-act/legal-act.interface';
+import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-overlay/grid-loading-overlay.component';
 
-import { GridLoadingOverlayComponent } from 'src/app/shared/modals';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
 import { ModalService } from 'src/app/shared/services/modal.service';

@@ -6,10 +6,10 @@ import { map, take } from 'rxjs';
 
 import { ILegalProvision } from 'src/app/shared/interfaces/legal-provision/legal-provision.interface';
 
-import { GridLoadingOverlayComponent } from 'src/app/shared/modals';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { LegalProvisionService } from 'src/app/shared/services/legal-provision.service';
+import { GridLoadingOverlayComponent } from '../../modals/grid-loading-overlay/grid-loading-overlay.component';
 
 @Component({
     selector: 'app-select-legal-provision',

@@ -23,7 +23,7 @@ interface FlatNode extends IOrganizationTreeNode {
     styleUrl: './organization-tree.component.css',
     host: { class: 'd-block' },
 })
-export class OrganizationTreeComponent implements OnInit {
+export class OrganizationTreeModalComponent implements OnInit {
     organizationService = inject(OrganizationService);
     authService = inject(AuthService);
     modalService = inject(ModalService);

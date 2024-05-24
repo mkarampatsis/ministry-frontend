@@ -1,25 +1,26 @@
 import { Injectable, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-    BackendErrorComponent,
-    FileUploadComponent,
-    ForeasEditComponent,
-    OrganizationDetailsComponent,
-    OrganizationTreeComponent,
-    OrganizationUnitDetailsComponent,
-    LegalActModalComponent,
-    NewRemitComponent,
-    LegalProvisionModalComponent,
-} from 'src/app/shared/modals';
-import { SelectLegalActionModalComponent } from '../modals/select-legal-action-modal/select-legal-action-modal.component';
-import { Observable, take } from 'rxjs';
-import { SelectLegalProvisionModalComponent } from '../modals/select-legal-provision-modal/select-legal-provision-modal.component';
-import { ILegalProvision } from '../interfaces/legal-provision/legal-provision.interface';
-import { ShowLegalProvisionComponent } from '../modals/show-legal-provision/show-legal-provision.component';
-import { PdfViewerComponent } from '../modals/pdf-viewer/pdf-viewer.component';
-import { SelectOrganizationModalComponent } from '../modals/select-organization-modal/select-organization-modal.component';
-import { YesNoComponent } from '../modals/yes-no/yes-no.component';
+
 import { ILegalAct } from '../interfaces/legal-act/legal-act.interface';
+import { ILegalProvision } from '../interfaces/legal-provision/legal-provision.interface';
+
+import { Observable, take } from 'rxjs';
+
+import { SelectLegalActionModalComponent } from 'src/app/shared/modals/select-legal-action-modal/select-legal-action-modal.component';
+import { SelectLegalProvisionModalComponent } from 'src/app/shared/modals/select-legal-provision-modal/select-legal-provision-modal.component';
+import { ShowLegalProvisionComponent } from 'src/app/shared/modals/show-legal-provision/show-legal-provision.component';
+import { PdfViewerComponent } from 'src/app/shared/modals/pdf-viewer/pdf-viewer.component';
+import { SelectOrganizationModalComponent } from 'src/app/shared/modals/select-organization-modal/select-organization-modal.component';
+import { YesNoComponent } from 'src/app/shared/modals/yes-no/yes-no.component';
+import { OrganizationDetailsComponent } from 'src/app/shared/modals/organization-details/organization-details.component';
+import { OrganizationUnitDetailsComponent } from 'src/app/shared/modals/organization-unit-details/organization-unit-details.component';
+import { OrganizationTreeModalComponent } from 'src/app/shared/modals/organization-tree-modal/organization-tree-modal.component';
+import { FileUploadComponent } from 'src/app/shared/modals/file-upload/file-upload.component';
+import { ForeasEditComponent } from 'src/app/shared/modals/foreas-edit/foreas-edit.component';
+import { BackendErrorComponent } from 'src/app/shared/modals/backend-error/backend-error.component';
+import { NewRemitComponent } from 'src/app/shared/modals/new-remit/new-remit.component';
+import { LegalProvisionModalComponent } from 'src/app/shared/modals/legal-provision-modal/legal-provision-modal.component';
+import { LegalActModalComponent } from 'src/app/shared/modals/legal-act-modal/legal-act-modal.component';
 
 @Injectable({
     providedIn: 'root',
@@ -46,7 +47,7 @@ export class ModalService {
     }
 
     showOrganizationTree(organizationCode: string) {
-        const modalRef = this.modalService.open(OrganizationTreeComponent, {
+        const modalRef = this.modalService.open(OrganizationTreeModalComponent, {
             size: 'xl',
             centered: true,
         });
