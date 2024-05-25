@@ -12,7 +12,9 @@
             <span class="text-muted small">Κωδικός απογραφής: {{ organization?.code }}</span>
         </div>
         <div class="card-body">
-            <div ngbAccordion>
+            <div
+                ngbAccordion
+                [closeOthers]="true">
                 <div
                     ngbAccordionItem
                     [collapsed]="true">
@@ -86,9 +88,25 @@
                         </div>
                     </div>
                 </div>
+                <!-- end of ngbAccordionItem -->
                 <div
                     ngbAccordionItem
-                    [collapsed]="false">
+                    [collapsed]="true">
+                    <h2 ngbAccordionHeader>
+                        <button ngbAccordionButton>Οργανόγραμμα Φορέα</button>
+                    </h2>
+                    <div ngbAccordionCollapse>
+                        <div ngbAccordionBody>
+                            <ng-template>
+                                <app-organization-tree [organizationCode]="organizationCode"></app-organization-tree>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+                <!-- end of nbgAccordionItem -->
+                <div
+                    ngbAccordionItem
+                    [collapsed]="true">
                     <h2 ngbAccordionHeader>
                         <button ngbAccordionButton>Δεδομένα ΠΣΠΕΔ</button>
                     </h2>
@@ -111,18 +129,19 @@
                         </div>
                     </div>
                 </div>
+                <!-- end of ngbAccordionItem -->
             </div>
             <!-- end of ngbAccordion -->
         </div>
     </div>
-</div>
 
-<div class="d-flex justify-content-end m-3">
-    <button
-        ngbAutofocus
-        type="button"
-        class="btn btn-primary"
-        (click)="modalRef.close()">
-        Επιστροφή
-    </button>
+    <div class="d-flex justify-content-end m-3">
+        <button
+            ngbAutofocus
+            type="button"
+            class="btn btn-primary"
+            (click)="modalRef.close()">
+            Επιστροφή
+        </button>
+    </div>
 </div>

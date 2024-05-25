@@ -10,11 +10,18 @@ import { ILegalProvision } from '../../interfaces/legal-provision/legal-provisio
 import { IForeas } from '../../interfaces/foreas/foreas.interface';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { OrganizationTreeComponent } from '../../components/organization-tree/organization-tree.component';
 
 @Component({
     selector: 'app-organization-details',
     standalone: true,
-    imports: [CommonModule, CardRowRightLeftComponent, ListLegalProvisionsComponent, NgbAccordionModule],
+    imports: [
+        CommonModule,
+        CardRowRightLeftComponent,
+        ListLegalProvisionsComponent,
+        NgbAccordionModule,
+        OrganizationTreeComponent,
+    ],
     templateUrl: './organization-details.component.html',
     styleUrl: './organization-details.component.css',
 })
