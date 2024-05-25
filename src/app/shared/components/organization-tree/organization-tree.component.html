@@ -27,7 +27,12 @@
                     mat-icon-button
                     disabled></button>
 
-                <span>{{ node.monada.preferredLabel }} ({{ node.monada.code }})</span>
+                <span
+                    ngbTooltip="Κωδικός απογραφής: {{ node.monada.code }}"
+                    placement="end"
+                    class="text-truncate">
+                    {{ node.monada.preferredLabel }}
+                </span>
             </cdk-tree-node>
 
             <!-- This is the tree node template for expandable nodes -->
@@ -48,7 +53,12 @@
                         {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
                     </mat-icon>
                 </button>
-                {{ node.monada.preferredLabel }} ({{ node.monada.code }})
+                <span
+                    ngbTooltip="Κωδικός απογραφής: {{ node.monada.code }}"
+                    placement="end"
+                    class="text-truncate">
+                    {{ node.monada.preferredLabel }}
+                </span>
             </cdk-tree-node>
         </cdk-tree>
     }

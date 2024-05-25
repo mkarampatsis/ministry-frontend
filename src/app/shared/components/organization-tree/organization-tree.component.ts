@@ -4,7 +4,7 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs';
 
 import { IOrganizationTreeNode } from 'src/app/shared/interfaces/organization/organization-tree-node.interface';
@@ -17,7 +17,14 @@ interface FlatNode extends IOrganizationTreeNode {
 @Component({
     selector: 'app-organization-tree',
     standalone: true,
-    imports: [CdkTreeModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule, NgbAlertModule],
+    imports: [
+        CdkTreeModule,
+        MatIconModule,
+        MatButtonModule,
+        MatProgressSpinnerModule,
+        NgbAlertModule,
+        NgbTooltipModule,
+    ],
     templateUrl: './organization-tree.component.html',
     styleUrl: './organization-tree.component.css',
 })
