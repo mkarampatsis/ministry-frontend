@@ -85,9 +85,9 @@ export class ConstService {
 
     ORGANIZATION_UNITS_COL_DEFS: ColDef[] = [
         { field: 'code', headerName: 'Κωδικός', flex: 1 },
-        { field: 'preferredLabel', headerName: 'Ονομασία', flex: 1 },
-        { field: 'organization', headerName: 'Φορέας', flex: 1 },
-        { field: 'subOrganizationOf', headerName: 'Προϊστάμενη Μονάδα', flex: 1 },
+        { field: 'preferredLabel', headerName: 'Ονομασία', flex: 4 },
+        { field: 'organization', headerName: 'Φορέας', flex: 3 },
+        { field: 'subOrganizationOf', headerName: 'Προϊστάμενη Μονάδα', flex: 2 },
         { field: 'organizationType', headerName: 'Τύπος', flex: 1 },
         // { field: 'actionCell', headerName: 'Ενέργειες', cellRenderer: MonadesActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, flex: 1, resizable: false},
     ];
