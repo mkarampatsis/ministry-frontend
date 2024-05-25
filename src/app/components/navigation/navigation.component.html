@@ -10,41 +10,53 @@
                                 src="/assets/img/ethnosimow.png"
                                 alt="gov.gr logo" />
 
-                            <div class="text-white small fw-bold">
-                                Υπουργείο Εσωτερικών
-                                <br />
-                                Πολυεπίπεδη Διακυβέρνηση
+                            <div
+                                class="bg-danger p-1 font-monospace rounded fw-bold d-flex"
+                                style="transform: rotate(-45deg)">
+                                <span class="fs-6">alpha</span>
+                            </div>
+
+                            <div class="d-flex flex-column text-white small fw-bold">
+                                <span>Υπουργείο Εσωτερικών</span>
+                                <span>Πολυεπίπεδη Διακυβέρνηση</span>
                             </div>
                         </div>
                     </div>
                     <div>
                         <div class="d-flex gap-2">
-                            <button
-                                class="navbar-toggler"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#navbarNavAltMarkup"
-                                aria-controls="navbarNavAltMarkup"
-                                aria-expanded="true"
-                                aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
+                            @if (user()) {
+                                <button
+                                    class="navbar-toggler"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#navbarNavAltMarkup"
+                                    aria-controls="navbarNavAltMarkup"
+                                    aria-expanded="true"
+                                    aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            }
                             <div class="d-flex gap-2 d-lg-none align-items-center">
                                 <img
                                     class="govgr-header__logo"
                                     src="/assets/img/ethnosimow.png"
                                     alt="gov.gr logo" />
 
-                                <div class="text-white small fw-bold">
-                                    Υπουργείο Εσωτερικών
-                                    <br />
-                                    Πολυεπίπεδη Διακυβέρνηση
+                                <div
+                                    class="bg-danger p-1 font-monospace rounded fw-bold d-flex text-light"
+                                    style="transform: rotate(-45deg)">
+                                    <span class="fs-6">alpha</span>
+                                </div>
+
+                                <div class="d-flex flex-column text-white small fw-bold">
+                                    <span>Υπουργείο Εσωτερικών</span>
+                                    <span>Πολυεπίπεδη Διακυβέρνηση</span>
                                 </div>
                             </div>
                         </div>
                         @if (user()) {
                             <div
-                                class="collapse navbar-collapse"
+                                class="collapse navbar-collapse mt-4 mt-lg-0"
                                 id="navbarNavAltMarkup">
                                 <ul class="navbar-nav dropdown-menu-dark gap-lg-4">
                                     <li>
