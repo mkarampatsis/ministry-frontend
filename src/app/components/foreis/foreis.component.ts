@@ -5,6 +5,7 @@ import { map, take } from 'rxjs';
 import { IOrganizationList } from 'src/app/shared/interfaces/organization/organization-list.interface';
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-overlay/grid-loading-overlay.component';
 import { ConstService } from 'src/app/shared/services/const.service';
+import { ModalService } from 'src/app/shared/services/modal.service';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 
 @Component({
@@ -17,6 +18,7 @@ import { OrganizationService } from 'src/app/shared/services/organization.servic
 export class ForeisComponent {
     constService = inject(ConstService);
     organizationService = inject(OrganizationService);
+    modalService = inject(ModalService);
     foreis: IOrganizationList[] = [];
 
     organizationCodesMap = this.constService.ORGANIZATION_CODES_MAP;
@@ -52,5 +54,10 @@ export class ForeisComponent {
                 this.gridApi.hideOverlay();
                 this.foreis = data;
             });
+    }
+
+    onRowDoubleClicked(event: any): void {
+        console.log(event);
+        this.modalService.showOrganizationDetails(event.data.code);
     }
 }
