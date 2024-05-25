@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, effect, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 import { IOrganization } from 'src/app/shared/interfaces/organization';
@@ -27,6 +27,8 @@ export class ForeasEditComponent implements OnInit, OnDestroy {
     modalService = inject(ModalService);
     legalProvisionService = inject(LegalProvisionService);
 
+    legalProvisionsNeedUpdate = this.legalProvisionService.legalProvisionsNeedUpdate;
+
     editor: Editor = new Editor();
     toolbar: Toolbar = DEFAULT_TOOLBAR;
 
@@ -46,6 +48,18 @@ export class ForeasEditComponent implements OnInit, OnDestroy {
 
     legalProvisions: ILegalProvision[] = [];
     originalLegalProvisions: ILegalProvision[] = [];
+
+    constructor() {
+        effect(
+            () => {
+                if (this.legalProvisionsNeedUpdate()) {
+                    this.getLegalProvisionsByRegulatedOrganization(this.foreas.code);
+                    this.legalProvisionsNeedUpdate.set(false);
+                }
+            },
+            { allowSignalWrites: true },
+        );
+    }
 
     ngOnInit() {
         this.ognanizationService
@@ -67,18 +81,29 @@ export class ForeasEditComponent implements OnInit, OnDestroy {
                 this.provisionText = this.foreas.provisionText;
                 this.originalProvisionText = this.foreas.provisionText;
 
-                this.legalProvisionService
-                    .getLegalProvisionsByRegulatedOrganization(this.foreas.code)
-                    .pipe(take(1))
-                    .subscribe((data) => {
-                        this.legalProvisions = data;
-                        this.originalLegalProvisions = cloneDeep(this.legalProvisions);
-                    });
+                // this.legalProvisionService
+                //     .getLegalProvisionsByRegulatedOrganization(this.foreas.code)
+                //     .pipe(take(1))
+                //     .subscribe((data) => {
+                //         this.legalProvisions = data;
+                //         this.originalLegalProvisions = cloneDeep(this.legalProvisions);
+                //     });
+                this.getLegalProvisionsByRegulatedOrganization(this.foreas.code);
             });
     }
 
     ngOnDestroy(): void {
         this.editor.destroy();
+    }
+
+    getLegalProvisionsByRegulatedOrganization(code: string) {
+        this.legalProvisionService
+            .getLegalProvisionsByRegulatedOrganization(code)
+            .pipe(take(1))
+            .subscribe((data) => {
+                this.legalProvisions = data;
+                this.originalLegalProvisions = cloneDeep(this.legalProvisions);
+            });
     }
 
     onPaste(event: ClipboardEvent) {
@@ -93,11 +118,14 @@ export class ForeasEditComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
+        // filter this.legalProvisions to get only new ones
+        const newLegalProvisions = this.legalProvisions.filter((provision) => provision.isNew);
         const organization = {
             code: this.foreas.code,
             level: this.level,
             provisionText: this.provisionText,
-            legalProvisions: this.legalProvisions,
+            // legalProvisions: this.legalProvisions,
+            legalProvisions: newLegalProvisions,
         } as IForeas;
 
         console.log(organization);
@@ -114,7 +142,9 @@ export class ForeasEditComponent implements OnInit, OnDestroy {
     newLegalProvision(): void {
         this.modalService.newLegalProvision().subscribe((data) => {
             if (data) {
-                const tempLegalProvision = [data.legalProvision, ...this.legalProvisions];
+                const newLegalProvision = { ...data.legalProvision, isNew: true };
+                // const tempLegalProvision = [data.legalProvision, ...this.legalProvisions];
+                const tempLegalProvision = [newLegalProvision, ...this.legalProvisions];
                 this.legalProvisions = uniqWith(tempLegalProvision, (a, b) => {
                     return a.legalActKey === b.legalActKey && isEqual(a.legalProvisionSpecs, b.legalProvisionSpecs);
                 });

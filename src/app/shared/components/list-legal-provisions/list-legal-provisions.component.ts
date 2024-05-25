@@ -63,12 +63,14 @@ export class ListLegalProvisionsComponent implements OnChanges {
                         .deleteLegalProvision(this.provisionType, this.code, this.legalProvisions[i])
                         .subscribe((response) => {
                             this.legalProvisions.splice(i, 1);
+                            this.legalProvisionService.legalProvisionsNeedUpdate.set(true);
                         });
                 }
             });
     }
 
     editLegalProvision(currentProvision: ILegalProvision): void {
+        console.log('CURRENT PROVISION >>>>>>>>>>>>>>>>', currentProvision);
         this.modalService.editLegalProvision(currentProvision).subscribe((data) => {
             if (data) {
                 const updatedProvision = data.legalProvision;

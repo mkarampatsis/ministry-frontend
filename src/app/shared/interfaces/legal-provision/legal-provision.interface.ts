@@ -9,6 +9,7 @@ export interface ILegalProvision {
     legalActKey: string;
     legalProvisionSpecs: ILegalProvisionSpecs;
     legalProvisionText: string;
+    isNew?: boolean;
     // legalActType: string;
     // legalActTypeOther: string;
     // legalActYear: string;
