@@ -30,7 +30,7 @@ export class BackendInterceptor implements HttpInterceptor {
                             component: ToastMessageComponent,
                             inputs: { message },
                             classname: 'bg-success text-light',
-                            delay: 15000,
+                            delay: 5000,
                         };
                         this.toastService.show(toast);
                     }
@@ -40,7 +40,7 @@ export class BackendInterceptor implements HttpInterceptor {
                             component: ToastMessageComponent,
                             inputs: { message },
                             classname: 'bg-info text-light',
-                            delay: 15000,
+                            delay: 5000,
                         };
                         this.toastService.show(toast);
                     }
@@ -56,7 +56,7 @@ export class BackendInterceptor implements HttpInterceptor {
                         component: ToastMessageComponent,
                         inputs: { message },
                         classname: 'bg-danger text-light',
-                        delay: 15000,
+                        delay: 5000,
                     };
                     this.toastService.show(toast);
                 }
@@ -67,11 +67,10 @@ export class BackendInterceptor implements HttpInterceptor {
                             message: 'Το αρχείο είναι πολύ μεγάλο για αποστολή (μέγιστο μέγεθος 16ΜΒ).',
                         },
                         classname: 'bg-danger text-light',
-                        delay: 15000,
+                        delay: 5000,
                     };
                     this.toastService.show(toast);
                 }
-                console.log('SKATA');
                 return throwError(() => new Error(response.error.error));
             }),
         );

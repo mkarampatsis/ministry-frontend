@@ -30,6 +30,7 @@ export class ModalService {
 
     showOrganizationDetails(organizationCode: string) {
         const modalRef = this.modalService.open(OrganizationDetailsComponent, {
+            fullscreen: 'lg',
             size: 'xl',
             centered: true,
         });

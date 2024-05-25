@@ -83,12 +83,10 @@ export class LegalProvisionModalComponent implements OnInit, OnDestroy {
     }
 
     onPaste(event: ClipboardEvent) {
-        console.log('Pasting...');
         event.preventDefault();
         const text = event.clipboardData?.getData('text');
-        console.log(text);
+        console.log('Pasting...', text);
         this.form.get('legalActText').setValue(text);
-        // document.execCommand('insertText', false, text);
     }
 
     onSubmit() {

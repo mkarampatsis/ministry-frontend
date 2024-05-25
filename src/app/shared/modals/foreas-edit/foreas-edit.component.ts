@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 import { IOrganization } from 'src/app/shared/interfaces/organization';
@@ -11,24 +11,31 @@ import { ModalService } from '../../services/modal.service';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
 import { LegalProvisionService } from '../../services/legal-provision.service';
 import { cloneDeep, isEqual, uniqWith } from 'lodash-es';
+import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 
 @Component({
     selector: 'app-foreas-edit',
     standalone: true,
-    imports: [FormsModule, ListLegalProvisionsComponent],
+    imports: [FormsModule, NgxEditorModule, ListLegalProvisionsComponent],
     templateUrl: './foreas-edit.component.html',
     styleUrl: './foreas-edit.component.css',
 })
-export class ForeasEditComponent implements OnInit {
+export class ForeasEditComponent implements OnInit, OnDestroy {
     ognanizationService = inject(OrganizationService);
     foreasService = inject(ForeasService);
     constService = inject(ConstService);
     modalService = inject(ModalService);
     legalProvisionService = inject(LegalProvisionService);
 
+    editor: Editor = new Editor();
+    toolbar: Toolbar = DEFAULT_TOOLBAR;
+
     foreas_id: string;
     level: string;
     originalLevel: string;
+
+    provisionText: string;
+    originalProvisionText: string;
 
     organization: IOrganization;
     modalRef: any;
@@ -53,8 +60,13 @@ export class ForeasEditComponent implements OnInit {
             .pipe(take(1))
             .subscribe((data) => {
                 this.foreas = data;
+
                 this.level = this.foreas.level;
                 this.originalLevel = this.foreas.level;
+
+                this.provisionText = this.foreas.provisionText;
+                this.originalProvisionText = this.foreas.provisionText;
+
                 this.legalProvisionService
                     .getLegalProvisionsByRegulatedOrganization(this.foreas.code)
                     .pipe(take(1))
@@ -65,10 +77,26 @@ export class ForeasEditComponent implements OnInit {
             });
     }
 
+    ngOnDestroy(): void {
+        this.editor.destroy();
+    }
+
+    onPaste(event: ClipboardEvent) {
+        event.preventDefault();
+        const text = event.clipboardData?.getData('text');
+        console.log('Pasting...', text);
+        this.provisionText = text;
+    }
+
+    onProvisionTextChange(html: object) {
+        this.provisionText = html.toString();
+    }
+
     onSubmit() {
         const organization = {
             code: this.foreas.code,
             level: this.level,
+            provisionText: this.provisionText,
             legalProvisions: this.legalProvisions,
         } as IForeas;
 
@@ -95,7 +123,11 @@ export class ForeasEditComponent implements OnInit {
     }
 
     hasChanges(): boolean {
-        return this.level !== this.originalLevel || !isEqual(this.legalProvisions, this.originalLegalProvisions);
+        return (
+            this.level !== this.originalLevel ||
+            this.provisionText !== this.originalProvisionText ||
+            !isEqual(this.legalProvisions, this.originalLegalProvisions)
+        );
     }
 
     dismiss() {

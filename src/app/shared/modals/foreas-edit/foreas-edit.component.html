@@ -31,24 +31,51 @@
                     }
                 </select>
             </div>
+
             <div class="mb-3">
-                <button
-                    type="button"
-                    class="btn btn-primary mb-3"
-                    (click)="newLegalProvision()">
-                    Προσθήκη Διάταξης
-                </button>
+                <label
+                    for="provisionText"
+                    class="form-label">
+                    Κείμενο Πρόβλεψης:
+                </label>
+                <div class="NgxEditor__Wrapper">
+                    <ngx-editor-menu
+                        [editor]="editor"
+                        [toolbar]="toolbar"></ngx-editor-menu>
+                    <ngx-editor
+                        (paste)="onPaste($event)"
+                        [editor]="editor"
+                        id="provisionText"
+                        [ngModel]="provisionText"
+                        (ngModelChange)="onProvisionTextChange($event)"></ngx-editor>
+                </div>
+            </div>
+
+            <div class="mb-3">
                 @if (!legalProvisions.length) {
                     <p class="text-info">Δεν υπάρχει προς το παρόν κάποια διάταξη</p>
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        (click)="newLegalProvision()">
+                        Προσθήκη Διάταξης
+                    </button>
                 } @else {
                     <div class="mb-3 d-flex flex-column">
-                        <label class="form-label">
-                            @if (legalProvisions.length === 1) {
-                                Διάταξη
-                            } @else {
-                                Διατάξεις
-                            }
-                            Πρόβλεψης:
+                        <label class="form-label d-flex justify-content-between align-items-baseline">
+                            <span>
+                                @if (legalProvisions.length === 1) {
+                                    Διάταξη
+                                } @else {
+                                    Διατάξεις
+                                }
+                                Πρόβλεψης:
+                            </span>
+                            <button
+                                class="btn btn-primary btn-sm"
+                                (click)="newLegalProvision()">
+                                Προσθήκη Διάταξης
+                            </button>
                         </label>
                         <app-list-legal-provisions
                             [code]="organization?.code"
