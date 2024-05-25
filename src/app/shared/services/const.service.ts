@@ -80,16 +80,16 @@ export class ConstService {
         { field: 'preferredLabel', headerName: 'Ονομασία', flex: 4 },
         { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', flex: 2 },
         { field: 'organizationType', headerName: 'Τύπος', flex: 2 },
-        // {
-        //     field: 'actionCell',
-        //     headerName: '',
-        //     cellRenderer: ForeisActionIconsComponent,
-        //     filter: false,
-        //     sortable: false,
-        //     floatingFilter: false,
-        //     flex: 1,
-        //     resizable: false,
-        // },
+        // { field: 'actionCell', headerName: '', cellRenderer: ForeisActionIconsComponent, filter: false, sortable: false, floatingFilter: false, flex: 1, resizable: false, },
+    ];
+
+    ORGANIZATION_UNITS_COL_DEFS: ColDef[] = [
+        { field: 'code', headerName: 'Κωδικός', flex: 1 },
+        { field: 'preferredLabel', headerName: 'Ονομασία', flex: 1 },
+        { field: 'organization', headerName: 'Φορέας', flex: 1 },
+        { field: 'subOrganizationOf', headerName: 'Προϊστάμενη Μονάδα', flex: 1 },
+        { field: 'organizationType', headerName: 'Τύπος', flex: 1 },
+        // { field: 'actionCell', headerName: 'Ενέργειες', cellRenderer: MonadesActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, flex: 1, resizable: false},
     ];
 
     LEGAL_ACTS_COL_DEFS: ColDef[] = [

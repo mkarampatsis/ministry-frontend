@@ -28,6 +28,8 @@
                     disabled></button>
 
                 <span
+                    role="button"
+                    (click)="showOrganizationUnitDetails(node.monada.code)"
                     ngbTooltip="Κωδικός απογραφής: {{ node.monada.code }}"
                     placement="end"
                     class="text-truncate">
@@ -54,6 +56,8 @@
                     </mat-icon>
                 </button>
                 <span
+                    role="button"
+                    (click)="showOrganizationUnitDetails(node.monada.code)"
                     ngbTooltip="Κωδικός απογραφής: {{ node.monada.code }}"
                     placement="end"
                     class="text-truncate">

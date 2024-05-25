@@ -6,6 +6,7 @@ import { MonadesActionIconsComponent } from 'src/app/shared/components/monades-a
 import { IOrganizationUnitList } from 'src/app/shared/interfaces/organization-unit';
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-overlay/grid-loading-overlay.component';
 import { ConstService } from 'src/app/shared/services/const.service';
+import { ModalService } from 'src/app/shared/services/modal.service';
 import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
 
 @Component({
@@ -18,6 +19,7 @@ import { OrganizationalUnitService } from 'src/app/shared/services/organizationa
 export class MonadesComponent {
     constService = inject(ConstService);
     organizationalUnitService = inject(OrganizationalUnitService);
+    modalService = inject(ModalService);
     monades: IOrganizationUnitList[] = [];
 
     organizationCodesMap = this.constService.ORGANIZATION_CODES_MAP;
@@ -26,14 +28,7 @@ export class MonadesComponent {
 
     defaultColDef = this.constService.defaultColDef;
     // prettier-ignore
-    colDefs: ColDef[] = [
-        { field: 'code', headerName: 'Κωδικός', flex: 1},
-        { field: 'preferredLabel', headerName: 'Ονομασία', flex: 1 },
-        { field: 'organization', headerName: 'Φορέας', flex: 1},
-        { field: 'subOrganizationOf', headerName: 'Προϊστάμενη Μονάδα', flex: 1 },
-        { field: 'organizationType', headerName: 'Τύπος', flex: 1 },
-        { field: 'actionCell', headerName: 'Ενέργειες', cellRenderer: MonadesActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, flex: 1, resizable: false},
-    ]
+    colDefs: ColDef[] = this.constService.ORGANIZATION_UNITS_COL_DEFS
     autoSizeStrategy = this.constService.autoSizeStrategy;
 
     loadingOverlayComponent = GridLoadingOverlayComponent;
@@ -60,9 +55,14 @@ export class MonadesComponent {
                 }),
             )
             .subscribe((data) => {
-                console.log(data);
+                // console.log(data);
                 this.gridApi.hideOverlay();
                 this.monades = data;
             });
+    }
+
+    onRowDoubleClicked(event: any): void {
+        console.log(event);
+        this.modalService.showOrganizationUnitDetails(event.data.code);
     }
 }

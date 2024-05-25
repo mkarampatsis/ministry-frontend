@@ -9,6 +9,7 @@ import { take } from 'rxjs';
 
 import { IOrganizationTreeNode } from 'src/app/shared/interfaces/organization/organization-tree-node.interface';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
+import { ModalService } from '../../services/modal.service';
 
 interface FlatNode extends IOrganizationTreeNode {
     isExpanded?: boolean;
@@ -31,6 +32,7 @@ interface FlatNode extends IOrganizationTreeNode {
 export class OrganizationTreeComponent implements OnInit {
     @Input() organizationCode: string | null = null;
     organizationService = inject(OrganizationService);
+    modalService = inject(ModalService);
 
     organizationTree: IOrganizationTreeNode[] | null = null;
     dataSource: ArrayDataSource<FlatNode> | null = null;
@@ -74,5 +76,9 @@ export class OrganizationTreeComponent implements OnInit {
             parent = this.getParentNode(parent);
         }
         return true;
+    }
+
+    showOrganizationUnitDetails(code: string): void {
+        this.modalService.showOrganizationUnitDetails(code);
     }
 }
