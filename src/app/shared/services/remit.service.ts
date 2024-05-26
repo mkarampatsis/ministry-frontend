@@ -20,6 +20,11 @@ export class RemitService {
         return this.http.get<IRemit[]>(APIPREFIX);
     }
 
+    getRemitsByCode(code: string): Observable<IRemit[]> {
+        const url = `${APIPREFIX}/by_code/${code}`;
+        return this.http.get<IRemit[]>(url);
+    }
+
     count(): Observable<{ count: number }> {
         const url = `${APIPREFIX}/count`;
         return this.http.get<{ count: number }>(url);

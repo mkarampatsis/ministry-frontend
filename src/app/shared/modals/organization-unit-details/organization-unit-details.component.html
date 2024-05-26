@@ -3,84 +3,71 @@
     <button
         type="button"
         class="btn-close"
-        (click)="modalRef.dismiss()"
-    ></button>
+        (click)="modalRef.dismiss()"></button>
 </div>
 <div class="modal-body">
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <span class="fw-semibold">{{
-                organizationUnit?.preferredLabel
-            }}</span>
-            <span class="text-muted small">
-                Κωδικός απογραφής: {{ organizationUnit?.code }}</span
-            >
+            <span class="fw-semibold">{{ organizationUnit?.preferredLabel }}</span>
+            <span class="text-muted small">Κωδικός απογραφής: {{ organizationUnit?.code }}</span>
         </div>
         <div class="card-body">
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Οργανισμός',
-                    value: organizationPrefferedLabel(
-                        organizationUnit?.organizationCode
-                    )
-                }"
-            ></app-card-row-right-left>
+                    value: organizationPrefferedLabel(organizationUnit?.organizationCode)
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Εναλλακτικές Ονομασίες',
                     value: organizationUnit?.alternativeLabels
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Σκοπός',
                     value: descriptionMap(organizationUnit?.purpose)
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Προϊστάμενη μονάδα',
-                    value: organizationUnitPrefferedLabel(
-                        organizationUnit?.supervisorUnitCode
-                    )
-                }"
-            ></app-card-row-right-left>
+                    value: organizationUnitPrefferedLabel(organizationUnit?.supervisorUnitCode)
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Τύπος Μονάδας',
                     value: organizationUnit?.description
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Αναγνωριστικό Μονάδας',
                     value: organizationUnit?.identifier
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Email Μονάδας',
                     value: organizationUnit?.email
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Τηλέφωνο Μονάδας',
                     value: organizationUnit?.telephone
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Ταχυδρομική Διεύθυνση',
                     value: organizationUnit?.mainAddress?.fullAddress
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
             <app-card-row-right-left
                 [keyValue]="{
                     key: 'Δευτερεύουσες Διευθύνσεις',
                     value: fullAddressMap(organizationUnit?.secondaryAddresses)
-                }"
-            ></app-card-row-right-left>
+                }"></app-card-row-right-left>
+
+            @for (remit of remits; track remit) {
+                <hr />
+                <div [innerHTML]="remit.remitText"></div>
+                <app-list-legal-provisions [legalProvisions]="remit.legalProvisions"></app-list-legal-provisions>
+            }
         </div>
     </div>
 </div>
@@ -90,8 +77,7 @@
         ngbAutofocus
         type="button"
         class="btn btn-primary"
-        (click)="modalRef.close()"
-    >
+        (click)="modalRef.close()">
         Επιστροφή
     </button>
 </div>
