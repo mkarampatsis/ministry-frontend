@@ -1,74 +1,120 @@
 <div class="d-flex justify-content-between m-3">
-    <span class="h5">Καρτέλα Μονάδας</span>
+    @if (organizationalUnit) {
+        <span class="h5">{{ organizationalUnit.preferredLabel }} ({{ organizationalUnit.code }})</span>
+    }
+
     <button
         type="button"
         class="btn-close"
         (click)="modalRef.dismiss()"></button>
 </div>
 <div class="modal-body">
-    <div class="card">
-        <div class="card-header d-flex justify-content-between">
-            <span class="fw-semibold">{{ organizationUnit?.preferredLabel }}</span>
-            <span class="text-muted small">Κωδικός απογραφής: {{ organizationUnit?.code }}</span>
-        </div>
-        <div class="card-body">
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Οργανισμός',
-                    value: organizationPrefferedLabel(organizationUnit?.organizationCode)
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Εναλλακτικές Ονομασίες',
-                    value: organizationUnit?.alternativeLabels
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Σκοπός',
-                    value: descriptionMap(organizationUnit?.purpose)
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Προϊστάμενη μονάδα',
-                    value: organizationUnitPrefferedLabel(organizationUnit?.supervisorUnitCode)
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Τύπος Μονάδας',
-                    value: organizationUnit?.description
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Αναγνωριστικό Μονάδας',
-                    value: organizationUnit?.identifier
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Email Μονάδας',
-                    value: organizationUnit?.email
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Τηλέφωνο Μονάδας',
-                    value: organizationUnit?.telephone
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Ταχυδρομική Διεύθυνση',
-                    value: organizationUnit?.mainAddress?.fullAddress
-                }"></app-card-row-right-left>
-            <app-card-row-right-left
-                [keyValue]="{
-                    key: 'Δευτερεύουσες Διευθύνσεις',
-                    value: fullAddressMap(organizationUnit?.secondaryAddresses)
-                }"></app-card-row-right-left>
+    <span class="d-flex justify-content-center fs-5 fw-bolder mb-3">Καρτέλα Μονάδας</span>
 
-            @for (remit of remits; track remit) {
-                <hr />
-                <div [innerHTML]="remit.remitText"></div>
-                <app-list-legal-provisions [legalProvisions]="remit.legalProvisions"></app-list-legal-provisions>
-            }
+    <div
+        ngbAccordion
+        [closeOthers]="false">
+        <div
+            ngbAccordionItem
+            [collapsed]="false">
+            <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>Δεδομένα Απογραφής</button>
+            </h2>
+            <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                    <ng-template>
+                        <app-card-row-right-left
+                            [keyValue]="{
+                                key: 'Οργανισμός',
+                                value: organizationPrefferedLabel(organizationalUnit?.organizationCode)
+                            }"></app-card-row-right-left>
+                        <app-card-row-right-left
+                            [keyValue]="{
+                                key: 'Εναλλακτικές Ονομασίες',
+                                value: organizationalUnit?.alternativeLabels
+                            }"></app-card-row-right-left>
+                        <app-card-row-right-left
+                            [keyValue]="{
+                                key: 'Σκοπός',
+                                value: descriptionMap(organizationalUnit?.purpose)
+                            }"></app-card-row-right-left>
+                        <app-card-row-right-left
+                            [keyValue]="{
+                                key: 'Προϊστάμενη μονάδα',
+                                value: organizationUnitPrefferedLabel(organizationalUnit?.supervisorUnitCode)
+                            }"></app-card-row-right-left>
+                        <app-card-row-right-left
+                            [keyValue]="{
+                                key: 'Τύπος Μονάδας',
+                                value: organizationalUnit?.description
+                            }"></app-card-row-right-left>
+                        <app-card-row-right-left
+                            [keyValue]="{
+                                key: 'Αναγνωριστικό Μονάδας',
+                                value: organizationalUnit?.identifier
+                            }"></app-card-row-right-left>
+                        <app-card-row-right-left
+                            [keyValue]="{
+                                key: 'Email Μονάδας',
+                                value: organizationalUnit?.email
+                            }"></app-card-row-right-left>
+                        <app-card-row-right-left
+                            [keyValue]="{
+                                key: 'Τηλέφωνο Μονάδας',
+                                value: organizationalUnit?.telephone
+                            }"></app-card-row-right-left>
+                        <app-card-row-right-left
+                            [keyValue]="{
+                                key: 'Ταχυδρομική Διεύθυνση',
+                                value: organizationalUnit?.mainAddress?.fullAddress
+                            }"></app-card-row-right-left>
+                        <app-card-row-right-left
+                            [keyValue]="{
+                                key: 'Δευτερεύουσες Διευθύνσεις',
+                                value: fullAddressMap(organizationalUnit?.secondaryAddresses)
+                            }"></app-card-row-right-left>
+                    </ng-template>
+                </div>
+            </div>
         </div>
+        <!-- end of nbgAccordionItem -->
+        <div
+            ngbAccordionItem
+            [collapsed]="true">
+            <h2 nbgAccordionHeader>
+                <button ngbAccordionButton>Αρμοδιότητες Μονάδας στο ΠΣΠΕΔ</button>
+            </h2>
+            <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                    <ng-template>
+                        @if (remits?.length > 0) {
+                            <table class="table table-striped">
+                                <tbody>
+                                    @for (remit of remits; track remit) {
+                                        <tr>
+                                            <td>
+                                                <div [innerHTML]="remit.remitText"></div>
+                                                <app-list-legal-provisions
+                                                    [legalProvisions]="
+                                                        remit.legalProvisions
+                                                    "></app-list-legal-provisions>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        } @else {
+                            <ngb-alert
+                                type="info"
+                                [dismissible]="false">
+                                Προς το παρόν δεν υπάρχουν καταχωρημένες αρμοδιότητες για τη μονάδα
+                            </ngb-alert>
+                        }
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        <!-- end of nbgAccordionItem -->
     </div>
 </div>
 

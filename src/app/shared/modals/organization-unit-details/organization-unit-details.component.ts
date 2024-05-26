@@ -3,7 +3,7 @@ import { OrganizationalUnitService } from 'src/app/shared/services/organizationa
 import { IOrganizationUnit } from 'src/app/shared/interfaces/organization-unit';
 import { take } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbAlertModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardRowRightLeftComponent } from 'src/app/shared/components/card-row-right-left/card-row-right-left.component';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { RemitService } from '../../services/remit.service';
@@ -13,7 +13,14 @@ import { ListLegalProvisionsComponent } from '../../components/list-legal-provis
 @Component({
     selector: 'app-organization-unit-details',
     standalone: true,
-    imports: [CommonModule, NgbModalModule, CardRowRightLeftComponent, ListLegalProvisionsComponent],
+    imports: [
+        CommonModule,
+        NgbModalModule,
+        CardRowRightLeftComponent,
+        ListLegalProvisionsComponent,
+        NgbAccordionModule,
+        NgbAlertModule,
+    ],
     templateUrl: './organization-unit-details.component.html',
     styleUrl: './organization-unit-details.component.css',
 })
@@ -24,23 +31,23 @@ export class OrganizationUnitDetailsComponent {
 
     remits: IRemit[] = [];
 
-    organizationUnitCode: string | null = null;
-    organizationUnit: IOrganizationUnit | null = null;
+    organizationalUnitCode: string | null = null;
+    organizationalUnit: IOrganizationUnit | null = null;
     modalRef: any;
 
     ngOnInit() {
         this.organizationUnitService
-            .getOrganizationalUnitDetails(this.organizationUnitCode)
+            .getOrganizationalUnitDetails(this.organizationalUnitCode)
             .pipe(take(1))
             .subscribe((data) => {
-                this.organizationUnit = data;
+                this.organizationalUnit = data;
             });
 
         this.remitService
-            .getRemitsByCode(this.organizationUnitCode)
+            .getRemitsByCode(this.organizationalUnitCode)
             .pipe(take(1))
             .subscribe((data) => {
-                console.log(data);
+                // console.log(data);
                 this.remits = data;
             });
     }

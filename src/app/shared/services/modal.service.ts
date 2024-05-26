@@ -43,7 +43,7 @@ export class ModalService {
             size: 'xl',
             centered: true,
         });
-        modalRef.componentInstance.organizationUnitCode = organizationUnitCode;
+        modalRef.componentInstance.organizationalUnitCode = organizationUnitCode;
         modalRef.componentInstance.modalRef = modalRef;
     }
 
