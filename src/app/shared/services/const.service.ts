@@ -77,7 +77,17 @@ export class ConstService {
 
     ORGANIZATIONS_COL_DEFS: ColDef[] = [
         { field: 'code', headerName: 'Κωδικός', flex: 1 },
-        { field: 'preferredLabel', headerName: 'Ονομασία', flex: 4 },
+        {
+            field: 'preferredLabel',
+            headerName: 'Ονομασία',
+            flex: 4,
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                textMatcher: ({ value, filterText }) => {
+                    return value.indexOf(this.removeAccents(filterText)) !== -1;
+                },
+            },
+        },
         { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', flex: 2 },
         { field: 'organizationType', headerName: 'Τύπος', flex: 2 },
         // { field: 'actionCell', headerName: '', cellRenderer: ForeisActionIconsComponent, filter: false, sortable: false, floatingFilter: false, flex: 1, resizable: false, },
@@ -258,5 +268,9 @@ export class ConstService {
         if (!cofog3) return null;
 
         return [cofog1.name, cofog2.name, cofog3.name];
+    }
+
+    removeAccents(input: string): string {
+        return input.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 }
