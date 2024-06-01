@@ -45,9 +45,7 @@
                             aria-label="Default select example"
                             id="legalActType"
                             formControlName="legalActType"
-                            [class.is-invalid]="
-                                form.controls.legalActType.touched && form.controls.legalActType.invalid
-                            ">
+                            [class.is-invalid]="form.controls.legalActType.invalid">
                             <option
                                 value=""
                                 disabled
@@ -86,9 +84,7 @@
                     <input
                         type="text"
                         class="form-control"
-                        [class.is-invalid]="
-                            form.controls.legalActNumber.touched && form.controls.legalActNumber.invalid
-                        "
+                        [class.is-invalid]="form.controls.legalActNumber.invalid"
                         id="legalActNumber"
                         formControlName="legalActNumber"
                         placeholder="Εισάγετε αριθμό πράξης" />
@@ -133,6 +129,13 @@
                 <!-- legalActDate -->
             </div>
         </div>
+
+        <ngb-alert
+            *ngIf="fekDateVSActDateInvalid()"
+            type="danger"
+            [dismissible]="false">
+            Το έτος της πράξης πρέπει να συμπίπτει με το έτος του ΦΕΚ.
+        </ngb-alert>
 
         <div class="mb-3">
             <div class="d-flex gap-3 align-items-baseline">
@@ -265,7 +268,7 @@
             type="button"
             class="btn btn-primary"
             type="submit"
-            [disabled]="form.invalid">
+            [disabled]="!formValid()">
             Υποβολή
         </button>
     </form>

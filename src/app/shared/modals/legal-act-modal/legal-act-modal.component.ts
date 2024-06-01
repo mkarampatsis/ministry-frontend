@@ -10,6 +10,7 @@ import { FileUploadService } from 'src/app/shared/services/file-upload.service';
 import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
 import { ILegalAct } from 'src/app/shared/interfaces/legal-act/legal-act.interface';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
+import moment from 'moment';
 
 function dateDifference(date1: Date, date2: Date): number {
     const diffTime = Math.abs(date1.getTime() - date2.getTime());
@@ -40,6 +41,7 @@ export class LegalActModalComponent implements OnInit {
     uploadObjectID: string | null = null;
 
     fek: IFek;
+    fekYear: number = null;
 
     moreThan30 = false;
 
@@ -132,6 +134,15 @@ export class LegalActModalComponent implements OnInit {
 
         this.formSubscriptions.push(
             this.form.controls.fek.valueChanges.subscribe((value) => {
+                console.log(value.date);
+                const date = moment(value.date, 'YYYY-MM-DD', true);
+                const year = date.isValid() ? date.year() : null;
+                const legalType = this.form.controls.legalActType.value;
+                if (legalType && ['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalType) && !this.emptyFEK()) {
+                    this.form.controls.legalActDateOrYear.setValue(year);
+                    this.form.controls.legalActDateOrYear.updateValueAndValidity();
+                }
+                this.fekYear = date.isValid() ? date.year() : null;
                 if (value) {
                     if (!this.emptyFEK()) {
                         this.moreThan30 = this.formDatesDifference();
@@ -234,5 +245,13 @@ export class LegalActModalComponent implements OnInit {
     actNeedsOnlyYear(): boolean {
         const legalType = this.form.controls.legalActType.value;
         return ['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalType);
+    }
+
+    formValid(): boolean {
+        return this.form.valid && this.fekYear === parseInt(this.form.get('legalActDateOrYear').value);
+    }
+
+    fekDateVSActDateInvalid(): boolean {
+        return !this.emptyFEK() && this.fekYear !== parseInt(this.form.get('legalActDateOrYear').value);
     }
 }
