@@ -1,4 +1,4 @@
-import { ApplicationConfig, LOCALE_ID } from '@angular/core';
+import { ApplicationConfig, LOCALE_ID, isDevMode } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeEl from '@angular/common/locales/el';
 
@@ -11,6 +11,11 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
 import { BackendInterceptor } from './shared/services/backend-interceptor.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { getOrganizationsEffect, organizationReducer } from './shared/state/organizations.state';
+import { getOrganizationalUnitsEffect, organizationalUnitsReducer } from './shared/state/organizational-units.state';
 
 registerLocaleData(localeEl, 'el-GR');
 
@@ -41,5 +46,8 @@ export const appConfig: ApplicationConfig = {
         { provide: HTTP_INTERCEPTORS, useClass: BackendInterceptor, multi: true },
         provideHttpClient(withInterceptorsFromDi()),
         provideAnimationsAsync(),
+        provideStore({ organizations: organizationReducer, organizationalUnits: organizationalUnitsReducer }),
+        provideEffects([{ getOrganizationsEffect, getOrganizationalUnitsEffect }]),
+        provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     ],
 };

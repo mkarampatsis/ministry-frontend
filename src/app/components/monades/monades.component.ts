@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { map, take } from 'rxjs';
@@ -8,11 +10,13 @@ import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-
 import { ConstService } from 'src/app/shared/services/const.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
+import { AppState } from 'src/app/shared/state/app.state';
+import { selectOrganizationalUnits$ } from 'src/app/shared/state/organizational-units.state';
 
 @Component({
     selector: 'app-monades',
     standalone: true,
-    imports: [AgGridAngular, GridLoadingOverlayComponent],
+    imports: [CommonModule, AgGridAngular, GridLoadingOverlayComponent],
     templateUrl: './monades.component.html',
     styleUrl: './monades.component.css',
 })
@@ -21,6 +25,9 @@ export class MonadesComponent {
     organizationalUnitService = inject(OrganizationalUnitService);
     modalService = inject(ModalService);
     monades: IOrganizationUnitList[] = [];
+
+    store = inject(Store<AppState>);
+    organizationalUnits$ = selectOrganizationalUnits$;
 
     organizationCodesMap = this.constService.ORGANIZATION_CODES_MAP;
     organizationUnitCodesMap = this.constService.ORGANIZATION_UNIT_CODES_MAP;
@@ -39,25 +46,39 @@ export class MonadesComponent {
     onGridReady(params: GridReadyEvent<IOrganizationUnitList>): void {
         this.gridApi = params.api;
         this.gridApi.showLoadingOverlay();
-        this.organizationalUnitService
-            .getAllOrganizationalUnits()
-            .pipe(
-                take(1),
-                map((data) => {
-                    return data.map((org) => {
-                        return {
-                            ...org,
-                            organizationType: this.organizationUnitTypesMap.get(parseInt(String(org.unitType))),
-                            organization: this.organizationCodesMap.get(org.organizationCode),
-                            subOrganizationOf: this.organizationUnitCodesMap.get(org.supervisorUnitCode),
-                        };
-                    });
-                }),
-            )
+        // this.organizationalUnitService
+        //     .getAllOrganizationalUnits()
+        //     .pipe(
+        //         take(1),
+        //         map((data) => {
+        //             return data.map((org) => {
+        //                 return {
+        //                     ...org,
+        //                     organizationType: this.organizationUnitTypesMap.get(parseInt(String(org.unitType))),
+        //                     organization: this.organizationCodesMap.get(org.organizationCode),
+        //                     subOrganizationOf: this.organizationUnitCodesMap.get(org.supervisorUnitCode),
+        //                 };
+        //             });
+        //         }),
+        //     )
+        //     .subscribe((data) => {
+        //         // console.log(data);
+        //         this.gridApi.hideOverlay();
+        //         this.monades = data;
+        //     });
+        this.store
+            .select(selectOrganizationalUnits$)
+            .pipe(take(1))
             .subscribe((data) => {
-                // console.log(data);
+                this.monades = data.map((org) => {
+                    return {
+                        ...org,
+                        organizationType: this.organizationUnitTypesMap.get(parseInt(String(org.unitType))),
+                        organization: this.organizationCodesMap.get(org.organizationCode),
+                        subOrganizationOf: this.organizationUnitCodesMap.get(org.supervisorUnitCode),
+                    };
+                });
                 this.gridApi.hideOverlay();
-                this.monades = data;
             });
     }
 

@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { map, take } from 'rxjs';
@@ -7,6 +8,8 @@ import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-
 import { ConstService } from 'src/app/shared/services/const.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
+import { AppState } from 'src/app/shared/state/app.state';
+import { selectOrganizations$ } from 'src/app/shared/state/organizations.state';
 
 @Component({
     selector: 'app-foreis',
@@ -20,6 +23,9 @@ export class ForeisComponent {
     organizationService = inject(OrganizationService);
     modalService = inject(ModalService);
     foreis: IOrganizationList[] = [];
+
+    store = inject(Store<AppState>);
+    organizations$ = selectOrganizations$;
 
     organizationCodesMap = this.constService.ORGANIZATION_CODES_MAP;
     organizationTypesMap = this.constService.ORGANIZATION_TYPES_MAP;
@@ -36,23 +42,36 @@ export class ForeisComponent {
     onGridReady(params: GridReadyEvent<IOrganizationList>): void {
         this.gridApi = params.api;
         this.gridApi.showLoadingOverlay();
-        this.organizationService
-            .getAllOrganizations()
-            .pipe(
-                take(1),
-                map((data) => {
-                    return data.map((org) => {
-                        return {
-                            ...org,
-                            organizationType: this.organizationTypesMap.get(parseInt(String(org.organizationType))),
-                            subOrganizationOf: this.organizationCodesMap.get(org.subOrganizationOf),
-                        };
-                    });
-                }),
-            )
+        // this.organizationService
+        //     .getAllOrganizations()
+        //     .pipe(
+        //         take(1),
+        //         map((data) => {
+        //             return data.map((org) => {
+        //                 return {
+        //                     ...org,
+        //                     organizationType: this.organizationTypesMap.get(parseInt(String(org.organizationType))),
+        //                     subOrganizationOf: this.organizationCodesMap.get(org.subOrganizationOf),
+        //                 };
+        //             });
+        //         }),
+        //     )
+        //     .subscribe((data) => {
+        //         this.gridApi.hideOverlay();
+        //         this.foreis = data;
+        //     });
+        this.store
+            .select(selectOrganizations$)
+            .pipe(take(1))
             .subscribe((data) => {
+                this.foreis = data.map((org) => {
+                    return {
+                        ...org,
+                        organizationType: this.organizationTypesMap.get(parseInt(String(org.organizationType))),
+                        subOrganizationOf: this.organizationCodesMap.get(org.subOrganizationOf),
+                    };
+                });
                 this.gridApi.hideOverlay();
-                this.foreis = data;
             });
     }
 
