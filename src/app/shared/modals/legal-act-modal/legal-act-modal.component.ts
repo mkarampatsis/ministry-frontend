@@ -88,6 +88,8 @@ export class LegalActModalComponent implements OnInit {
                     issue: this.legalAct.fek?.issue,
                     date: this.legalAct.fek?.date,
                 });
+                const date = moment(this.legalAct.fek.date, 'YYYY-MM-DD', true);
+                this.fekYear = date.isValid() ? date.year() : null;
             }
         }
 
