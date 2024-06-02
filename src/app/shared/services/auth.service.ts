@@ -21,6 +21,7 @@ export class AuthService {
     constructor() {
         this.socialAuthService.authState.subscribe({
             next: (user) => {
+                // console.log('GOOGLE AUTH STATE', user);
                 if (user) {
                     const { idToken } = user;
                     this.http
@@ -40,7 +41,7 @@ export class AuthService {
                 }
             },
             error: (err) => {
-                console.log(err);
+                console.log('GOOGLE AUTH ERROR', err);
             },
         });
     }

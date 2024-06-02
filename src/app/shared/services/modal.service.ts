@@ -146,7 +146,6 @@ export class ModalService {
             backdrop: 'static',
         });
         modalRef.componentInstance.modalRef = modalRef;
-        modalRef.componentInstance.skata = 'skata';
         modalRef.componentInstance.legalAct = legalAct;
         return modalRef.dismissed.pipe(take(1)) as Observable<boolean>;
     }

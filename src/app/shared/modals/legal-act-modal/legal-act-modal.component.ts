@@ -11,11 +11,8 @@ import { OrganizationalUnitService } from 'src/app/shared/services/organizationa
 import { ILegalAct } from 'src/app/shared/interfaces/legal-act/legal-act.interface';
 import { LegalActService } from 'src/app/shared/services/legal-act.service';
 import moment from 'moment';
+import { UtilService } from '../../services/util.service';
 
-function dateDifference(date1: Date, date2: Date): number {
-    const diffTime = Math.abs(date1.getTime() - date2.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-}
 @Component({
     selector: 'app-new-legal-act',
     standalone: true,
@@ -24,9 +21,11 @@ function dateDifference(date1: Date, date2: Date): number {
     styleUrl: './legal-act-modal.component.css',
 })
 export class LegalActModalComponent implements OnInit {
-    legalAct: ILegalAct | null = null;
+    // legalAct value is passed from modalService when the edit button is clicked, else it is null, so we can create a new legal act
+    legalAct: ILegalAct = null;
     // Some useful services
     constService = inject(ConstService);
+    utilService = inject(UtilService);
     uploadService = inject(FileUploadService);
     organizationUnitService = inject(OrganizationalUnitService);
     legalActService = inject(LegalActService);
@@ -41,7 +40,7 @@ export class LegalActModalComponent implements OnInit {
     uploadObjectID: string | null = null;
 
     fek: IFek;
-    fekYear: number = null;
+    fekYear: string = null;
 
     moreThan30 = false;
 
@@ -66,6 +65,7 @@ export class LegalActModalComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.legalAct) {
+            // If we are editing an existing legal act, we need to populate the form with the existing data
             this.form.controls.legalActType.setValue(this.legalAct.legalActType);
             this.form.controls.legalActTypeOther.setValue(this.legalAct.legalActTypeOther);
             this.form.controls.legalActNumber.setValue(this.legalAct.legalActNumber);
@@ -89,16 +89,21 @@ export class LegalActModalComponent implements OnInit {
                     date: this.legalAct.fek?.date,
                 });
                 const date = moment(this.legalAct.fek.date, 'YYYY-MM-DD', true);
-                this.fekYear = date.isValid() ? date.year() : null;
+                this.fekYear = date.isValid() ? date.year().toString() : null;
             }
+            // Mark the form as pristine, so the submit button is disabled until the user makes a change
+            this.form.markAsPristine();
         }
 
-        for (let i = this.currentYear; i >= 1846; i--) {
+        // Create an array of years from 1864 (first Greek Constitution) to the current year
+        for (let i = this.currentYear; i >= 1864; i--) {
             this.years.push(i);
         }
 
+        // Subscribe to value changes in the form fields that are crucial for the form validation
+
         this.formSubscriptions.push(
-            this.form.controls.legalActType.valueChanges.subscribe((value) => {
+            this.form.get('legalActType').valueChanges.subscribe((value) => {
                 this.form.controls.legalActDateOrYear.setValue('');
                 this.form.controls.legalActDateOrYear.updateValueAndValidity();
                 if (value === 'ΑΛΛΟ') {
@@ -115,7 +120,7 @@ export class LegalActModalComponent implements OnInit {
         );
 
         this.formSubscriptions.push(
-            this.form.controls.fek.controls.number.valueChanges.subscribe((value: string) => {
+            this.form.get('fek.number').valueChanges.subscribe((value: string) => {
                 if (value && value.trim() === '' && value.length > 0) {
                     this.form.controls.fek.controls.number.setErrors({ empty: true });
                 }
@@ -123,10 +128,10 @@ export class LegalActModalComponent implements OnInit {
         );
 
         this.formSubscriptions.push(
-            this.form.controls.legalActDateOrYear.valueChanges.subscribe((value) => {
+            this.form.get('legalActDateOrYear').valueChanges.subscribe((value) => {
                 if (value) {
                     if (!this.emptyFEK()) {
-                        this.moreThan30 = this.formDatesDifference();
+                        this.moreThan30 = this.moreThan30DaysDifference();
                     } else {
                         this.moreThan30 = false;
                     }
@@ -135,34 +140,32 @@ export class LegalActModalComponent implements OnInit {
         );
 
         this.formSubscriptions.push(
-            this.form.controls.fek.valueChanges.subscribe((value) => {
-                console.log(value.date);
-                const date = moment(value.date, 'YYYY-MM-DD', true);
-                const year = date.isValid() ? date.year() : null;
-                const legalType = this.form.controls.legalActType.value;
-                if (legalType && ['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalType) && !this.emptyFEK()) {
-                    this.form.controls.legalActDateOrYear.setValue(year);
-                    this.form.controls.legalActDateOrYear.updateValueAndValidity();
-                }
-                this.fekYear = date.isValid() ? date.year() : null;
-                if (value) {
-                    if (!this.emptyFEK()) {
-                        this.moreThan30 = this.formDatesDifference();
+            this.form.get('fek.date').valueChanges.subscribe((value: string) => {
+                const date = moment(value, 'YYYY-MM-DD', true);
+                if (date.isValid()) {
+                    const year = date.year().toString();
+                    const legalActType = this.form.get('legalActType').value;
+                    if (legalActType && ['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalActType) && !this.emptyFEK()) {
+                        this.form.controls.legalActDateOrYear.setValue(year.toString());
+                        this.form.controls.legalActDateOrYear.updateValueAndValidity();
+                        this.fekYear = year;
                     } else {
-                        this.moreThan30 = false;
+                        if (this.form.get('legalActDateOrYear').value) {
+                            this.moreThan30 = this.moreThan30DaysDifference();
+                        }
                     }
                 }
             }),
         );
     }
 
-    formDatesDifference() {
-        const legalType = this.form.controls.legalActType.value;
-        if (legalType && !['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalType)) {
-            const dateFek = new Date(this.form.get('fek.date').value);
-            const dateAct = new Date(this.form.get('legalActDateOrYear').value);
-            const diffDays = dateDifference(dateFek, dateAct);
-            // console.log('Days difference', diffDays);
+    moreThan30DaysDifference(): boolean {
+        const legalActType = this.form.get('legalActType').value;
+        if (legalActType && !['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalActType)) {
+            const fekDate = moment(this.form.get('fek.date').value, 'YYYY-MM-DD', true);
+            const legalActDate = moment(this.form.get('legalActDateOrYear').value, 'YYYY-MM-DD', true);
+            const diffDays = Math.abs(legalActDate.diff(fekDate, 'days'));
+            console.log('Days difference', diffDays);
             return diffDays > 30;
         }
         return false;
@@ -177,17 +180,17 @@ export class LegalActModalComponent implements OnInit {
             ...this.form.value,
         } as ILegalAct;
 
-        console.log('Subject', this.legalAct);
+        data = this.utilService.convertEmptyStringsToNull(data);
 
         if (this.legalAct === null) {
-            console.log('POST DATA', data);
+            console.log('Will create new legal act using data: ', data);
             this.legalActService.newLegalAct(data).subscribe((data) => {
                 console.log('Data', data);
                 this.modalRef.dismiss(true);
             });
         } else {
+            console.log('Will update legal act using data: ', data);
             const id = this.legalAct._id.$oid;
-            console.log('PUT DATA', data);
             this.legalActService.updateLegalAct(id, data).subscribe((data) => {
                 console.log('Data', data);
                 this.modalRef.dismiss(data);
@@ -214,9 +217,7 @@ export class LegalActModalComponent implements OnInit {
                 console.log(err);
             },
             complete: () => {
-                console.log(this.form.errors);
-                console.log(this.form.valid);
-                console.log(this.form.value);
+                console.log('Upload complete');
             },
         });
     }
@@ -250,10 +251,20 @@ export class LegalActModalComponent implements OnInit {
     }
 
     formValid(): boolean {
-        return this.form.valid && this.fekYear === parseInt(this.form.get('legalActDateOrYear').value);
+        const legalActType = this.form.get('legalActType').value;
+        if (legalActType && ['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalActType)) {
+            return this.form.valid && this.fekYear === this.form.get('legalActDateOrYear').value;
+        } else {
+            return this.form.valid;
+        }
     }
 
     fekDateVSActDateInvalid(): boolean {
-        return !this.emptyFEK() && this.fekYear !== parseInt(this.form.get('legalActDateOrYear').value);
+        const legalActType = this.form.get('legalActType').value;
+        if (legalActType && !['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalActType)) {
+            return false;
+        } else {
+            return !this.emptyFEK() && this.fekYear !== this.form.get('legalActDateOrYear').value;
+        }
     }
 }
