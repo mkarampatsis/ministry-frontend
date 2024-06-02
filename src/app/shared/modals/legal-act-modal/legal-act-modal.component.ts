@@ -180,7 +180,8 @@ export class LegalActModalComponent implements OnInit {
             ...this.form.value,
         } as ILegalAct;
 
-        data = this.utilService.convertEmptyStringsToNull(data);
+        if (data.ada === '') data.ada = null;
+        if (data.fek.number === '') data.fek.number = null;
 
         if (this.legalAct === null) {
             console.log('Will create new legal act using data: ', data);
@@ -223,7 +224,8 @@ export class LegalActModalComponent implements OnInit {
     }
 
     emptyADA() {
-        return this.form.get('ada').value === null;
+        const ada = this.form.get('ada').value;
+        return ada === null || ada.trim() === '';
     }
 
     emptyFEK() {

@@ -10,11 +10,14 @@ import { OrganizationService } from 'src/app/shared/services/organization.servic
 import { UserService } from 'src/app/shared/services/user.service';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/shared/state/app.state';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
-    imports: [MatIconModule, NgbTooltipModule],
+    imports: [CommonModule, MatIconModule, NgbTooltipModule],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.css',
 })
@@ -24,6 +27,11 @@ export class DashboardComponent implements OnInit {
     modalService = inject(ModalService);
     organizationService = inject(OrganizationService);
     organizationUnitsService = inject(OrganizationalUnitService);
+
+    store = inject(Store<AppState>);
+
+    organizationsLoading$ = this.store.select((state) => state.organizations.loading);
+    organizationalUnitsLoading$ = this.store.select((state) => state.organizationalUnits.loading);
 
     organizations: IOrganization[] = [];
     organizations_loading = false;

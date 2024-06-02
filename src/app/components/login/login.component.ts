@@ -1,21 +1,11 @@
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/shared/state/app.state';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [CommonModule, GoogleSigninButtonModule],
+    imports: [GoogleSigninButtonModule],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css',
 })
-export class LoginComponent {
-    store = inject(Store<AppState>);
-
-    organizationsLoading$ = this.store.select((state) => state.organizations.loading);
-    organizationalUnitsLoading$ = this.store.select((state) => state.organizationalUnits.loading);
-
-    loading$ = this.store.select((state) => state.organizations.loading || state.organizationalUnits.loading);
-}
+export class LoginComponent {}

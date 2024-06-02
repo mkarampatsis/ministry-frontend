@@ -1,46 +1,10 @@
 <h1 class="govgr-heading-md">Έλεγχος πρόσβασης</h1>
 
-<p class="govgr-body">
+<p class="govgr-body d-flex flex-column gap-3">
     Κατά τη διάρκεια της δοκιμαστικής περιόδου ανάπτυξης η πρόσβαση στο σύστημα είναι δυνατή μόνο από εξουσιοδοτημένους
-    χρήστες με τη χρήση του Google account τους. Παρακαλούμε περιμένετε να ολοκληρωθεί ο συγχρονισμός των δεδομένων για
-    να μπορέσετε να συνδεθείτε.
-</p>
+    χρήστες με τη χρήση του Google account τους. Χρησιμοποιήστε τον παρακάτω σύνδεσμο για να συνδεθείτε.
 
-@if (loading$ | async) {
-    <span class="d-flex align-items-center gap-2 govgr-body">
-        Συγχρονισμός δεδομένων σε εξέλιξη ...
-        <span
-            class="spinner-border text-primary"
-            role="status">
-            <span class="visually-hidden">Loading...</span>
-        </span>
-    </span>
-    @if (organizationsLoading$ | async) {
-        <span class="d-flex align-items-center gap-2 govgr-body">
-            Συγχρονισμός Φορέων...
-            <span
-                class="spinner-border text-primary"
-                role="status">
-                <span class="visually-hidden">Loading...</span>
-            </span>
-        </span>
-    }
-
-    @if (organizationalUnitsLoading$ | async) {
-        <span class="d-flex align-items-center gap-2 govgr-body">
-            Συγχρονισμός Μονάδων ...
-            <span
-                class="spinner-border text-primary"
-                role="status">
-                <span class="visually-hidden">Loading...</span>
-            </span>
-        </span>
-    } @else {
-        <span>Οι μονάδες συγχρονίστηκαν</span>
-    }
-} @else {
-    <span class="govgr-body">Ο συγχρονισμός ολοκληρώθηκε. Μπορείτε να συνδεθείτε.</span>
     <asl-google-signin-button
         type="standard"
         size="large"></asl-google-signin-button>
-}
+</p>
