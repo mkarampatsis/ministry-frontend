@@ -246,9 +246,20 @@
             <label class="form-label">Αρχείο PDF (16MB maximum):</label>
             <input
                 class="form-control"
-                [class.is-invalid]="form.controls.legalActFile.touched && form.controls.legalActFile.invalid"
+                [class.is-invalid]="form.controls.legalActFile.invalid"
                 type="file"
                 (change)="selectFile($event)" />
+            @if (form.controls.legalActFile.invalid) {
+                <div class="invalid-feedback">Πρέπει να μεταφορτώσετε ένα αρχείο PDF</div>
+            }
+            @if (hasUploadedFile() && legalAct) {
+                <ngb-alert
+                    type="info"
+                    [dismissible]="false"
+                    class="mt-2">
+                    Υπάρχει ήδη μεταφορτωμένο αρχείο.
+                </ngb-alert>
+            }
             @if (progress) {
                 <div class="progress mt-2">
                     <div

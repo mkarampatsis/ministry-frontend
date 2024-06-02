@@ -93,6 +93,8 @@ export class LegalActModalComponent implements OnInit {
             }
             // Mark the form as pristine, so the submit button is disabled until the user makes a change
             this.form.markAsPristine();
+            // If the legal act type is 'ΑΛΛΟ', we need to show the input field for the other legal act type
+            this.legalActTypeOtherHandler();
         }
 
         // Create an array of years from 1864 (first Greek Constitution) to the current year
@@ -106,16 +108,17 @@ export class LegalActModalComponent implements OnInit {
             this.form.get('legalActType').valueChanges.subscribe((value) => {
                 this.form.controls.legalActDateOrYear.setValue('');
                 this.form.controls.legalActDateOrYear.updateValueAndValidity();
-                if (value === 'ΑΛΛΟ') {
-                    this.showOtherLegalActType = true;
-                    this.form.controls.legalActTypeOther.setValidators(Validators.required);
-                    this.form.controls.legalActTypeOther.updateValueAndValidity();
-                } else {
-                    this.form.controls.legalActTypeOther.setValue('');
-                    this.form.controls.legalActTypeOther.clearValidators();
-                    this.form.controls.legalActTypeOther.updateValueAndValidity();
-                    this.showOtherLegalActType = false;
-                }
+                // if (value === 'ΑΛΛΟ') {
+                //     this.showOtherLegalActType = true;
+                //     this.form.controls.legalActTypeOther.setValidators(Validators.required);
+                //     this.form.controls.legalActTypeOther.updateValueAndValidity();
+                // } else {
+                //     this.form.controls.legalActTypeOther.setValue('');
+                //     this.form.controls.legalActTypeOther.clearValidators();
+                //     this.form.controls.legalActTypeOther.updateValueAndValidity();
+                //     this.showOtherLegalActType = false;
+                // }
+                this.legalActTypeOtherHandler();
             }),
         );
 
@@ -140,8 +143,8 @@ export class LegalActModalComponent implements OnInit {
         );
 
         this.formSubscriptions.push(
-            this.form.get('fek.date').valueChanges.subscribe((value: string) => {
-                const date = moment(value, 'YYYY-MM-DD', true);
+            this.form.get('fek').valueChanges.subscribe((value) => {
+                const date = moment(value.date, 'YYYY-MM-DD', true);
                 if (date.isValid()) {
                     const year = date.year().toString();
                     const legalActType = this.form.get('legalActType').value;
@@ -157,6 +160,20 @@ export class LegalActModalComponent implements OnInit {
                 }
             }),
         );
+    }
+
+    legalActTypeOtherHandler() {
+        const value = this.form.get('legalActType').value;
+        if (value === 'ΑΛΛΟ') {
+            this.showOtherLegalActType = true;
+            this.form.controls.legalActTypeOther.setValidators(Validators.required);
+            this.form.controls.legalActTypeOther.updateValueAndValidity();
+        } else {
+            this.form.controls.legalActTypeOther.setValue('');
+            this.form.controls.legalActTypeOther.clearValidators();
+            this.form.controls.legalActTypeOther.updateValueAndValidity();
+            this.showOtherLegalActType = false;
+        }
     }
 
     moreThan30DaysDifference(): boolean {
@@ -212,6 +229,7 @@ export class LegalActModalComponent implements OnInit {
                 } else if (event instanceof HttpResponse) {
                     this.uploadObjectID = event.body.id;
                     this.form.controls.legalActFile.setValue(this.uploadObjectID);
+                    this.form.markAsDirty();
                 }
             },
             error: (err: any) => {
@@ -255,7 +273,12 @@ export class LegalActModalComponent implements OnInit {
     formValid(): boolean {
         const legalActType = this.form.get('legalActType').value;
         if (legalActType && ['ΝΟΜΟΣ', 'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ'].includes(legalActType)) {
-            return this.form.valid && this.fekYear === this.form.get('legalActDateOrYear').value;
+            if (this.emptyFEK()) {
+                return this.form.valid;
+            } else {
+                console.log('>>>>>>>>>>>>', this.form.valid, this.fekYear, this.form.get('legalActDateOrYear').value);
+                return this.form.valid && this.fekYear === this.form.get('legalActDateOrYear').value;
+            }
         } else {
             return this.form.valid;
         }
@@ -268,5 +291,9 @@ export class LegalActModalComponent implements OnInit {
         } else {
             return !this.emptyFEK() && this.fekYear !== this.form.get('legalActDateOrYear').value;
         }
+    }
+
+    hasUploadedFile(): boolean {
+        return this.form.get('legalActFile').value !== null;
     }
 }
