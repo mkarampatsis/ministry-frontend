@@ -98,7 +98,12 @@
                                 <tbody>
                                     @for (remit of remits; track remit) {
                                         <tr>
-                                            <td>
+                                            <td class="d-flex flex-column gap-2">
+                                                <button
+                                                    (click)="updateRemit(remit)"
+                                                    class="btn btn-primary btn-sm">
+                                                    Τροποποίηση Αρμοδιότητας
+                                                </button>
                                                 <div [innerHTML]="remit.remitText"></div>
                                                 <app-list-legal-provisions
                                                     [legalProvisions]="

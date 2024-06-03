@@ -9,6 +9,7 @@ import { ConstService } from 'src/app/shared/services/const.service';
 import { RemitService } from '../../services/remit.service';
 import { IRemit } from '../../interfaces/remit/remit.interface';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
     selector: 'app-organization-unit-details',
@@ -28,6 +29,7 @@ export class OrganizationUnitDetailsComponent {
     organizationUnitService = inject(OrganizationalUnitService);
     constService = inject(ConstService);
     remitService = inject(RemitService);
+    modalService = inject(ModalService);
 
     remits: IRemit[] = [];
 
@@ -47,7 +49,7 @@ export class OrganizationUnitDetailsComponent {
             .getRemitsByCode(this.organizationalUnitCode)
             .pipe(take(1))
             .subscribe((data) => {
-                // console.log(data);
+                console.log(data);
                 this.remits = data;
             });
     }
@@ -66,5 +68,16 @@ export class OrganizationUnitDetailsComponent {
 
     organizationUnitPrefferedLabel(code: string) {
         return this.constService.getOrganizationUnitPrefferedLabelByCode(code);
+    }
+
+    updateRemit(remit: IRemit) {
+        console.log(this.organizationalUnitCode, this.organizationUnitPrefferedLabel(this.organizationalUnitCode));
+        this.modalService.editRemit(
+            {
+                preferredLabel: this.organizationUnitPrefferedLabel(this.organizationalUnitCode),
+                code: this.organizationalUnitCode,
+            },
+            remit,
+        );
     }
 }

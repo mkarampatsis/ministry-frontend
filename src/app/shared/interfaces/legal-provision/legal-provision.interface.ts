@@ -4,7 +4,7 @@ import { ILegalProvisionSpecs } from './legal-provision-specs.interface';
 import { IReguLatedObject } from './regulated-object.interface';
 
 export interface ILegalProvision {
-    // _id: { $oid: string };
+    _id: { $oid: string };
     regulatedObject?: IReguLatedObject;
     legalActKey: string;
     legalProvisionSpecs: ILegalProvisionSpecs;

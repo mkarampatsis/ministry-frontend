@@ -18,11 +18,12 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
     selector: 'app-new-remit',
     standalone: true,
     imports: [ReactiveFormsModule, NgxEditorModule, ListLegalProvisionsComponent, NgbAlertModule],
-    templateUrl: './new-remit.component.html',
-    styleUrl: './new-remit.component.css',
+    templateUrl: './remit-modal.component.html',
+    styleUrl: './remit-modal.component.css',
     encapsulation: ViewEncapsulation.None,
 })
-export class NewRemitComponent implements OnInit, OnDestroy {
+export class RemitModalComponent implements OnInit, OnDestroy {
+    remit: IRemit = null;
     // The following two are injected by the modal service
     modalRef: any;
     organizationalUnit: { preferredLabel: string; code: string };
@@ -82,6 +83,23 @@ export class NewRemitComponent implements OnInit, OnDestroy {
                     code: organizationCode,
                 };
             });
+
+        if (this.remit) {
+            console.log('UPDATING REMIT', this.remit);
+            // populate form with remit data
+            this.form.get('remitText').setValue(this.remit.remitText);
+            this.form.get('remitType').setValue(this.remit.remitType);
+            this.form.get('cofog1').setValue(this.remit.cofog.cofog1);
+            this.form.get('cofog2').setValue(this.remit.cofog.cofog2);
+            this.cofog1_selected = true;
+            this.cofog2_selected = true;
+            this.form.get('cofog3').setValue(this.remit.cofog.cofog3);
+            this.cofog2 = this.constService.COFOG.find((cofog) => cofog.code === this.remit.cofog.cofog1)?.cofog2 || [];
+            this.cofog3 = this.cofog2.find((cofog) => cofog.code === this.remit.cofog.cofog2)?.cofog3 || [];
+            this.form.get('legalProvisions').setValue(this.remit.legalProvisions);
+            this.legalProvisions = cloneDeep(this.remit.legalProvisions);
+            this.originalLegalProvisions = cloneDeep(this.remit.legalProvisions);
+        }
 
         this.formSubscriptions.push(
             this.form.get('cofog1').valueChanges.subscribe((value) => {

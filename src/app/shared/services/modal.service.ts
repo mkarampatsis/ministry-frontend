@@ -18,9 +18,10 @@ import { OrganizationTreeModalComponent } from 'src/app/shared/modals/organizati
 import { FileUploadComponent } from 'src/app/shared/modals/file-upload/file-upload.component';
 import { ForeasEditComponent } from 'src/app/shared/modals/foreas-edit/foreas-edit.component';
 import { BackendErrorComponent } from 'src/app/shared/modals/backend-error/backend-error.component';
-import { NewRemitComponent } from 'src/app/shared/modals/new-remit/new-remit.component';
+import { RemitModalComponent } from 'src/app/shared/modals/remit-modal/remit-modal.component';
 import { LegalProvisionModalComponent } from 'src/app/shared/modals/legal-provision-modal/legal-provision-modal.component';
 import { LegalActModalComponent } from 'src/app/shared/modals/legal-act-modal/legal-act-modal.component';
+import { IRemit } from '../interfaces/remit/remit.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -93,13 +94,24 @@ export class ModalService {
     }
 
     newRemit(organizationalUnit: { preferredLabel: string; code: string }) {
-        const modalRef = this.modalService.open(NewRemitComponent, {
+        const modalRef = this.modalService.open(RemitModalComponent, {
             size: 'xl',
             centered: true,
             backdrop: 'static',
         });
         modalRef.componentInstance.modalRef = modalRef;
         modalRef.componentInstance.organizationalUnit = organizationalUnit;
+    }
+
+    editRemit(organizationalUnit: { preferredLabel: string; code: string }, remit: IRemit) {
+        const modalRef = this.modalService.open(RemitModalComponent, {
+            size: 'xl',
+            centered: true,
+            backdrop: 'static',
+        });
+        modalRef.componentInstance.modalRef = modalRef;
+        modalRef.componentInstance.organizationalUnit = organizationalUnit;
+        modalRef.componentInstance.remit = remit;
     }
 
     newLegalProvision() {

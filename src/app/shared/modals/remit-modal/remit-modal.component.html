@@ -221,7 +221,11 @@
                                 }
                                 Πρόβλεψης Αρμοδιότητας:
                             </label>
-                            <app-list-legal-provisions [legalProvisions]="legalProvisions"></app-list-legal-provisions>
+                            <app-list-legal-provisions
+                                [legalProvisions]="legalProvisions"
+                                [code]="organizationalUnit.code"
+                                [provisionType]="'remit'"
+                                [actionColumnVisible]="remit !== null"></app-list-legal-provisions>
                         </div>
                     }
                 </div>
