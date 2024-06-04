@@ -16,6 +16,10 @@ export class RemitService {
         return this.http.post<{ msg: string; index: IRemit }>(APIPREFIX, data);
     }
 
+    updateRemit(data: IRemit): Observable<{ msg: string; index: IRemit }> {
+        return this.http.put<{ msg: string; index: IRemit }>(APIPREFIX, data);
+    }
+
     getAllRemits(): Observable<IRemit[]> {
         return this.http.get<IRemit[]>(APIPREFIX);
     }

@@ -15,8 +15,9 @@ import { indexOf } from 'lodash-es';
 })
 export class ListLegalProvisionsComponent implements OnChanges {
     @Input() legalProvisions: ILegalProvision[] = [];
-    @Input() code = '';
-    @Input() provisionType: 'organization' | 'ogranizationalUnit' | 'remit' | null = null;
+    @Input() code: string = null;
+    @Input() remitID: string = null;
+    @Input() provisionType: 'organization' | 'ogranizationalUnit' | 'remit' = null;
     @Input() actionColumnVisible = false;
     modalService = inject(ModalService);
     legalProvisionService = inject(LegalProvisionService);
@@ -81,7 +82,13 @@ export class ListLegalProvisionsComponent implements OnChanges {
                     .subscribe((result) => {
                         if (result) {
                             this.legalProvisionService
-                                .updateLegalProvision(this.provisionType, this.code, currentProvision, updatedProvision)
+                                .updateLegalProvision(
+                                    this.provisionType,
+                                    this.code,
+                                    currentProvision,
+                                    updatedProvision,
+                                    this.remitID,
+                                )
                                 .subscribe((response) => {
                                     console.log(response);
                                     const currentProvisionIndex = indexOf(this.legalProvisions, currentProvision);

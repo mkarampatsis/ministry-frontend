@@ -54,26 +54,27 @@ export class ArmodiothtesComponent {
     onGridReady(params: GridReadyEvent<IRemitExtended>): void {
         this.gridApi = params.api;
         this.gridApi.showLoadingOverlay();
-        this.remitsService
-            .getAllRemits()
-            .pipe(
-                take(1),
-                map((data) => {
-                    return data.map((remit) => {
-                        return {
-                            ...remit,
-                            organizationLabel: this.organizationCodesMap.get(remit.regulatedObject.regulatedObjectCode),
-                            organizationUnitLabel: this.organizationUnitCodesMap.get(
-                                remit.regulatedObject.regulatedObjectCode,
-                            ),
-                        };
-                    });
-                }),
-            )
-            .subscribe((data) => {
-                this.gridApi.hideOverlay();
-                this.remits = data;
-            });
+        // this.remitsService
+        //     .getAllRemits()
+        //     .pipe(
+        //         take(1),
+        //         map((data) => {
+        //             // return data.map((remit) => {
+        //             //     return {
+        //             //         ...remit,
+        //             //         organizationLabel: this.organizationCodesMap.get(remit.regulatedObject.regulatedObjectCode),
+        //             //         organizationUnitLabel: this.organizationUnitCodesMap.get(
+        //             //             remit.regulatedObject.regulatedObjectCode,
+        //             //         ),
+        //             //     };
+        //             // });
+
+        //         }),
+        //     )
+        //     .subscribe((data) => {
+        //         this.gridApi.hideOverlay();
+        //         this.remits = data;
+        //     });
     }
 }
 

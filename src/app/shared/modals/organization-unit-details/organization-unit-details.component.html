@@ -99,16 +99,17 @@
                                     @for (remit of remits; track remit) {
                                         <tr>
                                             <td class="d-flex flex-column gap-2">
-                                                <button
-                                                    (click)="updateRemit(remit)"
-                                                    class="btn btn-primary btn-sm">
-                                                    Τροποποίηση Αρμοδιότητας
-                                                </button>
                                                 <div [innerHTML]="remit.remitText"></div>
                                                 <app-list-legal-provisions
                                                     [legalProvisions]="
                                                         remit.legalProvisions
                                                     "></app-list-legal-provisions>
+                                                <button
+                                                    (click)="updateRemit(remit)"
+                                                    class="btn btn-primary btn-sm"
+                                                    style="max-width: fit-content">
+                                                    Τροποποίηση
+                                                </button>
                                             </td>
                                         </tr>
                                     }

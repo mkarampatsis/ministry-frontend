@@ -23,6 +23,7 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
     encapsulation: ViewEncapsulation.None,
 })
 export class RemitModalComponent implements OnInit, OnDestroy {
+    //remit value is passed from modalService when the edit value is clicked, else it is null,
     remit: IRemit = null;
     // The following two are injected by the modal service
     modalRef: any;
@@ -129,11 +130,11 @@ export class RemitModalComponent implements OnInit, OnDestroy {
     }
 
     onSubmit() {
+        // filter this.legalProvisions to only include new legal provisions
+        const newLegalProvisions = this.legalProvisions.filter((legalProvision) => legalProvision.isNew);
         const remit = {
-            regulatedObject: {
-                regulatedObjectType: 'remit',
-                regulatedObjectCode: this.organizationalUnit.code,
-            },
+            _id: this.remit?._id,
+            organizationalUnitCode: this.organizationalUnit.code,
             remitText: this.form.get('remitText').value,
             remitType: this.form.get('remitType').value,
             cofog: {
@@ -141,19 +142,27 @@ export class RemitModalComponent implements OnInit, OnDestroy {
                 cofog2: this.form.get('cofog2').value,
                 cofog3: this.form.get('cofog3').value,
             },
-            legalProvisions: this.form.get('legalProvisions').value,
+            // legalProvisions: this.form.get('legalProvisions').value,
+            legalProvisions: newLegalProvisions,
         } as IRemit;
         console.log(remit);
-        this.remitService.newRemit(remit).subscribe((data) => {
-            console.log(data);
-            this.modalRef.dismiss();
-        });
+        if (!this.remit) {
+            this.remitService.newRemit(remit).subscribe((data) => {
+                console.log(data);
+                this.modalRef.dismiss();
+            });
+        } else {
+            this.remitService.updateRemit(remit).subscribe((data) => {
+                console.log(data);
+                this.modalRef.dismiss();
+            });
+        }
     }
 
     newLegalProvision(): void {
         this.modalService.newLegalProvision().subscribe((data) => {
             if (data) {
-                const tempLegalProvision = [data.legalProvision, ...this.legalProvisions];
+                const tempLegalProvision = [{ ...data.legalProvision, isNew: true }, ...this.legalProvisions];
                 this.legalProvisions = uniqWith(tempLegalProvision, (a, b) => {
                     return a.legalActKey === b.legalActKey && isEqual(a.legalProvisionSpecs, b.legalProvisionSpecs);
                 });

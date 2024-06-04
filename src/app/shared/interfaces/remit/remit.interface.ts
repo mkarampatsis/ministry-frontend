@@ -2,10 +2,11 @@ import { ILegalProvision } from '../legal-provision/legal-provision.interface';
 
 export interface IRemit {
     _id: { $oid: string };
-    regulatedObject: {
-        regulatedObjectType: 'remit';
-        regulatedObjectCode: string;
-    };
+    // regulatedObject: {
+    //     regulatedObjectType: 'remit';
+    //     regulatedObjectCode: string;
+    // };
+    organizationalUnitCode: string;
     remitText: string;
     remitType: string;
     cofog: {

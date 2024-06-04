@@ -54,9 +54,10 @@ export class LegalProvisionService {
         code: string,
         currentProvision: ILegalProvision,
         updatedProvision: ILegalProvision,
+        remitID: string = null,
     ): Observable<{ message: string; updatedLegalProvision: ILegalProvision }> {
         const url = `${APIPREFIX}/update`;
-        const data = { provisionType, code, currentProvision, updatedProvision };
+        const data = { provisionType, code, currentProvision, updatedProvision, remitID };
         return this.http.post<{ message: string; updatedLegalProvision: ILegalProvision }>(url, data);
     }
 

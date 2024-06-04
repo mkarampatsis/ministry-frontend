@@ -1,5 +1,13 @@
 <div class="d-flex justify-content-between m-3">
-    <span class="h5">Εισαγωγή Νέας Αρμοδιότητας</span>
+    <span class="h5">
+        @if (remit === null) {
+            Εισαγωγή Νέας
+        } @else {
+            Επεξεργασία
+        }
+
+        Αρμοδιότητας
+    </span>
     <button
         type="button"
         class="btn-close"
@@ -224,6 +232,7 @@
                             <app-list-legal-provisions
                                 [legalProvisions]="legalProvisions"
                                 [code]="organizationalUnit.code"
+                                [remitID]="remit?._id.$oid"
                                 [provisionType]="'remit'"
                                 [actionColumnVisible]="remit !== null"></app-list-legal-provisions>
                         </div>
