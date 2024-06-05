@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { ILegalProvision } from '../../interfaces/legal-provision/legal-provision.interface';
@@ -15,6 +15,7 @@ import { indexOf } from 'lodash-es';
 })
 export class ListLegalProvisionsComponent implements OnChanges {
     @Input() legalProvisions: ILegalProvision[] = [];
+    @Output() legalProvisionsChange = new EventEmitter<ILegalProvision[]>();
     @Input() code: string = null;
     @Input() remitID: string = null;
     @Input() provisionType: 'organization' | 'ogranizationalUnit' | 'remit' = null;
@@ -54,6 +55,7 @@ export class ListLegalProvisionsComponent implements OnChanges {
     }
 
     removeLegalProvision(i: number) {
+        console.log(this.legalProvisions);
         this.modalService
             .getUserConsent(
                 `Πρόκειται να διαγράψετε τη διάταξη που βασίζεται στο <strong>${this.legalProvisions[i].legalActKey}</strong>. Παρακαλούμε επιβεβαιώστε ότι επιθυμείτε να συνεχίσετε.`,
@@ -61,13 +63,17 @@ export class ListLegalProvisionsComponent implements OnChanges {
             .subscribe((result) => {
                 if (result) {
                     this.legalProvisionService
-                        .deleteLegalProvision(this.provisionType, this.code, this.legalProvisions[i])
+                        .deleteLegalProvision(this.legalProvisions[i]._id)
                         .subscribe((response) => {
                             this.legalProvisions.splice(i, 1);
                             this.legalProvisionService.legalProvisionsNeedUpdate.set(true);
                         });
                 }
             });
+    }
+
+    removeNewLegalProvision(i: number) {
+        this.legalProvisions.splice(i, 1);
     }
 
     editLegalProvision(currentProvision: ILegalProvision): void {

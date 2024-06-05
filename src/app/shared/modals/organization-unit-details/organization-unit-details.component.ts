@@ -10,6 +10,7 @@ import { RemitService } from '../../services/remit.service';
 import { IRemit } from '../../interfaces/remit/remit.interface';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
 import { ModalService } from '../../services/modal.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-organization-unit-details',
@@ -30,6 +31,7 @@ export class OrganizationUnitDetailsComponent {
     constService = inject(ConstService);
     remitService = inject(RemitService);
     modalService = inject(ModalService);
+    authService = inject(AuthService);
 
     remits: IRemit[] = [];
 
@@ -79,5 +81,16 @@ export class OrganizationUnitDetailsComponent {
             },
             remit,
         );
+    }
+
+    newRemit() {
+        this.modalService.newRemit({
+            code: this.organizationalUnit.code,
+            preferredLabel: this.organizationalUnit.preferredLabel,
+        });
+    }
+
+    canEdit(code: string) {
+        return this.authService.canEdit(code);
     }
 }

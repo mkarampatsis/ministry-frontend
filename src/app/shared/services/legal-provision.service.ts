@@ -39,14 +39,9 @@ export class LegalProvisionService {
         return this.http.get<ILegalProvision[]>(url);
     }
 
-    deleteLegalProvision(
-        provisionType: string,
-        code: string,
-        provision: ILegalProvision,
-    ): Observable<{ message: string }> {
-        const url = `${APIPREFIX}/delete`;
-        const data = { provisionType, code, provision };
-        return this.http.post<{ message: string }>(url, data);
+    deleteLegalProvision(legalProvisionID: string): Observable<{ message: string }> {
+        const url = `${APIPREFIX}/${legalProvisionID}`;
+        return this.http.delete<{ message: string }>(url);
     }
 
     updateLegalProvision(
@@ -56,9 +51,9 @@ export class LegalProvisionService {
         updatedProvision: ILegalProvision,
         remitID: string = null,
     ): Observable<{ message: string; updatedLegalProvision: ILegalProvision }> {
-        const url = `${APIPREFIX}/update`;
+        const url = `${APIPREFIX}`;
         const data = { provisionType, code, currentProvision, updatedProvision, remitID };
-        return this.http.post<{ message: string; updatedLegalProvision: ILegalProvision }>(url, data);
+        return this.http.put<{ message: string; updatedLegalProvision: ILegalProvision }>(url, data);
     }
 
     // fromListOfIds(ids: string[]): Observable<ILegalProvision[]> {

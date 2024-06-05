@@ -93,35 +93,44 @@
             <div ngbAccordionCollapse>
                 <div ngbAccordionBody>
                     <ng-template>
-                        @if (remits?.length > 0) {
-                            <table class="table table-striped">
-                                <tbody>
-                                    @for (remit of remits; track remit) {
-                                        <tr>
-                                            <td class="d-flex flex-column gap-2">
-                                                <div [innerHTML]="remit.remitText"></div>
-                                                <app-list-legal-provisions
-                                                    [legalProvisions]="
-                                                        remit.legalProvisions
-                                                    "></app-list-legal-provisions>
-                                                <button
-                                                    (click)="updateRemit(remit)"
-                                                    class="btn btn-primary btn-sm"
-                                                    style="max-width: fit-content">
-                                                    Τροποποίηση
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        } @else {
-                            <ngb-alert
-                                type="info"
-                                [dismissible]="false">
-                                Προς το παρόν δεν υπάρχουν καταχωρημένες αρμοδιότητες για τη μονάδα
-                            </ngb-alert>
-                        }
+                        <div class="d-flex flex-column gap-2">
+                            <button
+                                *ngIf="canEdit(organizationalUnit.code)"
+                                (click)="newRemit()"
+                                class="btn btn-primary"
+                                style="max-width: fit-content">
+                                Νέα Αρμοδιότητα
+                            </button>
+                            @if (remits?.length > 0) {
+                                <table class="table table-striped">
+                                    <tbody>
+                                        @for (remit of remits; track remit) {
+                                            <tr>
+                                                <td class="d-flex flex-column gap-2">
+                                                    <div [innerHTML]="remit.remitText"></div>
+                                                    <app-list-legal-provisions
+                                                        [legalProvisions]="
+                                                            remit.legalProvisions
+                                                        "></app-list-legal-provisions>
+                                                    <button
+                                                        (click)="updateRemit(remit)"
+                                                        class="btn btn-primary btn-sm"
+                                                        style="max-width: fit-content">
+                                                        Τροποποίηση
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            } @else {
+                                <ngb-alert
+                                    type="info"
+                                    [dismissible]="false">
+                                    Προς το παρόν δεν υπάρχουν καταχωρημένες αρμοδιότητες για τη μονάδα
+                                </ngb-alert>
+                            }
+                        </div>
                     </ng-template>
                 </div>
             </div>
