@@ -50,10 +50,12 @@
                                     role="button"
                                     (click)="editLegalProvision(legalProvision)"
                                     class="bi bi-pencil-square fs-5 me-2"></i>
-                                <i
-                                    role="button"
-                                    (click)="removeLegalProvision(i)"
-                                    class="bi bi-trash fs-5"></i>
+                                @if (countAllLegalProvisionsExceptNew > 1) {
+                                    <i
+                                        role="button"
+                                        (click)="removeLegalProvision(i)"
+                                        class="bi bi-trash fs-5"></i>
+                                }
                             } @else {
                                 <i
                                     role="button"

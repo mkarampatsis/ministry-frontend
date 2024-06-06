@@ -114,4 +114,8 @@ export class ListLegalProvisionsComponent implements OnChanges {
             }
         });
     }
+
+    get countAllLegalProvisionsExceptNew() {
+        return this.legalProvisions.filter((provision) => !provision.isNew).length;
+    }
 }

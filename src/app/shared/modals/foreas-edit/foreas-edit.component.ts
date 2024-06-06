@@ -143,7 +143,6 @@ export class ForeasEditComponent implements OnInit, OnDestroy {
         this.modalService.newLegalProvision().subscribe((data) => {
             if (data) {
                 const newLegalProvision = { ...data.legalProvision, isNew: true };
-                // const tempLegalProvision = [data.legalProvision, ...this.legalProvisions];
                 const tempLegalProvision = [newLegalProvision, ...this.legalProvisions];
                 this.legalProvisions = uniqWith(tempLegalProvision, (a, b) => {
                     return a.legalActKey === b.legalActKey && isEqual(a.legalProvisionSpecs, b.legalProvisionSpecs);
