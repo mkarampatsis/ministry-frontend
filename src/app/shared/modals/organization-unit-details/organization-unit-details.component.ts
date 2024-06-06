@@ -12,6 +12,7 @@ import { ListLegalProvisionsComponent } from '../../components/list-legal-provis
 import { ModalService } from '../../services/modal.service';
 import { AuthService } from '../../services/auth.service';
 import { LegalProvisionService } from '../../services/legal-provision.service';
+import { ICofog } from '../../interfaces/cofog/cofog.interface';
 
 @Component({
     selector: 'app-organization-unit-details',
@@ -124,5 +125,10 @@ export class OrganizationUnitDetailsComponent {
 
     canEdit(code: string) {
         return this.authService.canEdit(code);
+    }
+
+    getCofogNames(cofog: { cofog1: string; cofog2: string; cofog3: string }) {
+        const { cofog1, cofog2, cofog3 } = cofog;
+        return this.constService.getCofogNames(cofog1, cofog2, cofog3);
     }
 }

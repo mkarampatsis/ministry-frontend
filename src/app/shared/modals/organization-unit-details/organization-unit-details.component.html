@@ -108,6 +108,24 @@
                                             <tr>
                                                 <td class="d-flex flex-column gap-2">
                                                     <div [innerHTML]="remit.remitText"></div>
+                                                    <table class="table table-bordered">
+                                                        <tr>
+                                                            <td class="fw-semibold">Τύπος Αρμοδιότητας</td>
+                                                            <td class="fw-semibold">Λειτουργική Περιοχή COFOG</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>{{ remit.remitType }}</td>
+                                                            <td>{{ getCofogNames(remit.cofog)[0] }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="fw-semibold">Λειτουργικός Τομέας COFOG</td>
+                                                            <td class="fw-semibold">Θεματική Περιοχή COFOG</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>{{ getCofogNames(remit.cofog)[1] }}</td>
+                                                            <td>{{ getCofogNames(remit.cofog)[2] }}</td>
+                                                        </tr>
+                                                    </table>
                                                     <app-list-legal-provisions
                                                         [legalProvisions]="
                                                             remit.legalProvisions
