@@ -13,6 +13,7 @@ import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
 import { cloneDeep, isEqual, uniqWith } from 'lodash-es';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { LegalProvisionService } from '../../services/legal-provision.service';
 
 @Component({
     selector: 'app-new-remit',
@@ -33,6 +34,7 @@ export class RemitModalComponent implements OnInit, OnDestroy {
     organizationalUnitService = inject(OrganizationalUnitService);
     remitService = inject(RemitService);
     modalService = inject(ModalService);
+    legalProvisionService = inject(LegalProvisionService);
 
     editor: Editor = new Editor();
     toolbar: Toolbar = DEFAULT_TOOLBAR;
@@ -148,13 +150,17 @@ export class RemitModalComponent implements OnInit, OnDestroy {
         console.log(remit);
         if (!this.remit) {
             this.remitService.newRemit(remit).subscribe((data) => {
-                console.log(data);
+                // console.log(data);
+                console.log('New Remit', data);
                 this.modalRef.dismiss();
+                this.remitService.remitsNeedUpdate.set(true);
             });
         } else {
             this.remitService.updateRemit(remit).subscribe((data) => {
-                console.log(data);
+                // console.log(data);
+                console.log('Updated Remit', data);
                 this.modalRef.dismiss();
+                this.legalProvisionService.legalProvisionsNeedUpdate.set(true);
             });
         }
     }

@@ -100,9 +100,8 @@ export class ListLegalProvisionsComponent implements OnChanges {
                                     const currentProvisionIndex = indexOf(this.legalProvisions, currentProvision);
                                     this.legalProvisions.splice(currentProvisionIndex, 1);
                                     this.legalProvisions.push(response.updatedLegalProvision);
-                                    // const updatedLegalProvision = response.updatedLegalProvision;
-                                    // this.legalProvisions.push(updatedLegalProvision);
                                     this.sortLegalProvisions();
+                                    this.legalProvisionService.legalProvisionsNeedUpdate.set(true);
                                 });
                         }
                     });

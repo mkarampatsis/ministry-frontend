@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { IRemit } from '../interfaces/remit/remit.interface';
@@ -11,6 +11,8 @@ const APIPREFIX = `${environment.apiUrl}/remit`;
 })
 export class RemitService {
     http = inject(HttpClient);
+
+    remitsNeedUpdate = signal<boolean>(false);
 
     newRemit(data: IRemit): Observable<{ msg: string; index: IRemit }> {
         return this.http.post<{ msg: string; index: IRemit }>(APIPREFIX, data);

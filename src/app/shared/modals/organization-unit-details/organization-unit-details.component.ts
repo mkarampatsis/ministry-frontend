@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { OrganizationalUnitService } from 'src/app/shared/services/organizational-unit.service';
 import { IOrganizationUnit } from 'src/app/shared/interfaces/organization-unit';
 import { take } from 'rxjs';
@@ -11,6 +11,7 @@ import { IRemit } from '../../interfaces/remit/remit.interface';
 import { ListLegalProvisionsComponent } from '../../components/list-legal-provisions/list-legal-provisions.component';
 import { ModalService } from '../../services/modal.service';
 import { AuthService } from '../../services/auth.service';
+import { LegalProvisionService } from '../../services/legal-provision.service';
 
 @Component({
     selector: 'app-organization-unit-details',
@@ -32,6 +33,10 @@ export class OrganizationUnitDetailsComponent {
     remitService = inject(RemitService);
     modalService = inject(ModalService);
     authService = inject(AuthService);
+    legalProvisionService = inject(LegalProvisionService);
+
+    legalProvisionsNeedUpdate = this.legalProvisionService.legalProvisionsNeedUpdate;
+    remitsNeedUpdate = this.remitService.remitsNeedUpdate;
 
     remits: IRemit[] = [];
 
@@ -54,6 +59,33 @@ export class OrganizationUnitDetailsComponent {
                 console.log(data);
                 this.remits = data;
             });
+    }
+
+    constructor() {
+        effect(
+            () => {
+                if (this.legalProvisionsNeedUpdate()) {
+                    this.remitService
+                        .getRemitsByCode(this.organizationalUnitCode)
+                        .pipe(take(1))
+                        .subscribe((data) => {
+                            this.remits = data;
+                        });
+                    this.legalProvisionsNeedUpdate.set(false);
+                }
+
+                if (this.remitsNeedUpdate()) {
+                    this.remitService
+                        .getRemitsByCode(this.organizationalUnitCode)
+                        .pipe(take(1))
+                        .subscribe((data) => {
+                            this.remits = data;
+                        });
+                    this.remitsNeedUpdate.set(false);
+                }
+            },
+            { allowSignalWrites: true },
+        );
     }
 
     descriptionMap(entry: { description: string }[] | undefined) {

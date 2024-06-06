@@ -55,17 +55,4 @@ export class LegalProvisionService {
         const data = { provisionType, code, currentProvision, updatedProvision, remitID };
         return this.http.put<{ message: string; updatedLegalProvision: ILegalProvision }>(url, data);
     }
-
-    // fromListOfIds(ids: string[]): Observable<ILegalProvision[]> {
-    //     const url = `${APIPREFIX}/from_list_of_ids`;
-    //     return this.http.post<ILegalProvision[]>(url, ids);
-    // }
-
-    // fromListOfKeysUpdateRegulatedObject(
-    //     keys: { legalActKey: string; legalProvisionSpecs: ILegalProvisionSpecs }[],
-    //     regulatedObject: IReguLatedObject,
-    // ) {
-    //     const url = `${APIPREFIX}/from_list_of_keys/update_regulated_object`;
-    //     return this.http.post(url, { keys, regulatedObject });
-    // }
 }
