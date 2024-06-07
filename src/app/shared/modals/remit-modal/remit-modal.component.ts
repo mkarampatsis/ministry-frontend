@@ -173,12 +173,19 @@ export class RemitModalComponent implements OnInit, OnDestroy {
                     return a.legalActKey === b.legalActKey && isEqual(a.legalProvisionSpecs, b.legalProvisionSpecs);
                 });
                 this.form.get('legalProvisions').setValue(this.legalProvisions);
-                this.updateRemitTextfromLegalProvisions();
+                this.updateRemitTextWithNewProvision(data.legalProvision.legalProvisionText);
             }
         });
     }
 
-    updateRemitTextfromLegalProvisions() {
+    updateRemitTextWithNewProvision(newText: string) {
+        const remitText = this.form.get('remitText').value;
+        const updatedtext = `<p style="color:red"><strong>Ελέγξτε και τροποποιήστε το συνολικό κείμενο της Αρμοδιότητας μετά την τελευταία προσθήκη Διάταξης:</strong></p>${newText}${remitText}`;
+
+        this.form.get('remitText').setValue(updatedtext);
+    }
+
+    initializeRemitTextfromLegalProvisions() {
         if (this.legalProvisions.length >= 1) {
             let remitText = this.legalProvisions.reduce((acc, legalProvision) => {
                 return acc + this.legalProvisionHeader(legalProvision);
@@ -204,5 +211,13 @@ export class RemitModalComponent implements OnInit, OnDestroy {
         html = `<strong>${html} (${specs.slice(0, -2)})</strong> ${legalProvision.legalProvisionText}`;
 
         return html;
+    }
+
+    changeRemitStatus(status: string) {
+        this.remitService.changeStatus(this.remit._id, status).subscribe((data) => {
+            console.log(data);
+            this.modalRef.dismiss();
+            this.remitService.remitsNeedUpdate.set(true);
+        });
     }
 }

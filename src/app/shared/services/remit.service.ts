@@ -35,4 +35,9 @@ export class RemitService {
         const url = `${APIPREFIX}/count`;
         return this.http.get<{ count: number }>(url);
     }
+
+    changeStatus(id: string, status: string): Observable<{ msg: string }> {
+        const url = `${APIPREFIX}/status/${id}`;
+        return this.http.put<{ msg: string }>(url, { status });
+    }
 }
