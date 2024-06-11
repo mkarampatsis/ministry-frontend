@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from './shared/state/app.state';
 import { loadOrganizations } from './shared/state/organizations.state';
 import { loadOrganizationalUnits } from './shared/state/organizational-units.state';
+import { loadRemits } from './shared/state/remits.state';
 
 @Component({
     selector: 'app-root',
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
         this.store.dispatch(loadOrganizations());
         this.store.dispatch(loadOrganizationalUnits());
+        this.store.dispatch(loadRemits());
     }
 
     @HostListener('window:beforeunload', ['$event'])

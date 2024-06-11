@@ -16,6 +16,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { getOrganizationsEffect, organizationReducer } from './shared/state/organizations.state';
 import { getOrganizationalUnitsEffect, organizationalUnitsReducer } from './shared/state/organizational-units.state';
+import { loadRemitsEffect, remitsReducer } from './shared/state/remits.state';
 
 registerLocaleData(localeEl, 'el-GR');
 
@@ -46,8 +47,12 @@ export const appConfig: ApplicationConfig = {
         { provide: HTTP_INTERCEPTORS, useClass: BackendInterceptor, multi: true },
         provideHttpClient(withInterceptorsFromDi()),
         provideAnimationsAsync(),
-        provideStore({ organizations: organizationReducer, organizationalUnits: organizationalUnitsReducer }),
-        provideEffects([{ getOrganizationsEffect, getOrganizationalUnitsEffect }]),
+        provideStore({
+            organizations: organizationReducer,
+            organizationalUnits: organizationalUnitsReducer,
+            remits: remitsReducer,
+        }),
+        provideEffects([{ getOrganizationsEffect, getOrganizationalUnitsEffect, loadRemitsEffect }]),
         provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     ],
 };
