@@ -13,6 +13,9 @@ import { ModalService } from '../../services/modal.service';
 import { AuthService } from '../../services/auth.service';
 import { LegalProvisionService } from '../../services/legal-provision.service';
 import { ICofog } from '../../interfaces/cofog/cofog.interface';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../state/app.state';
+import { setOrgnizationalUnitremitsFinalized } from '../../state/organizational-units.state';
 
 @Component({
     selector: 'app-organization-unit-details',
@@ -29,12 +32,14 @@ import { ICofog } from '../../interfaces/cofog/cofog.interface';
     styleUrl: './organization-unit-details.component.css',
 })
 export class OrganizationUnitDetailsComponent {
-    organizationUnitService = inject(OrganizationalUnitService);
+    organizationalUnitService = inject(OrganizationalUnitService);
     constService = inject(ConstService);
     remitService = inject(RemitService);
     modalService = inject(ModalService);
     authService = inject(AuthService);
     legalProvisionService = inject(LegalProvisionService);
+
+    store = inject(Store<AppState>);
 
     legalProvisionsNeedUpdate = this.legalProvisionService.legalProvisionsNeedUpdate;
     remitsNeedUpdate = this.remitService.remitsNeedUpdate;
@@ -43,10 +48,11 @@ export class OrganizationUnitDetailsComponent {
 
     organizationalUnitCode: string | null = null;
     organizationalUnit: IOrganizationUnit | null = null;
+    organizationalUnitRemitsFinalized: boolean = false;
     modalRef: any;
 
     ngOnInit() {
-        this.organizationUnitService
+        this.organizationalUnitService
             .getOrganizationalUnitDetails(this.organizationalUnitCode)
             .pipe(take(1))
             .subscribe((data) => {
@@ -59,6 +65,13 @@ export class OrganizationUnitDetailsComponent {
             .subscribe((data) => {
                 console.log(data);
                 this.remits = data;
+            });
+
+        this.organizationalUnitService
+            .getMonadaPsped(this.organizationalUnitCode)
+            .pipe(take(1))
+            .subscribe((data) => {
+                this.organizationalUnitRemitsFinalized = data.remitsFinalized;
             });
     }
 
@@ -130,5 +143,20 @@ export class OrganizationUnitDetailsComponent {
     getCofogNames(cofog: { cofog1: string; cofog2: string; cofog3: string }) {
         const { cofog1, cofog2, cofog3 } = cofog;
         return this.constService.getCofogNames(cofog1, cofog2, cofog3);
+    }
+
+    setRemitsFinalized(status: boolean) {
+        this.organizationalUnitService
+            .finalizeRemits(this.organizationalUnitCode, status)
+            .pipe(take(1))
+            .subscribe((data) => {
+                this.organizationalUnitRemitsFinalized = data.remitsFinalized;
+                this.store.dispatch(
+                    setOrgnizationalUnitremitsFinalized({
+                        code: this.organizationalUnitCode,
+                        remitsFinalized: data.remitsFinalized,
+                    }),
+                );
+            });
     }
 }

@@ -4,4 +4,5 @@ export interface IOrganizationUnitList {
     unitType: string;
     supervisorUnitCode: string;
     organizationCode: string;
+    remitsFinalized: boolean;
 }

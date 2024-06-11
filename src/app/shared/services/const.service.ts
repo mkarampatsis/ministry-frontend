@@ -19,6 +19,7 @@ import { ICofog } from '../interfaces/cofog/cofog.interface';
 import { LegalProvisionsActionsComponent } from '../components/legal-provisions-actions/legal-provisions-actions.component';
 import { LegalActsActionsComponent } from '../components/legal-acts-actions/legal-acts-actions.component';
 import { ForeisActionIconsComponent } from '../components/foreis-action-icons/foreis-action-icons.component';
+import { IOrganizationUnitPSPED } from '../interfaces/organization-unit/organizational-unit-psped.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -26,7 +27,7 @@ import { ForeisActionIconsComponent } from '../components/foreis-action-icons/fo
 export class ConstService {
     dictionaryService = inject(DictionaryService);
     organizationService = inject(OrganizationService);
-    organizationUnitService = inject(OrganizationalUnitService);
+    organizationalUnitService = inject(OrganizationalUnitService);
     cofogService = inject(CofogService);
 
     readonly ORGANIZATION_LEVELS = ['ΚΕΝΤΡΙΚΟ', 'ΑΠΟΚΕΝΤΡΩΜΕΝΟ', 'ΠΕΡΙΦΕΡΕΙΑΚΟ', 'ΤΟΠΙΚΟ', 'ΜΗ ΟΡΙΣΜΕΝΟ'];
@@ -60,6 +61,9 @@ export class ConstService {
 
     ORGANIZATION_UNIT_CODES: IOrganizationUnitCode[] = [];
     ORGANIZATION_UNIT_CODES_MAP: Map<string, string> = new Map<string, string>();
+
+    ORGANIZATION_UNIT_REMITS_FINALIZED: IOrganizationUnitPSPED[] = [];
+    ORGANIZATION_UNIT_REMITS_FINALIZED_MAP: Map<string, boolean> = new Map<string, boolean>();
 
     COFOG: ICofog[] = [];
 
@@ -99,6 +103,7 @@ export class ConstService {
         { field: 'organization', headerName: 'Φορέας', flex: 3 },
         { field: 'subOrganizationOf', headerName: 'Προϊστάμενη Μονάδα', flex: 2 },
         { field: 'organizationType', headerName: 'Τύπος', flex: 1 },
+        { field: 'remitsFinalized', headerName: 'Ολοκληρωμένες Αρμοδιότητες', flex: 1 },
         // { field: 'actionCell', headerName: 'Ενέργειες', cellRenderer: MonadesActionIconsComponent,  filter: false, sortable: false, floatingFilter:false, flex: 1, resizable: false},
     ];
 
@@ -235,13 +240,25 @@ export class ConstService {
                 });
             });
 
-        this.organizationUnitService
+        this.organizationalUnitService
             .getAllOrganizationalUnitCodes()
             .pipe(take(1))
             .subscribe((data) => {
                 this.ORGANIZATION_UNIT_CODES = data;
                 this.ORGANIZATION_UNIT_CODES.forEach((x) => {
                     this.ORGANIZATION_UNIT_CODES_MAP.set(x.code, x.preferredLabel);
+                });
+            });
+
+        this.organizationalUnitService
+            .getAllMonadesPsped()
+            .pipe(take(1))
+            .subscribe((data) => {
+                console.log('PSPED MONADES', data);
+                this.ORGANIZATION_UNIT_REMITS_FINALIZED = data;
+                this.ORGANIZATION_UNIT_REMITS_FINALIZED.forEach((x) => {
+                    this.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP.set(x.code, x.remitsFinalized);
+                    console.log('PSPED MONADES MAP', this.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP);
                 });
             });
     }
@@ -256,6 +273,10 @@ export class ConstService {
 
     getOrganizationUnitPrefferedLabelByCode(code: string): string | undefined {
         return this.ORGANIZATION_UNIT_CODES.find((x) => x.code === code)?.preferredLabel;
+    }
+
+    getOrganizationUnitRemitsFinalizedByCode(code: string): boolean | undefined {
+        return this.ORGANIZATION_UNIT_REMITS_FINALIZED.find((x) => x.code === code)?.remitsFinalized;
     }
 
     getCofogNames(cofog1Code: string, cofog2Code: string, cofog3Code: string): string[] | null {

@@ -94,13 +94,31 @@
                 <div ngbAccordionBody>
                     <ng-template>
                         <div class="d-flex flex-column gap-2">
-                            <button
-                                *ngIf="canEdit(organizationalUnit.code)"
-                                (click)="newRemit()"
-                                class="btn btn-primary"
-                                style="max-width: fit-content">
-                                Νέα Αρμοδιότητα
-                            </button>
+                            <div
+                                class="d-flex justify-content-between"
+                                *ngIf="canEdit(organizationalUnit.code)">
+                                @if (!organizationalUnitRemitsFinalized) {
+                                    <button
+                                        (click)="newRemit()"
+                                        class="btn btn-primary"
+                                        style="max-width: fit-content">
+                                        Νέα Αρμοδιότητα
+                                    </button>
+                                    <button
+                                        (click)="setRemitsFinalized(true)"
+                                        class="btn btn-info"
+                                        style="max-width: fit-content">
+                                        Ολοκλήρωση Αρμοδιοτήτων
+                                    </button>
+                                } @else {
+                                    <button
+                                        (click)="setRemitsFinalized(false)"
+                                        class="btn btn-info"
+                                        style="max-width: fit-content">
+                                        Αναίρεση Ολοκλήρωσης Αρμοδιοτήτων
+                                    </button>
+                                }
+                            </div>
                             @if (remits?.length > 0) {
                                 <table class="table table-striped">
                                     <tbody>

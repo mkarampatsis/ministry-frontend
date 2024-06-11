@@ -68,7 +68,7 @@ export class MonadesComponent {
         //     });
         this.store
             .select(selectOrganizationalUnits$)
-            .pipe(take(1))
+            // .pipe(take(1))
             .subscribe((data) => {
                 this.monades = data.map((org) => {
                     return {
