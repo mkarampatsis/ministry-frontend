@@ -1,13 +1,16 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { CommonModule, NgIf } from '@angular/common';
+import { Component, OnDestroy, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { AgGridAngular, ICellRendererAngularComp } from 'ag-grid-angular';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
-import { map, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { IRemit } from 'src/app/shared/interfaces/remit/remit.interface';
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-overlay/grid-loading-overlay.component';
 import { ConstService } from 'src/app/shared/services/const.service';
 import { RemitService } from 'src/app/shared/services/remit.service';
+import { AppState } from 'src/app/shared/state/app.state';
+import { selectRemits$, selectRemitsLoading$ } from 'src/app/shared/state/remits.state';
 
 export interface IRemitExtended extends IRemit {
     organizationLabel: string;
@@ -17,31 +20,35 @@ export interface IRemitExtended extends IRemit {
 @Component({
     selector: 'app-armodiothtes',
     standalone: true,
-    imports: [AgGridAngular, GridLoadingOverlayComponent],
+    imports: [CommonModule, AgGridAngular, GridLoadingOverlayComponent],
     templateUrl: './armodiothtes.component.html',
     styleUrl: './armodiothtes.component.css',
 })
-export class ArmodiothtesComponent {
+export class ArmodiothtesComponent implements OnDestroy {
     constService = inject(ConstService);
     remitsService = inject(RemitService);
     remits: IRemitExtended[] = [];
+
+    store = inject(Store<AppState>);
+    remits$ = selectRemits$;
+    remitsLoading$ = selectRemitsLoading$;
 
     organizationCodesMap = this.constService.ORGANIZATION_CODES_MAP;
     organizationUnitCodesMap = this.constService.ORGANIZATION_UNIT_CODES_MAP;
 
     defaultColDef = this.constService.defaultColDef;
-    // prettier-ignore
     colDefs: ColDef[] = [
         { field: 'organizationLabel', headerName: 'Φορέας', flex: 1 },
         { field: 'organizationUnitLabel', headerName: 'Μονάδα', flex: 1 },
         { field: 'remitType', headerName: 'Τύπος', flex: 1 },
-        { field: 'remitText', headerName: 'Κείμενο', flex: 6, 
-            // cellRenderer: function(params) {
-            //     return params.value ? params.value : '';
-            // },
+        {
+            field: 'remitText',
+            headerName: 'Κείμενο',
+            flex: 6,
             cellRenderer: HtmlCellRenderer,
-          autoHeight: true, cellStyle: { 'white-space': 'normal' },
-        }
+            autoHeight: true,
+            cellStyle: { 'white-space': 'normal' },
+        },
     ];
 
     autoSizeStrategy = this.constService.autoSizeStrategy;
@@ -51,37 +58,34 @@ export class ArmodiothtesComponent {
 
     gridApi: GridApi<IRemitExtended>;
 
+    subscriptions: Subscription[] = [];
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach((sub) => sub.unsubscribe());
+    }
+
     onGridReady(params: GridReadyEvent<IRemitExtended>): void {
         this.gridApi = params.api;
         this.gridApi.showLoadingOverlay();
-        // this.remitsService
-        //     .getAllRemits()
-        //     .pipe(
-        //         take(1),
-        //         map((data) => {
-        //             // return data.map((remit) => {
-        //             //     return {
-        //             //         ...remit,
-        //             //         organizationLabel: this.organizationCodesMap.get(remit.regulatedObject.regulatedObjectCode),
-        //             //         organizationUnitLabel: this.organizationUnitCodesMap.get(
-        //             //             remit.regulatedObject.regulatedObjectCode,
-        //             //         ),
-        //             //     };
-        //             // });
-
-        //         }),
-        //     )
-        //     .subscribe((data) => {
-        //         this.gridApi.hideOverlay();
-        //         this.remits = data;
-        //     });
+        this.subscriptions.push(
+            this.store.select(this.remits$).subscribe((data) => {
+                this.remits = data.map((remit) => {
+                    return {
+                        ...remit,
+                        organizationLabel: this.organizationCodesMap.get(remit.organizationalUnitCode),
+                        organizationUnitLabel: this.organizationUnitCodesMap.get(remit.organizationalUnitCode),
+                    };
+                });
+                this.gridApi.hideOverlay();
+            }),
+        );
     }
 }
 
 @Component({
     selector: 'app-html-cell-renderer',
     standalone: true,
-    imports: [CommonModule],
+    imports: [NgIf],
     template: `
         <div
             [innerHTML]="shortText"

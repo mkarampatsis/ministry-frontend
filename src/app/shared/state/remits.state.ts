@@ -42,9 +42,9 @@ export const selectRemitsState$ = (state: AppState) => state.remits;
 export const remits$ = (state: AppState) => state.remits.remits;
 export const remitsLoading$ = (state: AppState) => state.remits.loading;
 // Use createSelector to create memoized selectors
-export const selectRemits = createSelector(selectRemitsState$, (state) => state.remits);
-export const selectRemitsLoading = createSelector(selectRemitsState$, (state) => state.loading);
-export const selectRemitsError = createSelector(selectRemitsState$, (state) => state.error);
+export const selectRemits$ = createSelector(selectRemitsState$, (state) => state.remits);
+export const selectRemitsLoading$ = createSelector(selectRemitsState$, (state) => state.loading);
+export const selectRemitsError$ = createSelector(selectRemitsState$, (state) => state.error);
 
 // Remits Effects
 export const loadRemitsEffect = createEffect(

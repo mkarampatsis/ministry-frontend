@@ -56,8 +56,13 @@ export const organizationalUnitsReducer = createReducer<OrganizationalUnitsState
 // Organizational Units Selectors
 export const selectOrganizationalUnitsState$ = (state: AppState) => state.organizationalUnits;
 export const organizationalUnits$ = (state: AppState) => state.organizationalUnits.organizationalUnits;
-export const organizationalUnitsLoading$ = (state: AppState) => state.organizationalUnits.loading;
+// export const organizationalUnitsLoading$ = (state: AppState) => state.organizationalUnits.loading;
+
 // Use createSelector to create memoized selectors
+export const selectOrganizationalUnitsLoading$ = createSelector(
+    selectOrganizationalUnitsState$,
+    (state) => state.loading,
+);
 export const selectOrganizationalUnits$ = createSelector(
     selectOrganizationalUnitsState$,
     (state) => state.organizationalUnits,
@@ -74,23 +79,23 @@ export const getOrganizationalUnitsEffect = createEffect(
             ofType(loadOrganizationalUnits),
             switchMap(() =>
                 organizationUnitService.getAllOrganizationalUnits().pipe(
-                    tap((orgUnits) => {
-                        orgUnits.forEach((ou) => {
-                            if (ou.code === '800399' || ou.code === '573529')
-                                console.log('AAAAA', constService.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP.get(ou.code));
-                            // console.log(ou.code, constService.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP[ou.code]);
-                            if (constService.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP[ou.code])
-                                console.log('ou FINALIZED', ou);
-                        });
-                    }),
+                    // tap((orgUnits) => {
+                    //     orgUnits.forEach((ou) => {
+                    //         if (ou.code === '800399' || ou.code === '573529')
+                    //             console.log('AAAAA', constService.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP.get(ou.code));
+                    //         // console.log(ou.code, constService.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP[ou.code]);
+                    //         if (constService.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP[ou.code])
+                    //             console.log('ou FINALIZED', ou);
+                    //     });
+                    // }),
                     // Use the ORGANIZATION_UNIT_REMITS_FINALIZED_MAP to map the remitsFinalized property
                     map((organizationalUnits) => {
-                        console.log(
-                            'organizationalUnits',
-                            organizationalUnits.map(
-                                (ou) => constService.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP[ou.code] ?? false,
-                            ),
-                        );
+                        // console.log(
+                        //     'organizationalUnits',
+                        //     organizationalUnits.map(
+                        //         (ou) => constService.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP[ou.code] ?? false,
+                        //     ),
+                        // );
                         return organizationalUnits.map((organizationalUnit) => ({
                             ...organizationalUnit,
                             remitsFinalized:
