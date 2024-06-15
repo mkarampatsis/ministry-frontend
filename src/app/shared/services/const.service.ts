@@ -62,6 +62,8 @@ export class ConstService {
     ORGANIZATION_UNIT_CODES: IOrganizationUnitCode[] = [];
     ORGANIZATION_UNIT_CODES_MAP: Map<string, string> = new Map<string, string>();
 
+    ORGANIZATION_UNIT_CODES_TO_ORGANIZATION_CODES_MAP: Map<string, string> = new Map<string, string>();
+
     ORGANIZATION_UNIT_REMITS_FINALIZED: IOrganizationUnitPSPED[] = [];
     ORGANIZATION_UNIT_REMITS_FINALIZED_MAP: Map<string, boolean> = new Map<string, boolean>();
 
@@ -254,12 +256,27 @@ export class ConstService {
             .getAllMonadesPsped()
             .pipe(take(1))
             .subscribe((data) => {
-                console.log('PSPED MONADES', data);
+                // console.log('PSPED MONADES', data);
                 this.ORGANIZATION_UNIT_REMITS_FINALIZED = data;
                 this.ORGANIZATION_UNIT_REMITS_FINALIZED.forEach((x) => {
                     this.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP.set(x.code, x.remitsFinalized);
-                    console.log('PSPED MONADES MAP', this.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP);
+                    // console.log('PSPED MONADES MAP', this.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP);
                 });
+            });
+
+        this.organizationalUnitService
+            .getAllOrganizationalUnits()
+            .pipe(take(1))
+            .subscribe((data) => {
+                data.forEach((ou) => {
+                    const orgCode = ou.organizationCode;
+                    const orgUnitCode = ou.code;
+                    this.ORGANIZATION_UNIT_CODES_TO_ORGANIZATION_CODES_MAP.set(orgUnitCode, orgCode);
+                });
+                console.log(
+                    'ORGANIZATION_UNIT_CODES_TO_ORGANIZATION_CODES_MAP',
+                    this.ORGANIZATION_UNIT_CODES_TO_ORGANIZATION_CODES_MAP,
+                );
             });
     }
 

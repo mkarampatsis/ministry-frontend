@@ -67,6 +67,12 @@ export const selectOrganizationalUnits$ = createSelector(
     selectOrganizationalUnitsState$,
     (state) => state.organizationalUnits,
 );
+// Lets create a selector to return the organization code for a given organizational unit code
+export const selectOrganizationCodeByOrganizationalUnitCode$ = (organizationalUnitCode: string) =>
+    createSelector(selectOrganizationalUnits$, (organizationalUnits) => {
+        const ou = organizationalUnits.find((ou) => ou.code === organizationalUnitCode);
+        return ou ? ou.organizationCode : null;
+    });
 
 // Organizational Units Effects
 export const getOrganizationalUnitsEffect = createEffect(

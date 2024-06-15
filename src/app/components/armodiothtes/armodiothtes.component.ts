@@ -3,7 +3,7 @@ import { Component, OnDestroy, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AgGridAngular, ICellRendererAngularComp } from 'ag-grid-angular';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 
 import { IRemit } from 'src/app/shared/interfaces/remit/remit.interface';
 import { GridLoadingOverlayComponent } from 'src/app/shared/modals/grid-loading-overlay/grid-loading-overlay.component';
@@ -11,6 +11,7 @@ import { ConstService } from 'src/app/shared/services/const.service';
 import { RemitService } from 'src/app/shared/services/remit.service';
 import { AppState } from 'src/app/shared/state/app.state';
 import { selectRemits$, selectRemitsLoading$ } from 'src/app/shared/state/remits.state';
+import { selectOrganizationCodeByOrganizationalUnitCode$ } from 'src/app/shared/state/organizational-units.state';
 
 export interface IRemitExtended extends IRemit {
     organizationLabel: string;
@@ -32,6 +33,7 @@ export class ArmodiothtesComponent implements OnDestroy {
     store = inject(Store<AppState>);
     remits$ = selectRemits$;
     remitsLoading$ = selectRemitsLoading$;
+    selectOrganizationCodeByOrganizationalUnitCode$ = selectOrganizationCodeByOrganizationalUnitCode$;
 
     organizationCodesMap = this.constService.ORGANIZATION_CODES_MAP;
     organizationUnitCodesMap = this.constService.ORGANIZATION_UNIT_CODES_MAP;
@@ -70,9 +72,18 @@ export class ArmodiothtesComponent implements OnDestroy {
         this.subscriptions.push(
             this.store.select(this.remits$).subscribe((data) => {
                 this.remits = data.map((remit) => {
+                    // this.store
+                    //     .select(this.selectOrganizationCodeByOrganizationalUnitCode$(remit.organizationalUnitCode))
+                    //     .pipe(take(1))
+                    //     .subscribe((orgCode) => {
+                    //         console.log('orgCode', orgCode);
+                    //     });
+                    const orgUnitCode = remit.organizationalUnitCode;
+                    const orgCode =
+                        this.constService.ORGANIZATION_UNIT_CODES_TO_ORGANIZATION_CODES_MAP.get(orgUnitCode);
                     return {
                         ...remit,
-                        organizationLabel: this.organizationCodesMap.get(remit.organizationalUnitCode),
+                        organizationLabel: this.organizationCodesMap.get(orgCode),
                         organizationUnitLabel: this.organizationUnitCodesMap.get(remit.organizationalUnitCode),
                     };
                 });
