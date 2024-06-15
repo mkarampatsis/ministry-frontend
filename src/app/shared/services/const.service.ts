@@ -205,6 +205,21 @@ export class ConstService {
     };
 
     constructor() {
+        this.organizationalUnitService
+            .getAllOrganizationalUnits()
+            .pipe(take(1))
+            .subscribe((data) => {
+                data.forEach((ou) => {
+                    const orgCode = ou.organizationCode;
+                    const orgUnitCode = ou.code;
+                    this.ORGANIZATION_UNIT_CODES_TO_ORGANIZATION_CODES_MAP.set(orgUnitCode, orgCode);
+                });
+                console.log(
+                    'ORGANIZATION_UNIT_CODES_TO_ORGANIZATION_CODES_MAP',
+                    this.ORGANIZATION_UNIT_CODES_TO_ORGANIZATION_CODES_MAP,
+                );
+            });
+
         this.dictionaryService
             .getAllOrganizationTypes()
             .pipe(take(1))
@@ -262,21 +277,6 @@ export class ConstService {
                     this.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP.set(x.code, x.remitsFinalized);
                     // console.log('PSPED MONADES MAP', this.ORGANIZATION_UNIT_REMITS_FINALIZED_MAP);
                 });
-            });
-
-        this.organizationalUnitService
-            .getAllOrganizationalUnits()
-            .pipe(take(1))
-            .subscribe((data) => {
-                data.forEach((ou) => {
-                    const orgCode = ou.organizationCode;
-                    const orgUnitCode = ou.code;
-                    this.ORGANIZATION_UNIT_CODES_TO_ORGANIZATION_CODES_MAP.set(orgUnitCode, orgCode);
-                });
-                console.log(
-                    'ORGANIZATION_UNIT_CODES_TO_ORGANIZATION_CODES_MAP',
-                    this.ORGANIZATION_UNIT_CODES_TO_ORGANIZATION_CODES_MAP,
-                );
             });
     }
 
