@@ -16,6 +16,7 @@ export class LoginComponent {
 
     organizationsLoading$ = this.store.select((state) => state.organizations.loading);
     organizationalUnitsLoading$ = this.store.select((state) => state.organizationalUnits.loading);
+    remitsLoading$ = this.store.select((state) => state.remits.loading);
 
     loading$ = this.organizationsLoading$ || this.organizationalUnitsLoading$;
 }
