@@ -22,6 +22,7 @@ import { RemitModalComponent } from 'src/app/shared/modals/remit-modal/remit-mod
 import { LegalProvisionModalComponent } from 'src/app/shared/modals/legal-provision-modal/legal-provision-modal.component';
 import { LegalActModalComponent } from 'src/app/shared/modals/legal-act-modal/legal-act-modal.component';
 import { IRemit } from '../interfaces/remit/remit.interface';
+import { MonadaEditComponent } from '../modals/monada-edit/monada-edit.component';
 
 @Injectable({
     providedIn: 'root',
@@ -72,6 +73,16 @@ export class ModalService {
             backdrop: 'static',
         });
         modalRef.componentInstance.foreas_id = foreas_id;
+        modalRef.componentInstance.modalRef = modalRef;
+    }
+
+    monadaEdit(monada_id: string) {
+        const modalRef = this.modalService.open(MonadaEditComponent, {
+            size: 'xl',
+            centered: true,
+            backdrop: 'static',
+        });
+        modalRef.componentInstance.monada_id = monada_id;
         modalRef.componentInstance.modalRef = modalRef;
     }
 

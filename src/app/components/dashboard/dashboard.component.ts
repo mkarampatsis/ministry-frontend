@@ -70,6 +70,11 @@ export class DashboardComponent implements OnInit {
         this.modalService.foreasEdit(code);
     }
 
+    editMonada(code: string) {
+        console.log('editMonada >>>>>>>>>>>>>>>>', code);
+        this.modalService.monadaEdit(code);
+    }
+
     newRemit(organizationalUnit: IOrganizationUnit) {
         this.modalService.newRemit({
             code: organizationalUnit.code,

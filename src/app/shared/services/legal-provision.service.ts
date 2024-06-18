@@ -34,6 +34,11 @@ export class LegalProvisionService {
         return this.http.get<ILegalProvision[]>(url);
     }
 
+    getLegalProvisionsByRegulatedOrganizationUnit(code: string): Observable<ILegalProvision[]> {
+        const url = `${APIPREFIX}/by_regulated_organization_unit/${code}`;
+        return this.http.get<ILegalProvision[]>(url);
+    }
+
     getLegalProvisionsByRegulatedRemit(code: string): Observable<ILegalProvision[]> {
         const url = `${APIPREFIX}/by_regulated_remit/${code}`;
         return this.http.get<ILegalProvision[]>(url);
