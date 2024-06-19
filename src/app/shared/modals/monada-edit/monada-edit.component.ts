@@ -69,13 +69,14 @@ export class MonadaEditComponent implements OnInit, OnDestroy {
             .getMonada(this.monada_id)
             .pipe(take(1))
             .subscribe((data) => {
+                console.log('GET MONADA', data);
                 this.monada = data;
 
                 this.provisionText = this.monada.provisionText;
                 this.originalProvisionText = this.monada.provisionText;
 
-                // this.getLegalProvisionsByRegulatedOrganizationalUnit(this.monada.code);
-                this.getLegalProvisionsByRegulatedOrganizationalUnit(this.monada_id);
+                this.getLegalProvisionsByRegulatedOrganizationalUnit(this.monada.code);
+                // this.getLegalProvisionsByRegulatedOrganizationalUnit(this.monada_id);
             });
     }
 
@@ -85,6 +86,7 @@ export class MonadaEditComponent implements OnInit, OnDestroy {
 
     getLegalProvisionsByRegulatedOrganizationalUnit(code: string): void {
         this.legalProvisionService.getLegalProvisionsByRegulatedOrganizationUnit(code).subscribe((data) => {
+            console.log('GET LEGAL PROVISIONS BY REGULATED ORGANIZATIONAL UNIT', data);
             this.legalProvisions = data;
             this.originalLegalProvisions = cloneDeep(this.legalProvisions);
         });

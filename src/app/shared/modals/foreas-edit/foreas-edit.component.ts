@@ -21,7 +21,7 @@ import { DEFAULT_TOOLBAR, Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
     styleUrl: './foreas-edit.component.css',
 })
 export class ForeasEditComponent implements OnInit, OnDestroy {
-    ognanizationService = inject(OrganizationService);
+    organizationService = inject(OrganizationService);
     foreasService = inject(ForeasService);
     constService = inject(ConstService);
     modalService = inject(ModalService);
@@ -62,7 +62,7 @@ export class ForeasEditComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.ognanizationService
+        this.organizationService
             .getOrganizationDetails(this.foreas_id)
             .pipe(take(1))
             .subscribe((data) => {
