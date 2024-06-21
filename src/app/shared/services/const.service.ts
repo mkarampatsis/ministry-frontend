@@ -81,6 +81,17 @@ export class ConstService {
         | SizeColumnsToFitProvidedWidthStrategy
         | SizeColumnsToContentStrategy = { type: 'fitCellContents' };
 
+    USERS_COL_DEFS: ColDef[] = [
+        { field: 'name', headerName: 'Ονοματεπώνυμο', flex: 1 },
+        { field: 'email', headerName: 'Email', flex: 1 },
+        {
+            field: 'roles',
+            headerName: 'Φορείς',
+            flex: 1,
+            cellRenderer: (params) => params.value.find((data) => data.role === 'EDITOR')?.foreas.join(', ') ?? '',
+        },
+    ];
+
     ORGANIZATIONS_COL_DEFS: ColDef[] = [
         { field: 'code', headerName: 'Κωδικός', flex: 1 },
         {
@@ -96,7 +107,24 @@ export class ConstService {
         },
         { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', flex: 2 },
         { field: 'organizationType', headerName: 'Τύπος', flex: 2 },
-        // { field: 'actionCell', headerName: '', cellRenderer: ForeisActionIconsComponent, filter: false, sortable: false, floatingFilter: false, flex: 1, resizable: false, },
+    ];
+
+    ORGANIZATIONS_COL_DEFS_WITH_CHECKBOXES: ColDef[] = [
+        { headerName: 'Επιλογή', checkboxSelection: true, filter: true, sortable: true, flex: 0.5 },
+        { field: 'code', headerName: 'Κωδικός', flex: 1 },
+        {
+            field: 'preferredLabel',
+            headerName: 'Ονομασία',
+            flex: 4,
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                textMatcher: ({ value, filterText }) => {
+                    return value.indexOf(this.removeAccents(filterText)) !== -1;
+                },
+            },
+        },
+        { field: 'subOrganizationOf', headerName: 'Εποπτεύουσα Αρχή', flex: 2 },
+        { field: 'organizationType', headerName: 'Τύπος', flex: 2 },
     ];
 
     ORGANIZATION_UNITS_COL_DEFS: ColDef[] = [

@@ -35,6 +35,15 @@
                 </div>
             </a>
             <a
+                *ngIf="hasHelpDeskRole()"
+                ngbDropdownItem
+                routerLink="/user-admin">
+                <div class="d-flex align-items-center gap-3">
+                    <i class="bi bi-person fs-4"></i>
+                    Διαχείριση Χρηστών
+                </div>
+            </a>
+            <a
                 ngbDropdownItem
                 (click)="logout()">
                 <div class="d-flex align-items-center gap-3">

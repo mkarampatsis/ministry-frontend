@@ -105,6 +105,7 @@
                                         Νέα Αρμοδιότητα
                                     </button>
                                     <button
+                                        *ngIf="remits?.length > 0"
                                         (click)="setRemitsFinalized(true)"
                                         class="btn btn-info"
                                         style="max-width: fit-content">

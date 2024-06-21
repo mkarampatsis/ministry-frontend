@@ -42,24 +42,6 @@ export class ForeisComponent {
     onGridReady(params: GridReadyEvent<IOrganizationList>): void {
         this.gridApi = params.api;
         this.gridApi.showLoadingOverlay();
-        // this.organizationService
-        //     .getAllOrganizations()
-        //     .pipe(
-        //         take(1),
-        //         map((data) => {
-        //             return data.map((org) => {
-        //                 return {
-        //                     ...org,
-        //                     organizationType: this.organizationTypesMap.get(parseInt(String(org.organizationType))),
-        //                     subOrganizationOf: this.organizationCodesMap.get(org.subOrganizationOf),
-        //                 };
-        //             });
-        //         }),
-        //     )
-        //     .subscribe((data) => {
-        //         this.gridApi.hideOverlay();
-        //         this.foreis = data;
-        //     });
         this.store
             .select(selectOrganizations$)
             .pipe(take(1))

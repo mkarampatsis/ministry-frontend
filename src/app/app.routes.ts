@@ -39,6 +39,10 @@ export const routes: Routes = [
         loadChildren: () => import('./components/dashboard/dashboard.routes').then((m) => m.DashboardRoutes),
     },
     {
+        path: 'user-admin',
+        loadChildren: () => import('./components/user-admin/user-admin.routes').then((m) => m.UserAdminRoutes),
+    },
+    {
         path: '**',
         redirectTo: 'login',
     },

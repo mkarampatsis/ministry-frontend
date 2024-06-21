@@ -141,7 +141,7 @@ export class MonadaEditComponent implements OnInit, OnDestroy {
         if (this.hasChanges()) {
             this.modalService
                 .getUserConsent(
-                    `Αν κλείσετε το παράθυρο οι αλλαγές του Φορέα <strong>${this.organizationalUnit.preferredLabel}</strong>  δεν θα αποθηκευτούν! Παρακαλούμε επιβεβαιώστε την ενέργεια.`,
+                    `Αν κλείσετε το παράθυρο οι αλλαγές της Μονάδας <strong>${this.organizationalUnit.preferredLabel}</strong>  δεν θα αποθηκευτούν! Παρακαλούμε επιβεβαιώστε την ενέργεια.`,
                 )
                 .pipe(take(1))
                 .subscribe((consent) => {

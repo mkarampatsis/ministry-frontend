@@ -23,6 +23,8 @@ import { LegalProvisionModalComponent } from 'src/app/shared/modals/legal-provis
 import { LegalActModalComponent } from 'src/app/shared/modals/legal-act-modal/legal-act-modal.component';
 import { IRemit } from '../interfaces/remit/remit.interface';
 import { MonadaEditComponent } from '../modals/monada-edit/monada-edit.component';
+import { UserAccessesComponent } from '../modals/user-accesses/user-accesses.component';
+import { IUser } from '../interfaces/auth';
 
 @Injectable({
     providedIn: 'root',
@@ -208,6 +210,15 @@ export class ModalService {
             centered: true,
         });
         modalRef.componentInstance.pdfURL = pdfURL;
+        modalRef.componentInstance.modalRef = modalRef;
+    }
+
+    userAccesses(user: IUser) {
+        const modalRef = this.modalService.open(UserAccessesComponent, {
+            size: 'xl',
+            centered: true,
+        });
+        modalRef.componentInstance.user = user;
         modalRef.componentInstance.modalRef = modalRef;
     }
 

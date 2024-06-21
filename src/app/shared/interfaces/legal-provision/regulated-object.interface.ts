@@ -1,4 +1,4 @@
 export interface IReguLatedObject {
-    regulatedObjectType: 'organization' | 'organizationUnit' | 'remit';
+    regulatedObjectType: 'organization' | 'organizationalUnit' | 'remit';
     regulatedObjectObjectId: string;
 }
