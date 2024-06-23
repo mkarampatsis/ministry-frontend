@@ -74,6 +74,15 @@ export const selectOrganizationCodeByOrganizationalUnitCode$ = (organizationalUn
         return ou ? ou.organizationCode : null;
     });
 
+// A selector to return the organization unit codes for a given organizational code
+export const selectOrganizationalUnitCodeByOrganizationCode$ = (organizationCode: string) =>
+    createSelector(selectOrganizationalUnits$, (organizationalUnits) => {
+        const codes = organizationalUnits
+                    .filter(ou => ou.organizationCode === organizationCode)
+                    .map(ou => ou.code);
+        return codes ? codes : null;
+    });    
+
 // Organizational Units Effects
 export const getOrganizationalUnitsEffect = createEffect(
     (

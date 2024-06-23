@@ -10,6 +10,8 @@ import { GridLoadingOverlayComponent } from '../grid-loading-overlay/grid-loadin
 import { take } from 'rxjs';
 import { IOrganizationList } from '../../interfaces/organization/organization-list.interface';
 import { IForeas } from '../../interfaces/foreas/foreas.interface';
+import { selectOrganizationalUnitCodeByOrganizationCode$} from 'src/app/shared/state/organizational-units.state';
+import { UserService } from '../../services/user.service';
 
 @Component({
     selector: 'app-user-accesses',
@@ -20,6 +22,7 @@ import { IForeas } from '../../interfaces/foreas/foreas.interface';
 })
 export class UserAccessesComponent {
     constService = inject(ConstService);
+    userService = inject(UserService)
     modalRef: any;
     user: IUser;
 
@@ -27,6 +30,7 @@ export class UserAccessesComponent {
 
     store = inject(Store<AppState>);
     organizations$ = selectOrganizations$;
+    selectOrganizationalUnitCodeByOrganizationCode$ = selectOrganizationalUnitCodeByOrganizationCode$
 
     organizationCodesMap = this.constService.ORGANIZATION_CODES_MAP;
     organizationTypesMap = this.constService.ORGANIZATION_TYPES_MAP;
@@ -76,8 +80,21 @@ export class UserAccessesComponent {
 
     onSubmit() {
         const selectedNodes = this.gridApi.getSelectedNodes();
-        const selectedData = selectedNodes.map((node: any) => node.data);
-        console.log('Selected Data:', selectedData);
+        const selectedOrganizations = selectedNodes.map((node: any) => node.data['code']);
+        let selectedOrganizationalUnits = []
+        for (let data of selectedOrganizations) {
+            this.store
+            .select(this.selectOrganizationalUnitCodeByOrganizationCode$(data))
+            .pipe(take(1))
+            .subscribe((orgCodes) => {
+                selectedOrganizationalUnits = selectedOrganizationalUnits.concat(...orgCodes)
+            });
+        }
+        this.userService.setUserAccesses(this.user.email, selectedOrganizations, selectedOrganizationalUnits)
+            .pipe(take(1))
+            .subscribe((result) => {
+                console.log(result)
+            });
     }
 
     onSelectionChanged(event) {
