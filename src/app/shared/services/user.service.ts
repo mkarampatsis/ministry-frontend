@@ -28,4 +28,11 @@ export class UserService {
     hasHelpDeskRole() {
         return this.user().roles.some((role) => role.role === 'HELPDESK');
     }
+
+    setUserAccesses(email:string, organizationCodes:string[], organizationalUnitCodes:string[]) : Observable<{ msg: string }> {
+        console.log('User Service:', email, organizationCodes, organizationalUnitCodes);
+        const url = `${APIPREFIX_USER}/${email}`;
+        console.log(url)
+        return this.http.put<{ msg: string }>(url, { email, organizationCodes, organizationalUnitCodes });
+    }
 }

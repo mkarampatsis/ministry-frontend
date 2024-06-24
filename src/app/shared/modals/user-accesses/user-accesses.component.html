@@ -7,10 +7,12 @@
 </div>
 
 <div class="modal-body">
-    <p>Επιλεγμένοι φορείς:</p>
+    <p><strong>Επιλεγμένοι φορείς:</strong></p>
+    <ol>
     @for (foreas of selectedData; track foreas) {
-        <p>{{ getPreferredLabel(foreas.code) }}</p>
+        <li>{{ getPreferredLabel(foreas.code) }}</li>
     }
+    </ol>
 
     <span class="d-flex justify-content-end small">Επιλέξτε φορείς για ανάθεση στο χρήστη {{ user.name }}</span>
     <ag-grid-angular
