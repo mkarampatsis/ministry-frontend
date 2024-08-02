@@ -14,10 +14,10 @@ export class Oauth2Service {
 
   initConfiguration() {
     const authConfig: AuthConfig = {
-        issuer: 'https://test.gsis.gr',
+        // issuer: 'https://test.gsis.gr/oauth2servergov',
         clientId: CLIENT_ID,
         dummyClientSecret: CLIENT_PWD,
-        redirectUri: 'http://localhost:4200',
+        redirectUri: 'https://ypes.ddns.net',
         scope: 'openid profile email offline_access roles',
 
         // URL of the login, logout, and silent refresh endpoints
