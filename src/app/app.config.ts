@@ -17,6 +17,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { getOrganizationsEffect, organizationReducer } from './shared/state/organizations.state';
 import { getOrganizationalUnitsEffect, organizationalUnitsReducer } from './shared/state/organizational-units.state';
 import { loadRemitsEffect, remitsReducer } from './shared/state/remits.state';
+import { provideOAuthClient } from 'angular-oauth2-oidc';
 
 registerLocaleData(localeEl, 'el-GR');
 
@@ -54,5 +55,6 @@ export const appConfig: ApplicationConfig = {
         }),
         provideEffects([{ getOrganizationsEffect, getOrganizationalUnitsEffect, loadRemitsEffect }]),
         provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+        provideOAuthClient()
     ],
 };
