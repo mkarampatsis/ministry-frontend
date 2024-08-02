@@ -34,6 +34,19 @@ export class ConstService {
 
     readonly USER_ROLES = ['EDITOR', 'READER', 'ADMIN', 'ROOT'];
 
+    readonly UNIT_TYPES = [
+        { "id": 41, "description": "ΓΕΝΙΚΗ ΓΡΑΜΜΑΤΕΙΑ" },
+        { "id": 22, "description": "ΥΠΟΔΙΕΥΘΥΝΣΗ" },
+        { "id": 42, "description": "ΑΛΛΟ" },
+        { "id": 81, "description": "ΦΟΡΕΑΣ Δ" },
+        { "id": 61, "description": "ΦΟΡΕΑΣ" },
+        { "id": 2,  "description": "ΤΜΗΜΑ" },
+        { "id": 3,  "description": "ΓΕΝΙΚΗ ΔΙΕΥΘΥΝΣΗ" },
+        { "id": 4, "description": "ΔΙΕΥΘΥΝΣΗ" },
+        { "id": 5, "description": "ΕΙΔΙΚΗ ΓΡΑΜΜΑΤΕΙΑ" },
+        { "id": 1, "description": "ΓΡΑΦΕΙΟ" }
+      ]
+
     readonly ACT_TYPES = [
         'ΝΟΜΟΣ',
         'ΠΡΟΕΔΡΙΚΟ ΔΙΑΤΑΓΜΑ',
